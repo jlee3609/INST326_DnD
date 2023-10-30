@@ -2,13 +2,35 @@ from Player import Player
 from GameState import GameState
 from argparse import ArgumentParser
 import sys
+import json
 
 
 def main(item_path, location_path, num_players):
     #set up a round of DnD
     #initialize a bunch of players
     #pass players into the gamestate as a party
+    party = []
+    for i in range(num_players):
+        name = input("Please input player name: ")
+        pclass = input("Please choose a class: ")
+        name = Player(name, pclass)
+        party.append(name)
+        
+    #do items
+    with open(item_path, "r", encoding="utf-8") as f:
+        for line in f:
+            #csv with item name, price, effect, etc
+            #I guessss we can regex it :vomit:
+            pass
     
+    #make game
+    with open(location_path, "r", encoding="utf-8") as f:
+        locations = json.load(f)
+        
+    game = GameState(items, locations, party)
+    #game turns
+    while game.location != end_location:
+        game.new_turn()
     pass
 
 def parse_args(arglist):
