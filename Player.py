@@ -37,7 +37,8 @@ class Player:
         #ooh this coule get complicated ill handle this one
         pass
     def drink(self, item):
-        pass
+        if item.type == "potion":
+            self.bag.remove(item)
     def roll_dice(self, dice_num):
         pass
         
