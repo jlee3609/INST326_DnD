@@ -10,4 +10,5 @@ class GameState:
         pass
     def encounter():
         pass
-    
+    def travel():
+        pass
