@@ -1,6 +1,6 @@
 import random
 
-class DnD20Roller:
+class DnDRoller:
     def __init__(self, dice):
         self.dice = dice
 
