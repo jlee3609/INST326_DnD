@@ -9,18 +9,19 @@ def main(item_path, location_path, num_players):
     #set up a round of DnD
     #initialize a bunch of players
     #pass players into the gamestate as a party
-    party = []
+    party = {}
     for i in range(num_players):
         name = input("Please input player name: ")
         pclass = input("Please choose a class: ")
-        name = Player(name, pclass)
-        party.append(name)
+        character = Player(name, pclass)
+        party[name] = character
         
     #do items
     with open(item_path, "r", encoding="utf-8") as f:
         for line in f:
             #csv with item name, price, effect, etc
             #I guessss we can regex it :vomit:
+            #make a dict of Item objects with the item as the key and the number as the value
             pass
     
     #make game

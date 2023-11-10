@@ -21,6 +21,7 @@ class Player:
         mana (int): player's mana
         intelligence (int): player's intelligence
         defense (int): player's defense
+        money (int): player's money
         bag (list): player's inventory
     '''
     def __init__(self, name, pclass):
@@ -29,6 +30,7 @@ class Player:
         self.hp, self.strength, self.speed, self.mana, \
             self.intelligence, self.defense = class_stats[pclass]
         self.bag = []
+        self.money = 100
     def attack(self, enemy):
         pass
     def defend(self, ally):
