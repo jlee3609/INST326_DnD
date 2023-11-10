@@ -10,7 +10,7 @@ class GameState:
         locations ():
         party (dict of Players, player name is key): all Players in a party.
     """
-    def __init__(self, items, locations, party):
+    def __init__(self, items, location_data, party):
         """
         """
         self.items = items
@@ -82,7 +82,7 @@ class GameState:
     def scenario(self):
         """
         """
-        x = random.randint(1,3)
+        
         
         if x == 1:
             self.shop()
