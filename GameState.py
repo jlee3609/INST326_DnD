@@ -1,7 +1,15 @@
 from argparse import ArgumentParser
+import Player
 import json
 import random
 
+def generate_npc(gamestate):
+    names = ["Aeliana", "Thoren", "Elowen", "Kael", "Seraphim", "Lirael", "Garrick", 
+            "Isabeau", "Eldon", "Lyria", "Caden", "Rowena", "Thaddeus", "Anara",
+            "Finnian", "Livia", "Dorian", "Tamsin", "Galadriel", "Merek"]
+    classes = ["Mage", "Healer", "Tank", "Assassin", "Berserker"]
+    npc = Player.Player(random.choice(names), random.choice(classes))
+    npc.buy(random.choice(item for item in gamestate.items if item.cost <=100))
 class GameState:
     """
     
@@ -37,9 +45,18 @@ class GameState:
             self.travel(destination)
             
     def shop(self):
-        """
+        """Opens up a shop that one item can be purchased from
+        
+        Side effects:
+            Potentially removes 1 item from items dictionary
+            Potentially adds 1 item to 1 player's bag
+            Potentially removes gold from 1 player's money
+            Prints to terminal
+        
         """
         shoplist = []
+        print("A merchant beckons you from a nearby alley. \
+            She opens a dark box, revealing the treasures within.")
         for _ in range(3):
             #if you'll still have items left, leave it in the dict for now
             #otherwise, pop it for now, but if it isn't bought we'll put it back.
@@ -56,13 +73,16 @@ class GameState:
         if answer == "y":
             purchase = input("Please input the index of the item you desire: (1,2,3)")
             victim = input("Please input the name of who is purchasing the item:")
+            if victim not in self.party:
+                victim = input("Please input a valid name:")
             confirmation = input(f"{victim} will lose {item.cost} and gain a(n) \
                 {item.name}. Confirm purchase? (y/n)")
             if confirmation == "y":
-                self.party[victim].bag.append(item)
-                self.party[victim].money -= item.cost
-                shoplist.pop()
+                #add item to player bag, subtract money, remove item from shop
+                self.party[victim].buy(item)
+                shoplist.remove(item)
                 print("Thank you for your purchase.")
+                #put unsold items back
                 for item in shoplist:
                     if item in self.items:
                         self.items[item] +=1
@@ -81,12 +101,29 @@ class GameState:
                 She leaves as quietly as she came.")
                 
     def encounter(self):
+        """An encounter with a randomly generated npc
+        """
+        npc = generate_npc(self)
+        print("You encounter {npc.name}! They are a {npc.class} in possession of a ")
+        attitude = random.randrange(20)
+        if attitude in range(7):
+            #hostile lollll
+            #can choose to run or battle
+            #if they choose to run, do a speed check
+            #if they're too slow then they're losers and get ambushed
+            #call the battle function
+            pass
+        elif attitude < 14:
+            #ambivalent
+            pass
+        else:
+            #generous
+            #give money, give item, restore hp if class is healer
+            pass
+    def battle(self, status):
         """
         """
-        pass
-    def battle(self):
-        """
-        """
+        #status can be ambush (bad for player), surprise (good for player), or neutral
         pass
     def travel(self, destination):
         """
