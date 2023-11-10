@@ -3,6 +3,7 @@ class Item:
     """
     """
     def __init__(self):
+        self.description = ""
         self.type = "" #potion, armor, weapon
         self.cost = 1
         self.effects = {} #dictionary within individual item dictionaries with 
