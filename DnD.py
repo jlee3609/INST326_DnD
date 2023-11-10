@@ -32,7 +32,8 @@ def main(item_path, location_path, num_players, end_location):
     #game turns
     while game.location != end_location:
         game.new_turn()
-    pass
+    #end the game somehow?
+    #print that its the endgame locaiton, make a boss npc, and do battle
 
 def parse_args(arglist):
     """ Parse command-line arguments.

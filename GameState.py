@@ -3,13 +3,23 @@ import Player
 import json
 import random
 
-def generate_npc(gamestate):
+def generate_npc(gamestate, boss=False):
     names = ["Aeliana", "Thoren", "Elowen", "Kael", "Seraphim", "Lirael", "Garrick", 
             "Isabeau", "Eldon", "Lyria", "Caden", "Rowena", "Thaddeus", "Anara",
             "Finnian", "Livia", "Dorian", "Tamsin", "Galadriel", "Merek"]
     classes = ["Mage", "Healer", "Tank", "Assassin", "Berserker"]
-    npc = Player.Player(random.choice(names), random.choice(classes))
-    npc.buy(random.choice(item for item in gamestate.items if item.cost <=100))
+    if boss == False:
+        npc = Player.Player(random.choice(names), random.choice(classes))
+        npc.buy(random.choice(item for item in gamestate.items if item.cost <=100))
+    else:
+        boss_names = ["Nicole", "Ariel", "Jenny", "Aric"]
+        npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]))
+        npc.money +=500
+        npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
+        npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
+        npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
+        npc.hp, npc.defense, npc.speed, npc.intelligence, npc.mana, npc.strength +=20
+    return npc
 class GameState:
     """
     
@@ -104,9 +114,11 @@ class GameState:
         """An encounter with a randomly generated npc
         """
         npc = generate_npc(self)
-        print("You encounter {npc.name}! They are a {npc.class} in possession of a ")
+        print("You encounter {npc.name}! They are a {npc.class} in possession of a {bag[0]}.")
         attitude = random.randrange(20)
+        print(f"Rolling for luck... you rolled a {attitude}!")
         if attitude in range(7):
+            print(f"You rolled low, {npc.name} is suspicious and hostile to your party.")
             #hostile lollll
             #can choose to run or battle
             #if they choose to run, do a speed check
@@ -114,9 +126,11 @@ class GameState:
             #call the battle function
             pass
         elif attitude < 14:
-            #ambivalent
+            print(f"You rolled mid, {npc.name} is suspicious but ambivalent to your party.")
+            #ambivalent, give hint about final location
             pass
         else:
+            print(f"You rolled high, {npc.name} is friendly and welcoming to your party.")
             #generous
             #give money, give item, restore hp if class is healer
             pass
@@ -132,7 +146,7 @@ class GameState:
         self.scenario()
         
     def scenario(self):
-        """
+        """Generate a scenario based on what is available at the location
         """
         options = self.locations["children"][self.curr_location]
         x = random.choice(options)

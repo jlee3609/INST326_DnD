@@ -2,6 +2,9 @@
 '''
 
 # stat order = HP, Strength, Speed, Mana, Intelligence, Defense
+from typing import Any
+
+
 class_stats = {
     "Mage": [5,5,5,5,5,5],
     "Healer": [5,5,5,5,5,5],
@@ -74,6 +77,5 @@ class Player:
             self.hp -= 50
     def roll_dice(self, dice_num):
         pass
-        
 # nicole = Player("nicole", "Healer")
 # print(nicole.intelligence)
