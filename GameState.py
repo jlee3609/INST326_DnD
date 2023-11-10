@@ -15,7 +15,7 @@ class GameState:
         action = input("What would you like to do? ")
         if action == "travel":
             destination = input(f"Where would you like to go? {self.locations['children']}")
-            travel(destination)
+            self.travel(destination)
             
     def shop(self):
         pass
