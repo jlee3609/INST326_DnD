@@ -41,6 +41,9 @@ class Player:
     def drink(self, item):
         if item.type == "potion":
             self.bag.remove(item)
+        else:
+            #if you were dumb enough to drink a sword/shield you deserve it
+            self.hp -= 50
     def roll_dice(self, dice_num):
         pass
         

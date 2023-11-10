@@ -6,7 +6,7 @@ class GameState:
     """
     
     Attributes:
-        items ():
+        items (dict of items, quantity is value): 
         locations ():
         party (dict of Players, player name is key): all Players in a party.
     """
@@ -38,7 +38,7 @@ class GameState:
             #otherwise, pop it for now, but if it isn't bought we'll put it back.
             item =random.choice(self.items)
             if self.items[item]-1 != 0:
-                self.items[item] = self.items[item]-1
+                self.items[item] -= 1
                 shoplist.append(item)
             else:
                 shoplist.append(item)
@@ -56,11 +56,19 @@ class GameState:
                 self.party[victim].money -= item.cost
                 shoplist.pop()
                 print("Thank you for your purchase.")
+                for item in shoplist:
+                    if item in self.items:
+                        self.items[item] +=1
+                    else:
+                        self.items[item] = 1
             else:
                 print("Purchase cancelled. The merchant side-eyes you and \
                     reshuffles her wares. You sense she won't sell you anything more.")
                 for item in shoplist:
-                    
+                    if item in self.items:
+                        self.items[item] +=1
+                    else:
+                        self.items[item] = 1
         else:
             print("The merchant side-eyes you and reshuffles her wares. \
                 She leaves as quietly as she came.")
@@ -82,11 +90,11 @@ class GameState:
     def scenario(self):
         """
         """
-        
-        
-        if x == 1:
+        options = self.locations["children"][self.curr_location]
+        x = random.choice(options)
+        if x == "s":
             self.shop()
-        elif x == 2:
+        elif x == "b":
             self.battle()
         else:
             self.encounter()
