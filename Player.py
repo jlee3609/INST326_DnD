@@ -79,3 +79,4 @@ class Player:
         pass
 # nicole = Player("nicole", "Healer")
 # print(nicole.intelligence)
+

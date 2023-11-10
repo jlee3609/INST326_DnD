@@ -19,6 +19,8 @@ def main(item_path, location_path, num_players, end_location):
     #do items
     with open(item_path, "r", encoding="utf-8") as f:
         items = json.load(f)
+        for item in items:
+            
     
     #make game
     with open(location_path, "r", encoding="utf-8") as f:
