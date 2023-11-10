@@ -106,7 +106,7 @@
                 "intelligence": 0,
                 "defense": 15
             },
-            "qauntity": 1
+            "quantity": 1
         },
         "Quasar Quiver": {
             "description": "Bow and arrow imbued with the power of stars.",
@@ -119,7 +119,7 @@
                 "intelligence": 0,
                 "defense": 15
             },
-            "qauntity": 1
+            "quantity": 1
         },
         "Echo Hammer": {
             "description": "Massive hammer with resonating core.",
@@ -132,7 +132,7 @@
                 "intelligence": 0,
                 "defense": 20
             },
-            "qauntity": 1
+            "quantity": 1
         },
         "Simple Dagger": {
             "description": "A simple dagger forged by the blacksmith.",
@@ -145,7 +145,7 @@
                 "intelligence": 0,
                 "defense": 10
             },
-            "qauntity": 10
+            "quantity": 10
         }
     }
 }

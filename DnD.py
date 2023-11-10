@@ -18,11 +18,9 @@ def main(item_path, location_path, num_players):
         
     #do items
     with open(item_path, "r", encoding="utf-8") as f:
-        for line in f:
-            #csv with item name, price, effect, etc
-            #I guessss we can regex it :vomit:
-            #make a dict of Item objects with the item as the key and the number as the value
-            pass
+        items = json.load(f)
+        potions = items["potion"]
+        
     
     #make game
     with open(location_path, "r", encoding="utf-8") as f:
