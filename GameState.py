@@ -7,7 +7,7 @@ class GameState:
     Attributes:
         items ():
         locations ():
-        party ():
+        party (list of Players): all Players in a party.
     """
     def __init__(self, items, locations, party):
         """
@@ -22,7 +22,7 @@ class GameState:
         """
         print(f"You are currently in {self.curr_location}")
         
-        # needs to be command line arg but like \(i.i)/
+        # prob needs to be command line arg but like \(i.i)/???
         action = input("What would you like to do? ")
         if action == "travel":
             destination = input(f"Where would you like to go? {self.locations['children']}")
