@@ -8,13 +8,19 @@ class GameState:
     Attributes:
         items (dict of items, quantity is value): 
         locations ():
+        travel_options ():
+        location_data ():
         party (dict of Players, player name is key): all Players in a party.
+        curr_location ():
     """
     def __init__(self, items, location_data, party):
         """
         """
         self.items = items
-        self.locations = locations
+        self.locations = {}
+        self.travel_options = []
+        for place in location_data["locations"]:
+            self.locations.append(place)
         self.party = party
         self.curr_location = "Village Square"
             
@@ -26,7 +32,8 @@ class GameState:
         # prob needs to be command line arg but like \(i.i)/???
         action = input("What would you like to do? ")
         if action == "travel":
-            destination = input(f"Where would you like to go? {self.locations['children']}")
+            destination = input(f"Where would you like to go?:"
+                                f"{self.travel_options}")
             self.travel(destination)
             
     def shop(self):
