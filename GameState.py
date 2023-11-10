@@ -128,8 +128,8 @@ class GameState:
         """
         npc = generate_npc(self)
         print("You encounter {npc.name}! They are a {npc.class} in possession of a {bag[0]}.")
-        attitude = random.randrange(20)
-        print(f"Rolling for luck... you rolled a {attitude}!")
+        attitude = npc.roll_dice(20)
+        print(f"{npc.name} rolling for initial impression... you rolled a {attitude}!")
         if attitude in range(7):
             print(f"You rolled low, {npc.name} is suspicious and hostile to your party.")
             #hostile lollll
@@ -165,9 +165,9 @@ class GameState:
         """
         options = self.locations["children"][self.curr_location]
         x = random.choice(options)
-        if x == "s":
+        if x == "shop":
             self.shop()
-        elif x == "b":
+        elif x == "battle":
             self.battle()
         else:
             self.encounter()
