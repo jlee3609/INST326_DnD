@@ -37,9 +37,18 @@ class GameState:
             self.travel(destination)
             
     def shop(self):
-        """
+        """Opens up a shop that one item can be purchased from
+        
+        Side effects:
+            Potentially removes 1 item from items dictionary
+            Potentially adds 1 item to 1 player's bag
+            Potentially removes gold from 1 player's money
+            Prints to terminal
+        
         """
         shoplist = []
+        print("A merchant beckons you from a nearby alley. \
+            She opens a dark box, revealing the treasures within.")
         for _ in range(3):
             #if you'll still have items left, leave it in the dict for now
             #otherwise, pop it for now, but if it isn't bought we'll put it back.
@@ -56,13 +65,17 @@ class GameState:
         if answer == "y":
             purchase = input("Please input the index of the item you desire: (1,2,3)")
             victim = input("Please input the name of who is purchasing the item:")
+            if victim not in self.party:
+                victim = input("Please input a valid name:")
             confirmation = input(f"{victim} will lose {item.cost} and gain a(n) \
                 {item.name}. Confirm purchase? (y/n)")
             if confirmation == "y":
+                #add item to player bag, subtract money, remove item from shop
                 self.party[victim].bag.append(item)
                 self.party[victim].money -= item.cost
                 shoplist.pop()
                 print("Thank you for your purchase.")
+                #put unsold items back
                 for item in shoplist:
                     if item in self.items:
                         self.items[item] +=1

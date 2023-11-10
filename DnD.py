@@ -5,7 +5,7 @@ import sys
 import json
 
 
-def main(item_path, location_path, num_players):
+def main(item_path, location_path, num_players, end_location):
     #set up a round of DnD
     #initialize a bunch of players
     #pass players into the gamestate as a party
@@ -19,7 +19,7 @@ def main(item_path, location_path, num_players):
     #do items
     with open(item_path, "r", encoding="utf-8") as f:
         for line in f:
-            #csv with item name, price, effect, etc
+            #csv (or json) with item name, price, effect, etc
             #I guessss we can regex it :vomit:
             #make a dict of Item objects with the item as the key and the number as the value
             pass
