@@ -20,6 +20,7 @@ def generate_npc(gamestate, boss=False):
         npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
         npc.hp, npc.defense, npc.speed, npc.intelligence, npc.mana, npc.strength +=20
     return npc
+
 class GameState:
     """
     
@@ -151,7 +152,7 @@ class GameState:
         self.parent_location = self.curr_location
         self.travel_options.append(self.parent_location)
         self.curr_location = destination
-        self.action_options = location_data["locations"][self.curr_location]
+        self.action_options = self.locations["locations"][self.curr_location]
         for i in range(len(self.action_options)):
             if self.action_options[i] == "b":
                 self.action_options[i] = "battle"
