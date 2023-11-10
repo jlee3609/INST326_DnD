@@ -1,0 +1,80 @@
+{
+    "locations": {
+        "Village Square": "",
+        "Wailing Woods": "",
+        "Mystic Meadows": "",
+        "Skyward Stronghold": "",
+        "Lost Labyrinth": "",
+        "The Everglades": "",
+        "Celestial Citadel": "",
+        "Desert Dunes": "",
+        "Cursed Catacombs": "",
+        "Saffron Square": "",
+        "Pirate's Port": "",
+        "Sunken Sanctuary": "",
+        "Dungeon of Doom": "",
+        "Ice Caverns": "",
+        "The Lost Temple":"",
+        "Sunken City":"",
+        "Glowing Gardens": "",
+        "Mad Menagerie": "",
+        "Volcanic Forge": "",
+        "The Cliffs": "",
+        "The Ravine": "",
+        "Phantom Fields": "",
+        "Forest Road": "",
+        "Milton Market": "",
+        "Neon Nexus": "",
+        "Etherial Archipelago": ""
+
+    },
+    "children": {
+        "Village Square": [
+            "Wailing Woods",
+            "Mystic Meadows",
+            "Skyward Stronghold"
+        ],
+        "Wailing Woods": [
+            "Lost Labyrinth",
+            "The Everglades"
+        ],
+        "Mystic Meadows": [
+            "Celestial Citadel",
+            "Desert Dunes"
+        ],
+        "Skyward Stronghold": [
+            "Cursed Catacombs",
+            "Saffron Square",
+            "Pirate's Port"
+        ],
+        "Lost Labyrinth": [
+            "Sunken Sanctuary",
+            "Dungeon of Doom",
+            "Ice Caverns"
+        ],
+        "The Everglades": [
+            "The Lost Temple",
+            "Sunken City"
+        ],
+        "Celestial Citadel": [
+            "Glowing Gardens",
+            "Mad Menagerie"
+        ],
+        "Desert Dunes": [
+            "Volcanic Forge",
+            "The Cliffs"
+        ],
+        "Cursed Catacombs": [
+            "The Ravine",
+            "Phantom Fields"
+        ],
+        "Saffron Square": [
+            "Forest Road",
+            "Milton Market"
+        ],
+        "Pirate's Port": [
+            "Neon Nexus",
+            "Etherial Archipelago"
+        ]
+    }
+}
