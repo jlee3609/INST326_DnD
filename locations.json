@@ -1,7 +1,7 @@
 {
     "locations": {
-        "Village Square": "",
-        "Wailing Woods": "",
+        "Village Square": ["s", "e"],
+        "Wailing Woods": ["b"],
         "Mystic Meadows": "",
         "Skyward Stronghold": "",
         "Lost Labyrinth": "",
