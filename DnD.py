@@ -1,4 +1,5 @@
 from Player import Player
+from Item import Item
 from GameState import GameState
 from argparse import ArgumentParser
 import sys
@@ -19,8 +20,18 @@ def main(item_path, location_path, num_players, end_location):
     #do items
     with open(item_path, "r", encoding="utf-8") as f:
         items = json.load(f)
-        for item in items:
-            
+        potion_names = list(items["potion"])
+        armor_names = list(items["armor"])
+        weapon_names = list(items["weapon"])
+        potions = []
+        armors = []
+        weapons = []
+        for potion in potion_names:
+            potions.append(Item(items, "potion", potion))
+        for armor in armor_names:
+            armors.append(Item(items, "armor", armor)) 
+        for weapon in weapon_names:
+            weapons.append(Item(items, "weapon", weapon))            
     
     #make game
     with open(location_path, "r", encoding="utf-8") as f:
