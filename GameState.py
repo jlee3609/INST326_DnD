@@ -50,7 +50,7 @@ class GameState:
         
         # prob needs to be command line arg but like \(i.i)/???
         action = input(f"What would you like to do? Your options are: "
-                       f"")
+                       f"{self.action_options} ")
         
         if action == "travel":
             destination = input(f"Where would you like to go?:"
