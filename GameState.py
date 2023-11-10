@@ -14,7 +14,9 @@ class GameState:
         """
         """
         self.items = items
-        self.locations = locations
+        self.locations = {}
+        for place in location_data["locations"]:
+            self.locations.append(place)
         self.party = party
         self.curr_location = "Village Square"
             
