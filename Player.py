@@ -24,9 +24,10 @@ class Player:
         money (int): player's money
         bag (list): player's inventory
     '''
-    def __init__(self, name, pclass):
+    def __init__(self, name, pclass, dice):
         self.name=name
         self.pclass=pclass
+        self.dice = dice
         self.hp, self.strength, self.speed, self.mana, \
             self.intelligence, self.defense = class_stats[pclass]
         self.bag = []
@@ -73,7 +74,7 @@ class Player:
             #if you were dumb enough to drink a sword/shield you deserve it
             self.hp -= 50
     def roll_dice(self, dice_num):
-        pass
+        vibes = DnDRoller.roll(self.dice)
         
 # nicole = Player("nicole", "Healer")
 # print(nicole.intelligence)
