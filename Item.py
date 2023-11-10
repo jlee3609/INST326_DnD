@@ -1,9 +1,12 @@
 
 class Item:
+    """
+    """
     def __init__(self):
         self.type = "" #potion, armor, weapon
         self.cost = 1
-        self.effects = {} #stat, number
+        self.effects = {} #dictionary within individual item dictionaries with 
+                          #listed changes to person's stats
         self.name = ""
         self.quantity
     def stats(self):
