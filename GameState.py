@@ -1,7 +1,15 @@
 from argparse import ArgumentParser
+import Player
 import json
 import random
 
+def generate_npc(gamestate):
+    names = ["Aeliana", "Thoren", "Elowen", "Kael", "Seraphim", "Lirael", "Garrick", 
+            "Isabeau", "Eldon", "Lyria", "Caden", "Rowena", "Thaddeus", "Anara",
+            "Finnian", "Livia", "Dorian", "Tamsin", "Galadriel", "Merek"]
+    classes = ["Mage", "Healer", "Tank", "Assassin", "Berserker"]
+    npc = Player.Player(random.choice(names), random.choice(classes))
+    npc.buy(random.choice(item for item in gamestate.items if item.cost <=100))
 class GameState:
     """
     
@@ -71,8 +79,7 @@ class GameState:
                 {item.name}. Confirm purchase? (y/n)")
             if confirmation == "y":
                 #add item to player bag, subtract money, remove item from shop
-                self.party[victim].bag.append(item)
-                self.party[victim].money -= item.cost
+                self.party[victim].buy(item)
                 shoplist.pop()
                 print("Thank you for your purchase.")
                 #put unsold items back
@@ -94,12 +101,26 @@ class GameState:
                 She leaves as quietly as she came.")
                 
     def encounter(self):
+        """An encounter with a randomly generated npc
+        """
+        npc = generate_npc(self)
+        attitude = random.choice(["friendly", "hostile", "ambivalent"])
+        if attitude == "hostile":
+            #can choose to run or battle
+            #if they choose to run, do a speed check
+            #if they're too slow then they're losers and get ambushed
+            #call the battle function
+            pass
+        elif attitude == "ambivalent":
+            #
+            pass
+        else:
+            #give money, give item, restore hp if class is healer
+            pass
+    def battle(self, status):
         """
         """
-        pass
-    def battle(self):
-        """
-        """
+        #status can be ambush (bad for player), surprise (good for player), or neutral
         pass
     def travel(self, destination):
         """
