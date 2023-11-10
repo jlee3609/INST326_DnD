@@ -80,7 +80,7 @@ class GameState:
             if confirmation == "y":
                 #add item to player bag, subtract money, remove item from shop
                 self.party[victim].buy(item)
-                shoplist.pop()
+                shoplist.remove(item)
                 print("Thank you for your purchase.")
                 #put unsold items back
                 for item in shoplist:
@@ -104,17 +104,20 @@ class GameState:
         """An encounter with a randomly generated npc
         """
         npc = generate_npc(self)
-        attitude = random.choice(["friendly", "hostile", "ambivalent"])
-        if attitude == "hostile":
+        print("You encounter {npc.name}! They are a {npc.class} in possession of a ")
+        attitude = random.randrange(20)
+        if attitude in range(7):
+            #hostile lollll
             #can choose to run or battle
             #if they choose to run, do a speed check
             #if they're too slow then they're losers and get ambushed
             #call the battle function
             pass
-        elif attitude == "ambivalent":
-            #
+        elif attitude < 14:
+            #ambivalent
             pass
         else:
+            #generous
             #give money, give item, restore hp if class is healer
             pass
     def battle(self, status):
