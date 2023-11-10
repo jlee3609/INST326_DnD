@@ -2,8 +2,8 @@
 class Item:
     """
     """
-    def __init__(self, item, name):
-        self.type = item[type]
+    def __init__(self, items, type, name):
+        self.type = type
         self.name = name
         self.description = self.type[self.name]["description"]
         

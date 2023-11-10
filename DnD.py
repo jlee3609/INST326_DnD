@@ -31,7 +31,8 @@ def main(item_path, location_path, num_players, end_location):
         for armor in armor_names:
             armors.append(Item(items, "armor", armor)) 
         for weapon in weapon_names:
-            weapons.append(Item(items, "weapon", weapon))            
+            weapons.append(Item(items, "weapon", weapon))     
+        items = potions.extend(armors).extend(weapons)     
     
     #make game
     with open(location_path, "r", encoding="utf-8") as f:
