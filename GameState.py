@@ -20,17 +20,20 @@ class GameState:
         location_data ():
         party (dict of Players, player name is key): all Players in a party.
         curr_location ():
+        parent_location ():
     """
     def __init__(self, items, location_data, party):
         """
         """
         self.items = items
         self.locations = {}
-        self.travel_options = []
+        self.travel_options = {}
+        self.curr_location = "Village Square"
         for place in location_data["locations"]:
             self.locations.append(place)
         self.party = party
-        self.curr_location = "Village Square"
+        for place in location_data["children"][self.curr_location]:
+            self.travel_options.append(place)     
             
     def new_turn(self):
         """
@@ -128,6 +131,8 @@ class GameState:
     def travel(self, destination):
         """
         """
+        self.parent_location = self.curr_location
+        self.travel_options.append(self.parent_location)
         self.curr_location = destination
         self.scenario()
         
