@@ -1,11 +1,151 @@
 {
     "potion": {
-        
+        "Ethereal Elixir": {
+            "description": "Extremely rare elixir divinated by Ancient Protectors.",
+            "cost": 60,
+            "effects": {
+                "hp": 50,
+                "strength": 10,
+                "speed": 0,
+                "mana": 5,
+                "intelligence": 5,
+                "defense": 1
+            },
+            "quantity": 1
+        },
+        "Flameheart Brew": {
+            "description": "Hearty potion to increase one's offense at a cost.",
+            "cost": 20,
+            "effects": {
+                "hp": -15,
+                "strength": 20,
+                "speed": 2,
+                "mana": 5,
+                "intelligence": -2,
+                "defense": 5
+            },
+            "quantity": 5
+        },
+        "Galewind Draught": {
+            "description": "Grants one speed from the Wind Lords.",
+            "cost": 15,
+            "effects": {
+                "hp": 0,
+                "strength": 0,
+                "speed": 20,
+                "mana": 0,
+                "intelligence": 1,
+                "defense": -3
+            },
+            "quantity": 7
+        },
+        "Aquatic Aegis Tonic": {
+            "description": "Creates a protective, yet bulky, water shield.",
+            "cost": 30,
+            "effects": {
+                "hp": 0,
+                "strength": 15,
+                "speed": -2,
+                "mana": -5,
+                "intelligence": 0,
+                "defense": 10
+            },
+            "quantity": 15
+        }
     },
     "armor": {
-
+        "Luminous Lattice Armor": {
+            "description": "Ancient armor embedded with luminescent crystals that emit a soft glow.",
+            "cost": 70,
+            "effects": {
+                "hp": 15,
+                "strength": 20,
+                "speed": 0,
+                "mana": 0,
+                "intelligence": 0,
+                "defense": 30
+            },
+            "quantity": 1
+        },
+        "Inferno Vanguard Suit": {
+            "description": "Armor forged in volcanic flames.",
+            "cost": 50,
+            "effects": {
+                "hp": 5,
+                "strength": 15,
+                "speed": -2,
+                "mana": 0,
+                "intelligence": 0,
+                "defense": 20
+            },
+            "quantity": 1
+        },
+        "Shadowcloak": {
+            "description": "Cloak enchanted with shadow magic.",
+            "cost": 30,
+            "effects": {
+                "hp": 2,
+                "strength": 0,
+                "speed": 5,
+                "mana": 5,
+                "intelligence": 2,
+                "defense": 10
+            },
+            "quantity": 2
+        }
     },
     "weapon": {
-
+        "Spectral Slicer": {
+            "description": "Enchanted dagger that can cut through magic.",
+            "cost": 90,
+            "effects": {
+                "hp": 0,
+                "strength": 10,
+                "speed": 10,
+                "mana": 10,
+                "intelligence": 0,
+                "defense": 15
+            },
+            "qauntity": 1
+        },
+        "Quasar Quiver": {
+            "description": "Bow and arrow imbued with the power of stars.",
+            "cost": 70,
+            "effects": {
+                "hp": 0,
+                "strength": 10,
+                "speed": 2,
+                "mana": 8,
+                "intelligence": 0,
+                "defense": 15
+            },
+            "qauntity": 1
+        },
+        "Echo Hammer": {
+            "description": "Massive hammer with resonating core.",
+            "cost": 70,
+            "effects": {
+                "hp": 0,
+                "strength": 20,
+                "speed": -5,
+                "mana": 0,
+                "intelligence": 0,
+                "defense": 20
+            },
+            "qauntity": 1
+        },
+        "Simple Dagger": {
+            "description": "A simple dagger forged by the blacksmith.",
+            "cost": 20,
+            "effects": {
+                "hp": 0,
+                "strength": 5,
+                "speed": 0,
+                "mana": 0,
+                "intelligence": 0,
+                "defense": 10
+            },
+            "qauntity": 10
+        }
     }
 }
