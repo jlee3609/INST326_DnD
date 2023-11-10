@@ -29,14 +29,7 @@ class GameState:
         self.locations = {}
         self.travel_options = {}
         self.curr_location = "Village Square"
-        self.action_options = location_data["locations"][self.curr_location]
-        for i in range(len(self.action_options)):
-            if self.action_options[i] == "b":
-                self.action_options[i] = "battle"
-            if self.action_options[i] == "s":
-                self.action_options[i] = "shop"
-            if self.action_options[i] == "e":
-                self.action_options[i] = "encounter"
+        self.action_options = ["shop", "encounter"]
         for place in location_data["locations"]:
             self.locations.append(place)
         self.party = party
@@ -144,6 +137,14 @@ class GameState:
         self.parent_location = self.curr_location
         self.travel_options.append(self.parent_location)
         self.curr_location = destination
+        self.action_options = location_data["locations"][self.curr_location]
+        for i in range(len(self.action_options)):
+            if self.action_options[i] == "b":
+                self.action_options[i] = "battle"
+            if self.action_options[i] == "s":
+                self.action_options[i] = "shop"
+            if self.action_options[i] == "e":
+                self.action_options[i] = "encounter"
         self.scenario()
         
     def scenario(self):
