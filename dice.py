@@ -23,8 +23,8 @@ if __name__ == "__main__":
     while True:
         print("Choose an option:")
         print("1. Roll a d20")
-        print("2. Roll a custom die")
-        print("3. Roll custom dice with modifier")
+        print("2. Roll lower die associated with weapon")
+        print("3. Roll higher die associated with weapon")
         print("4. Quit")
         
         choice = input("Enter your choice: ")
