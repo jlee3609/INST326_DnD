@@ -97,7 +97,7 @@
     "weapon": {
         "Spectral Slicer": {
             "description": "Enchanted dagger that can cut through magic.",
-            "dice": [6, 8],
+            "dice": [8, 12],
             "cost": 90,
             "effects": {
                 "hp": 0,
