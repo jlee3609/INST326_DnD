@@ -33,7 +33,10 @@ class Player:
         self.bag = []
         self.money = 100
     def attack(self, enemy):
-        pass
+        weapon_info = data.get('weapons', {}).get(weapon) #calls the json file that will be added later
+        dice = weapon_info.get('dice') #the dice associated with each weapon
+        # if method?
+    
     def defend(self, ally):
         pass
     def buy(self, item):
