@@ -6,7 +6,7 @@ class Item:
         self.type = type
         self.name = name
         self.description = self.type[self.name]["description"]
-        
+        self.cost = self.type[self.name]["cost"]
         #dict within individ item's dict with listed changes to stats
         self.effects = {self.type[self.name]["effects"]} 
         self.quantity = self.type[self.name]["quantity"]
