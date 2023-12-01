@@ -6,7 +6,7 @@ import sys
 import json
 
 
-def main(item_path, location_path, num_players, end_location):
+def main(item_path, location_path, num_players):
     #set up a round of DnD
     #initialize a bunch of players
     #pass players into the gamestate as a party
@@ -37,6 +37,7 @@ def main(item_path, location_path, num_players, end_location):
     #make game
     with open(location_path, "r", encoding="utf-8") as f:
         locations = json.load(f)
+        end_location = 1 #some way to decide the end location ig
         
     game = GameState(items, locations, party)
     #game turns
@@ -44,6 +45,8 @@ def main(item_path, location_path, num_players, end_location):
         game.new_turn()
     #end the game somehow?
     #print that its the endgame locaiton, make a boss npc, and do battle
+    print(f"Your party has reached {end_location}! Please prepare to meet the final boss.")
+    game.battle("neutral", boss=True)
 
 def parse_args(arglist):
     """ Parse command-line arguments.
@@ -67,3 +70,4 @@ def parse_args(arglist):
 
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
+    main(args)

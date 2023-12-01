@@ -85,6 +85,7 @@ class GameState:
                 shoplist.append(item)
                 self.items.pop[item]
         for item in shoplist:
+            print(item)
             item.stats()
         answer = input("Would you like to purchase an item? (y/n)")
         if answer == "y":
@@ -122,6 +123,8 @@ class GameState:
         """
         npc = generate_npc(self)
         print("You encounter {npc.name}! They are a {npc.class} in possession of a {bag[0]}.")
+        
+        #npc rolls for attitude/reaction
         attitude = npc.roll_dice(20)
         print(f"{npc.name} rolling for initial impression... you rolled a {attitude}!")
         if attitude in range(7):
@@ -141,11 +144,16 @@ class GameState:
             #generous
             #give money, give item, restore hp if class is healer
             pass
-    def battle(self, status):
+    def battle(self, status, boss=False):
         """
         """
         #status can be ambush (bad for player), surprise (good for player), or neutral
-        pass
+        if status == "ambush":
+            al;kgj
+        elif status == "surprise":
+            alkfja
+        else:
+            alkgj
     def travel(self, destination):
         """
         """
