@@ -175,7 +175,7 @@ class GameState:
             self.battle_start(queue, npc)
         
         else:
-            everyone = [self.party[p] for p in self.party]+npcs
+            everyone = [self.party[p] for p in self.party]+npc
             queue = sorted(everyone, key= lambda s: s.speed)
             self.battle_start(queue, npc)
             
