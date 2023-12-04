@@ -42,13 +42,14 @@ def main(item_path, location_path, num_players):
         locations = json.load(f)
         end_location = locations["final_location"]["final"]
         
-    game = GameState(items, locations, party)
+    game = GameState(items, locations, party, end_location)
     #game turns
     while game.curr_location != end_location:
         game.new_turn()
     #end the game somehow?
     #print that its the endgame locaiton, make a boss npc, and do battle
     print(f"Your party has reached {end_location}! Please prepare to meet the final boss.")
+    game.new_turn()
     game.battle("neutral", boss=True)
 
 def parse_args(arglist):
