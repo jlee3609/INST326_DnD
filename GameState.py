@@ -4,6 +4,8 @@ import json
 import random
 
 def generate_npc(gamestate, boss=False):
+    """
+    """
     names = ["Aeliana", "Thoren", "Elowen", "Kael", "Seraphim", "Lirael", "Garrick", 
             "Isabeau", "Eldon", "Lyria", "Caden", "Rowena", "Thaddeus", "Anara",
             "Finnian", "Livia", "Dorian", "Tamsin", "Galadriel", "Merek"]
