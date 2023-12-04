@@ -65,7 +65,8 @@
                 "intelligence": 0,
                 "defense": 30
             },
-            "quantity": 1
+            "quantity": 1,
+            "damage": -20
         },
         "Inferno Vanguard Suit": {
             "description": "Armor forged in volcanic flames.",
@@ -76,9 +77,10 @@
                 "speed": -2,
                 "mana": 0,
                 "intelligence": 0,
-                "defense": 20
+                "defense": 15
             },
-            "quantity": 1
+            "quantity": 1,
+            "damage": -15
         },
         "Shadowcloak": {
             "description": "Cloak enchanted with shadow magic.",
@@ -91,7 +93,8 @@
                 "intelligence": 2,
                 "defense": 10
             },
-            "quantity": 2
+            "quantity": 2,
+            "damage": 0
         }
     },
     "weapon": {
@@ -107,7 +110,8 @@
                 "intelligence": 0,
                 "defense": 15
             },
-            "quantity": 1
+            "quantity": 1,
+            "damage": 20
         },
         "Quasar Quiver": {
             "description": "Bow and arrow imbued with the power of stars.",
@@ -121,7 +125,8 @@
                 "intelligence": 0,
                 "defense": 15
             },
-            "quantity": 1
+            "quantity": 1,
+            "damage": 15
         },
         "Echo Hammer": {
             "description": "Massive hammer with resonating core.",
@@ -135,7 +140,8 @@
                 "intelligence": 0,
                 "defense": 20
             },
-            "quantity": 1
+            "quantity": 1,
+            "damage": 10
         },
         "Simple Dagger": {
             "description": "A simple dagger forged by the blacksmith.",
@@ -149,7 +155,8 @@
                 "intelligence": 0,
                 "defense": 10
             },
-            "quantity": 10
+            "quantity": 10,
+            "damage": 5
         }
     }
 }
