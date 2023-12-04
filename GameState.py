@@ -28,7 +28,10 @@ class GameState:
     """
     
     Attributes:
-        items (dict of items, quantity is value): 
+        items (list of dicts of str:(dict of str:vals): All the items in the game.
+            Each key is the item type; each value is a dict containing the 
+            description, cost, effects (another dict of str:int), and quantity 
+            of each item.
         locations ():
         travel_options ():
         location_data ():
