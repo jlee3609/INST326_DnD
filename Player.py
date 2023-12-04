@@ -36,6 +36,11 @@ class Player:
             self.intelligence, self.defense = class_stats[pclass]
         self.bag = []
         self.money = 100
+    
+    def view_bag(self):
+        pass
+    
+    #?????
     def attack(self, enemy):
         weapon_info = data.get('weapons', {}).get(weapon) #calls the json file that will be added later
         dice = weapon_info.get('dice') #the dice associated with each weapon
@@ -69,6 +74,7 @@ class Player:
                     self.intelligence += item.effects["intelligence"]
                 if "defence" in item.effects:
                     self.defense += item.effects["defense"]
+    
     def buy(self, item):
         if len(self.bag) > 10:
             raise Exception("Your bag can only carry so much. Drink or use an"
@@ -122,7 +128,8 @@ class Player:
             ally = input(f"Please indicate who you want to heal: {[p for p in self.party]}")
             self.heal(self.party[ally])
         elif turn == "Defend":
-            self.defend(npc)
+            #defends extra if they have armor, otherwise only defends 1 extra from base stats
+            self.defend()
 
         elif turn == "Run":
             pass
