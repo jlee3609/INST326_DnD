@@ -1,6 +1,6 @@
 {
     "final_location":{
-        "Dungeon of Doom": "final"
+        "final": "Dungeon of Doom"
     },
     "locations": {
         "Village Square": ["s", "e"],

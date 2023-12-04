@@ -38,8 +38,8 @@ class GameState:
         """
         """
         self.items = items
-        self.locations = {}
-        self.travel_options = {}
+        self.locations = []
+        self.travel_options = []
         self.curr_location = "Village Square"
         self.action_options = ["shop", "encounter"]
         for place in location_data["locations"]:

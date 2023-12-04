@@ -11,7 +11,7 @@ class Item:
         self.effects = items[self.type][self.name]["effects"]
         self.quantity = items[self.type][self.name]["quantity"]
     def __str__(self):
-        print(f"This is a {self.name}: {self.description}. Its effects are: ")
+        return f"This is a {self.name}: {self.description} Its effects are: {self.effects}"
         
     def stats(self):
         for effect in self.effects:

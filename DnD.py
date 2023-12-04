@@ -22,7 +22,6 @@ def main(item_path, location_path, num_players):
     with open(item_path, "r", encoding="utf-8") as f:
         items = json.load(f)
         potion_names = list(items["potion"])
-        print(potion_names)
         armor_names = list(items["armor"])
         weapon_names = list(items["weapon"])
         potions = []
@@ -34,20 +33,18 @@ def main(item_path, location_path, num_players):
             armors.append(Item(items, "armor", armor)) 
         for weapon in weapon_names:
             weapons.append(Item(items, "weapon", weapon)) 
-        print(potions)    
-        print(weapons)
-        print(armors)
-        items = potions.extend(armors).extend(weapons)     
+        
+        items = potions+armors+weapons 
     
     #make game
     #load locations and set final location
     with open(location_path, "r", encoding="utf-8") as f:
         locations = json.load(f)
-        end_location = locations["final_location"][0]
+        end_location = locations["final_location"]["final"]
         
     game = GameState(items, locations, party)
     #game turns
-    while game.location != end_location:
+    while game.curr_location != end_location:
         game.new_turn()
     #end the game somehow?
     #print that its the endgame locaiton, make a boss npc, and do battle
