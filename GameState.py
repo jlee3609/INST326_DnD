@@ -28,7 +28,10 @@ class GameState:
     """
     
     Attributes:
-        items (dict of items, quantity is value): 
+        items (list of dicts of str:(dict of str:vals): All the items in the game.
+            Each key is the item type; each value is a dict containing the 
+            description, cost, effects (another dict of str:int), and quantity 
+            of each item.
         locations ():
         travel_options ():
         location_data ():
@@ -41,14 +44,12 @@ class GameState:
         """
         self.items = items
         self.end_location = end_location
-        self.locations = []
+        self.locations = location_data.copy()
         self.travel_options = []
         self.curr_location = "Village Square"
         self.action_options = ["shop", "encounter"]
-        for place in location_data["locations"]:
-            self.locations.append(place)
         self.party = party
-        for place in location_data["children"][self.curr_location]:
+        for place in self.locations["children"][self.curr_location]:
             self.travel_options.append(place)     
             
     def new_turn(self):
@@ -199,9 +200,10 @@ class GameState:
     def travel(self, destination):
         """
         """
-        self.parent_location = self.curr_location
-        self.travel_options.append(self.parent_location)
         self.curr_location = destination
+        self.parent_location = self.locations["parent"][self.curr_location]
+        self.travel_options = [self.locations["children"][self.curr_location]]
+        self.travel_options.append(self.parent_location)
         self.action_options = self.locations["locations"][self.curr_location]
         for i in range(len(self.action_options)):
             if self.action_options[i] == "b":
