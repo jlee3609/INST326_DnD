@@ -15,7 +15,7 @@ def main(item_path, location_path, num_players):
         name = input("Please input player name: ")
         print("The possible classes are: Mage, Healer, Tank, Assassin, Berserker")
         pclass = input("Please choose a class: ")
-        character = Player(name, pclass, 20)
+        character = Player(name, pclass, "Player", 20)
         party[name] = character
         
     #load items

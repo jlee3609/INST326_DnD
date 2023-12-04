@@ -27,8 +27,9 @@ class Player:
         money (int): player's money
         bag (list): player's inventory
     '''
-    def __init__(self, name, pclass, dice):
+    def __init__(self, name, pclass, type, dice):
         self.name=name
+        self.type=type
         self.pclass=pclass
         self.dice = dice
         self.hp, self.strength, self.speed, self.mana, \
@@ -102,8 +103,22 @@ class Player:
     def roll_dice(self, dice_num):
         vibes = DnDRoller.roll(self.dice)
     
-    def battle_turn(self):
-        
-    
+    def battle_turn_p(self, npc=False):
+        #if it's an npc, will automatically attack the lowest hp player
+        turn = input("Please choose an action: Attack, Defend, Dodge, Run, Drink")
+        if turn == "Attack":
+            self.attack()
+        elif turn == "Defend":
+            pass
+        elif turn == "Dodge":
+            pass
+        elif turn == "Run":
+            pass
+        else:
+            print("Please input a valid action.")
+            self.battle_turn()
+        pass
+    def battle_turn_n(self, npc=False):
+        pass
 # nicole = Player("nicole", "Healer")
 # print(nicole.intelligence)

@@ -11,11 +11,11 @@ def generate_npc(gamestate, boss=False):
             "Finnian", "Livia", "Dorian", "Tamsin", "Galadriel", "Merek"]
     classes = ["Mage", "Healer", "Tank", "Assassin", "Berserker"]
     if boss == False:
-        npc = Player.Player(random.choice(names), random.choice(classes))
+        npc = Player.Player(random.choice(names), random.choice(classes), "NPC", 20)
         npc.buy(random.choice(item for item in gamestate.items if item.cost <=100))
     else:
         boss_names = ["Nicole", "Ariel", "Jenny", "Aric"]
-        npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]))
+        npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]), "NPC", 20)
         npc.money +=500
         npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
         npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
@@ -177,7 +177,7 @@ class GameState:
             self.battle_start(queue, npc)
         
         else:
-            everyone = [self.party[p] for p in self.party]+npcs
+            everyone = [self.party[p] for p in self.party]+npc
             queue = sorted(everyone, key= lambda s: s.speed)
             self.battle_start(queue, npc)
             
@@ -186,7 +186,10 @@ class GameState:
         while npc.hp != 0 and len(self.party) > 0:
             p = queue[turn % len(queue)]
             turn+=1
-            p.battle_turn()
+            if p.type=="Player":
+                p.battle_turn_p()
+            else:
+                p.battle_turn_n()
             if p.hp == 0:
                 queue.remove(p)
                 self.party.remove(p)
