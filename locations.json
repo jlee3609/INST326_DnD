@@ -79,5 +79,32 @@
             "Neon Nexus",
             "Etherial Archipelago"
         ]
+    },
+    "parent": {
+        "Wailing Woods": "Village Square",
+        "Mystic Meadows": "Village Square",
+        "Skyward Stronghold": "Village Square",
+        "Lost Labyrinth": "Wailing Woods",
+        "The Everglades": "Wailing Woods",
+        "Celestial Citadel": "Mystic Meadows",
+        "Desert Dunes": "Mystic Meadows",
+        "Cursed Catacombs": "Skyward Stronghold",
+        "Saffron Square": "Skyward Stronghold",
+        "Pirate's Port": "Skyward Stronghold",
+        "Sunken Sanctuary": "Lost Labyrinth",
+        "Dungeon of Doom": "Lost Labyrinth",
+        "Ice Caverns": "Lost Labyrinth",
+        "The Lost Temple": "The Everglades",
+        "Sunken City": "The Everglades",
+        "Glowing Gardens": "Celestial Citadel",
+        "Mad Menagerie": "Celestial Citadel",
+        "Volcanic Forge": "Desert Dunes",
+        "The Cliffs": "Desert Dunes",
+        "The Ravine": "Cursed Catacombs",
+        "Phantom Fields": "Cursed Catacombs",
+        "Forest Road": "Saffron Square",
+        "Milton Market": "Saffron Square",
+        "Neon Nexus": "Pirate's Port",
+        "Etherial Archipelago": "Pirate's Port"
     }
 }
