@@ -42,6 +42,21 @@ class Player:
     
     def defend(self, ally):
         pass
+    
+    def item_effects(self, item, action):
+        if item.type != "potion":
+                if "hp" in item.effects:
+                    self.hp += item.effects["hp"]
+                if "strength" in item.effects:
+                    self.strength += item.effects["strength"]
+                if "speed" in item.effects:
+                    self.speed += item.effects["speed"]
+                if "mana" in item.effects:
+                    self.mana += item.effects["mana"]
+                if "intelligence" in item.effects:
+                    self.intelligence += item.effects["intelligence"]
+                if "defence" in item.effects:
+                    self.defense += item.effects["defense"]
     def buy(self, item):
         if len(self.bag) > 10:
             raise Exception("Your bag can only carry so much. Drink or use an"
@@ -62,7 +77,7 @@ class Player:
                     self.intelligence += item.effects["intelligence"]
                 if "defence" in item.effects:
                     self.defense += item.effects["defense"]
-    def give(self, item):
+    def give(self, other_player, item):
         self.bag.remove(item)
         if item.type != "potion":
             if "hp" in item.effects:
@@ -77,6 +92,7 @@ class Player:
                 self.intelligence -= item.effects["intelligence"]
             if "defence" in item.effects:
                 self.defense -= item.effects["defense"]
+        
     def drink(self, item):
         if item.type == "potion":
             self.bag.remove(item)

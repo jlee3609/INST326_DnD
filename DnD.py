@@ -35,9 +35,10 @@ def main(item_path, location_path, num_players):
         items = potions.extend(armors).extend(weapons)     
     
     #make game
+    #load locations and set final location
     with open(location_path, "r", encoding="utf-8") as f:
         locations = json.load(f)
-        end_location = 1 #some way to decide the end location ig
+        end_location = locations["final_location"][0]
         
     game = GameState(items, locations, party)
     #game turns

@@ -1,4 +1,7 @@
 {
+    "final_location":{
+        "Dungeon of Doom": "final"
+    },
     "locations": {
         "Village Square": ["s", "e"],
         "Wailing Woods": ["b"],
