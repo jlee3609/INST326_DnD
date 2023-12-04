@@ -225,6 +225,7 @@ class GameState:
             self.battle()
         else:
             self.encounter()
+    
     def list_party():
         pass
           
