@@ -34,10 +34,11 @@ class GameState:
         curr_location ():
         parent_location ():
     """
-    def __init__(self, items, location_data, party):
+    def __init__(self, items, location_data, party, end_location):
         """
         """
         self.items = items
+        self.end_location = end_location
         self.locations = []
         self.travel_options = []
         self.curr_location = "Village Square"
@@ -148,6 +149,9 @@ class GameState:
     def battle(self, status, boss=False):
         """
         """
+        #create a queue based on speed
+        #roll random number of enemies between 1-5
+        #
         #status can be ambush (bad for player), surprise (good for player), or neutral
         if status == "ambush":
             al;kgj

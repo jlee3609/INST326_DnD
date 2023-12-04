@@ -2,9 +2,9 @@
 '''
 
 # stat order = HP, Strength, Speed, Mana, Intelligence, Defense
-from typing import Any
+from dice import DnDRoller
 
-
+#a problem for later
 class_stats = {
     "Mage": [5,5,5,5,5,5],
     "Healer": [5,5,5,5,5,5],
