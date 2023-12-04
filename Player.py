@@ -27,8 +27,9 @@ class Player:
         money (int): player's money
         bag (list): player's inventory
     '''
-    def __init__(self, name, pclass, dice):
+    def __init__(self, name, pclass, type, dice):
         self.name=name
+        self.type=type
         self.pclass=pclass
         self.dice = dice
         self.hp, self.strength, self.speed, self.mana, \
@@ -40,7 +41,18 @@ class Player:
         dice = weapon_info.get('dice') #the dice associated with each weapon
         # if method?
     
-    def defend(self, ally):
+    def heal(self, ally):
+        if self.pclass == "Healer":
+            print("As you are a healer, you heal based on mana level.")
+            heal = round(0.5*self.mana)
+            ally.hp+=heal
+            print(f"{ally.name} healed {heal} HP! They now have {ally.hp} HP.")
+        else:
+            print("As you are not a healer, you may heal a paltry 1 HP.")
+            ally.hp+=1
+            print(f"{ally.name} healed {heal} HP! They now have {ally.hp} HP.")
+            
+    def defend(self):
         pass
     
     def item_effects(self, item, action):
@@ -102,8 +114,25 @@ class Player:
     def roll_dice(self, dice_num):
         vibes = DnDRoller.roll(self.dice)
     
-    def battle_turn(self):
-        
-    
+    def battle_turn_p(self, gamestate, npc):
+        turn = input("Please choose an action: Attack, Heal, Defend, Run, Drink")
+        if turn == "Attack":
+            self.attack(npc)
+        elif turn == "Heal":
+            ally = input(f"Please indicate who you want to heal: {[p for p in self.party]}")
+            self.heal(self.party[ally])
+        elif turn == "Defend":
+            self.defend(npc)
+
+        elif turn == "Run":
+            pass
+        else:
+            print("Please input a valid action.")
+            self.battle_turn(npc)
+        pass
+    def battle_turn_n(self, gamestate, party):
+        #if it's an npc, will automatically attack the lowest hp player
+
+        pass
 # nicole = Player("nicole", "Healer")
 # print(nicole.intelligence)
