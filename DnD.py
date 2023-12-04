@@ -13,14 +13,16 @@ def main(item_path, location_path, num_players):
     party = {}
     for i in range(num_players):
         name = input("Please input player name: ")
+        print("The possible classes are: Mage, Healer, Tank, Assassin, Berserker")
         pclass = input("Please choose a class: ")
-        character = Player(name, pclass)
+        character = Player(name, pclass, 20)
         party[name] = character
         
-    #do items
+    #load items
     with open(item_path, "r", encoding="utf-8") as f:
         items = json.load(f)
         potion_names = list(items["potion"])
+        print(potion_names)
         armor_names = list(items["armor"])
         weapon_names = list(items["weapon"])
         potions = []
@@ -31,7 +33,10 @@ def main(item_path, location_path, num_players):
         for armor in armor_names:
             armors.append(Item(items, "armor", armor)) 
         for weapon in weapon_names:
-            weapons.append(Item(items, "weapon", weapon))     
+            weapons.append(Item(items, "weapon", weapon)) 
+        print(potions)    
+        print(weapons)
+        print(armors)
         items = potions.extend(armors).extend(weapons)     
     
     #make game
@@ -71,4 +76,5 @@ def parse_args(arglist):
 
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
-    main(args)
+    print(args)
+    main(args.item_path, args.location_path, args.num_players)

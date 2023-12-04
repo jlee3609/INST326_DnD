@@ -18,7 +18,8 @@ def generate_npc(gamestate, boss=False):
         npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
         npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
         npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
-        npc.hp, npc.defense, npc.speed, npc.intelligence, npc.mana, npc.strength +=20
+        for i in (npc.hp, npc.defense, npc.speed, npc.intelligence, npc.mana, npc.strength):
+            i+=20
     return npc
 
 class GameState:
