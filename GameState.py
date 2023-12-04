@@ -56,7 +56,8 @@ class GameState:
         
         # prob needs to be command line arg but like \(i.i)/???
         action = input(f"What would you like to do? Your options are: "
-                       f"{self.action_options} ")
+                       f"{self.action_options}:")
+        #add option to drink potion, give item, etc
         
         if action == "travel":
             destination = input(f"Where would you like to go?:"
@@ -149,16 +150,47 @@ class GameState:
     def battle(self, status, boss=False):
         """
         """
+        #1 ENEMY ONLY IM ANNOYED
         #create a queue based on speed
-        #roll random number of enemies between 1-5
-        #
+        #player gets option to attack, defend, dodge, run, use potion
+        #if status = ambush buff speed for enemy
+        #if status = surprise, buff speed for players
+        #neutral do nothing
+        #boss battles always start neutral
         #status can be ambush (bad for player), surprise (good for player), or neutral
+        debuff = 3
+        npc = generate_npc(self)
         if status == "ambush":
-            al;kgj
+            for player in self.party:
+                self.party[player].speed -=debuff
+            everyone = [self.party[p] for p in self.party]+npc
+            queue = sorted(everyone, key= lambda s: s.speed)
+            self.battle_start(queue, npc)
+        
         elif status == "surprise":
-            alkfja
+            for player in self.party:
+                self.party[player].speed +=debuff
+            everyone = [self.party[p] for p in self.party]+npc
+            queue = sorted(everyone, key= lambda s: s.speed)
+            self.battle_start(queue, npc)
+        
         else:
-            alkgj
+            everyone = [self.party[p] for p in self.party]+npcs
+            queue = sorted(everyone, key= lambda s: s.speed)
+            self.battle_start(queue, npc)
+            
+    def battle_start(self, queue, npc):
+        turn = 0
+        while npc.hp != 0 and len(self.party) > 0:
+            p = queue[turn % len(queue)]
+            turn+=1
+            p.battle_turn()
+            if p.hp == 0:
+                queue.remove(p)
+                self.party.remove(p)
+                print(f"{p.name} has died.")
+        print(f"The battle has ended. {npc.name if npc.hp == 0 else 'Your party'} has lost.")
+    
     def travel(self, destination):
         """
         """
@@ -186,5 +218,7 @@ class GameState:
             self.battle()
         else:
             self.encounter()
+    def list_party():
+        pass
           
     

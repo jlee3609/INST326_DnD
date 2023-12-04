@@ -101,6 +101,9 @@ class Player:
             self.hp -= 50
     def roll_dice(self, dice_num):
         vibes = DnDRoller.roll(self.dice)
+    
+    def battle_turn(self):
         
+    
 # nicole = Player("nicole", "Healer")
 # print(nicole.intelligence)
