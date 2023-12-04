@@ -15,7 +15,7 @@ class Item:
             each value is an int of the changes each object makes to the Player's stats
         quantity (int): how many of the item there are in existence.
     """
-    def __init__(self, items, type, name):
+    def __init__(self, items, type, name, damage=0):
         """ Initializes instance of an Item.
         
         Args:
@@ -38,6 +38,7 @@ class Item:
         #dict within individ item's dict with listed changes to stats
         self.effects = self.items[self.type][self.name]["effects"]
         self.quantity = self.items[self.type][self.name]["quantity"]
+        self.damage = damage
         
     def __str__(self):
         """

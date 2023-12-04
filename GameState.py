@@ -155,7 +155,7 @@ class GameState:
         """
         #1 ENEMY ONLY IM ANNOYED
         #create a queue based on speed
-        #player gets option to attack, defend, dodge, run, use potion
+        #player gets option to attack, heal, defend, run, use potion
         #if status = ambush buff speed for enemy
         #if status = surprise, buff speed for players
         #neutral do nothing
@@ -188,9 +188,9 @@ class GameState:
             p = queue[turn % len(queue)]
             turn+=1
             if p.type=="Player":
-                p.battle_turn_p()
+                p.battle_turn_p(self, npc)
             else:
-                p.battle_turn_n()
+                p.battle_turn_n(self, [self.party[p] for p in self.party])
             if p.hp == 0:
                 queue.remove(p)
                 self.party.remove(p)
