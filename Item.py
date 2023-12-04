@@ -10,6 +10,7 @@ class Item:
         #dict within individ item's dict with listed changes to stats
         self.effects = items[self.type][self.name]["effects"]
         self.quantity = items[self.type][self.name]["quantity"]
+        
     def __str__(self):
         return f"This is a {self.name}: {self.description} Its effects are: {self.effects}"
         
