@@ -48,6 +48,21 @@ class DnDRoller:
         """
         return self.roll_sets(num_sides)
 
+    def roll_weapon(self, dice, advantage=False):
+        """Simulates rolling the dice associated with a weapon in json file.
+
+        Args:
+            dice (list): The input list representing possible dice sets. It should contain at least one integer.
+            advantage (boolean): A flag to indicate whether advantage is applied. Defaults to False.
+        """
+        if advantage:
+            num_sides = max(dice[1], dice[0])  #the second, the higher die
+        else:
+            num_sides = min(dice[0], dice[1])  #the first element, the lower die
+
+        result = self.roll_sets(num_sides)
+        return result
+
 if __name__ == "__main__":
     roller = DnDRoller()
 
