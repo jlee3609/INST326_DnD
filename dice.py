@@ -1,4 +1,5 @@
 import random
+import json
 
 class DnDRoller:
     """A dice roll simulation to determine outcomes, weapon damage, etc.
