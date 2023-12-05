@@ -58,7 +58,7 @@ class GameState:
         print(f"You are currently in {self.curr_location}")
         
         # prob needs to be command line arg but like \(i.i)/???
-        self.action_options.append("drink")
+        self.action_options+["drink","travel"]
         action = input(f"What would you like to do? Your options are: "
                        f"{self.action_options}\n:")
         #add option to drink potion, give item, etc
@@ -67,7 +67,8 @@ class GameState:
             destination = input(f"Where would you like to go?:"
                                 f"{self.travel_options}")
             self.travel(destination)
-        self.scenario(action)
+        else:
+            self.scenario(action)
         
     def shop(self):
         """Opens up a shop that one item can be purchased from
@@ -181,7 +182,8 @@ class GameState:
         #boss battles always start neutral
         #status can be ambush (bad for player), surprise (good for player), or neutral
         debuff = 3
-        npc = generate_npc(self)
+        npc = generate_npc(self, boss)
+        
         if status == "ambush":
             for player in self.party:
                 self.party[player].speed -=debuff
@@ -207,7 +209,8 @@ class GameState:
             p = queue[turn % len(queue)]
             turn+=1
             if p.type=="Player":
-                p.battle_turn_p(self, npc)
+                if p.battle_turn_p(self, npc) == False:
+                    queue.remove(p)
             else:
                 p.battle_turn_n(self, [self.party[p] for p in self.party])
             if p.hp == 0:

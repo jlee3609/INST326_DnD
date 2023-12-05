@@ -26,6 +26,7 @@ class Player:
         defense (int): player's defense
         money (int): player's money
         bag (dict): player's inventory
+        armor (bool): whether a player is defending
     '''
     def __init__(self, name, pclass, type, dice):
         self.name=name
@@ -36,16 +37,38 @@ class Player:
             self.intelligence, self.defense = class_stats[pclass]
         self.bag = []
         self.money = 100
+        self.armor = False
+    
+    def __str__(self):
+        #list out player attributes
+        return(f"""
+               {self.name}:
+               Attributes:
+               Class - {self.pclass}
+               HP - {self.hp}
+               Strength - {self.strength}
+               Speed - {self.speed}
+               Mana - {self.mana}
+               Intelligence - {self.intelligence}
+               Defense - {self.defense}
+               
+               Posessions:
+               Money - {self.money}
+               Items - {self.view_bag}
+               """)
     
     def view_bag(self, category="all"):
         pass
     
     #?????
     def attack(self, enemy):
-        weapon_info = data.get('weapons', {}).get(weapon) #calls the json file that will be added later
-        dice = weapon_info.get('dice') #the dice associated with each weapon
-        # if method?
-    
+        weapon = [self.bag[w] for w in self.bag if self.bag[w].type == "weapon"][0]
+        net_dmg = enemy.defense-weapon.damage if enemy.defense<weapon.damage \
+            else 0
+        enemy.hp+=net_dmg
+        print(f"You hit {enemy.name} for {net_dmg} HP! They now have {enemy.hp} HP.")
+            
+
     def heal(self, ally):
         if self.pclass == "Healer":
             print("As you are a healer, you heal based on mana level.")
@@ -58,7 +81,13 @@ class Player:
             print(f"{ally.name} healed {heal} HP! They now have {ally.hp} HP.")
             
     def defend(self):
-        pass
+        armor = [self.bag[w] for w in self.bag if self.bag[w].type == "armor"]
+        total_armor = 0
+        for a in armor:
+            total_armor+=a.damage
+        self.defense += total_armor
+        self.armor = True
+        print(f"You bolster your defenses! You add {total_armor} to your defense until the next turn.")
     
     def item_effects(self, item, action):
         if item.type != "potion":
@@ -126,10 +155,13 @@ class Player:
         vibes = DnDRoller.roll(self.dice)
     
     def battle_turn_p(self, gamestate, npc):
+        print("It's {self.name}'s turn.")
         turn = input("Please choose an action: Attack, Heal, Defend, Run, Drink")
         if turn == "Attack":
+            self.armor=False
             self.attack(npc)
         elif turn == "Heal":
+            self.armor=False
             ally = input(f"Please indicate who you want to heal: {[p for p in self.party]}")
             self.heal(self.party[ally])
         elif turn == "Defend":
@@ -137,14 +169,21 @@ class Player:
             self.defend()
 
         elif turn == "Run":
-            pass
+            self.armor = False
+            if self.speed >= npc.speed:
+                print(f"You outspeed {npc.name} and escape!")
+                return False
+            else:
+                self.hp-=5
+                print(f"You fail to escape battle and lose 5 HP as you are dragged back.")
         else:
             print("Please input a valid action.")
             self.battle_turn(npc)
         pass
     def battle_turn_n(self, gamestate, party):
-        #if it's an npc, will automatically attack the lowest hp player
-
+        print("It's {self.name}'s turn.")
+        hp_sort = sorted(party, key= lambda p: p.hp)
+        self.attack(hp_sort[0])
         pass
 # nicole = Player("nicole", "Healer")
 # print(nicole.intelligence)
