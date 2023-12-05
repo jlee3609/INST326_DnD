@@ -58,15 +58,17 @@ class GameState:
         print(f"You are currently in {self.curr_location}")
         
         # prob needs to be command line arg but like \(i.i)/???
+        self.action_options.append("drink")
         action = input(f"What would you like to do? Your options are: "
-                       f"{self.action_options}:")
+                       f"{self.action_options}\n:")
         #add option to drink potion, give item, etc
         
         if action == "travel":
             destination = input(f"Where would you like to go?:"
                                 f"{self.travel_options}")
             self.travel(destination)
-            
+        self.scenario(action)
+        
     def shop(self):
         """Opens up a shop that one item can be purchased from
         
@@ -229,19 +231,22 @@ class GameState:
                 self.action_options[i] = "shop"
             if self.action_options[i] == "e":
                 self.action_options[i] = "encounter"
-        self.scenario()
         
-    def scenario(self):
-        """Generate a scenario based on what is available at the location
+    def scenario(self, action):
+        """Generate a scenario based on what the player selects
         """
-        options = self.locations["children"][self.curr_location]
-        x = random.choice(options)
-        if x == "shop":
+        if action == "shop":
             self.shop()
-        elif x == "battle":
+        elif action == "battle":
             self.battle()
-        else:
+        elif action == "encounter":
             self.encounter()
+        else:
+            drinker = input("You have chosen to drink a potion. Who will be drinking? ")
+            potion_name = input(f"{drinker} will be drinking the potion!
+                Please indicate which potion you wish to consume: {self.party[drinker].view_bag(category='potion')}")
+            drinker = self.party[drinker]
+            drinker.drink(drinker.bag[potion_name])
     
     def list_party():
         pass

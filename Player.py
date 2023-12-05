@@ -25,7 +25,7 @@ class Player:
         intelligence (int): player's intelligence
         defense (int): player's defense
         money (int): player's money
-        bag (list): player's inventory
+        bag (dict): player's inventory
     '''
     def __init__(self, name, pclass, type, dice):
         self.name=name
@@ -37,7 +37,7 @@ class Player:
         self.bag = []
         self.money = 100
     
-    def view_bag(self):
+    def view_bag(self, category="all"):
         pass
     
     #?????
@@ -80,7 +80,7 @@ class Player:
             raise Exception("Your bag can only carry so much. Drink or use an"
                             "item to continue purchase.")
         else:
-            self.bag.append(item)
+            self.bag[item.name] = item
             self.money -= item.cost
             if item.type != "potion":
                 if "hp" in item.effects:
@@ -95,28 +95,33 @@ class Player:
                     self.intelligence += item.effects["intelligence"]
                 if "defence" in item.effects:
                     self.defense += item.effects["defense"]
-    def give(self, other_player, item):
-        self.bag.remove(item)
-        if item.type != "potion":
-            if "hp" in item.effects:
-                self.hp -= item.effects["hp"]
-            if "strength" in item.effects:
-                self.strength -= item.effects["strength"]
-            if "speed" in item.effects:
-                self.speed -= item.effects["speed"]
-            if "mana" in item.effects:
-                self.mana -= item.effects["mana"]
-            if "intelligence" in item.effects:
-                self.intelligence -= item.effects["intelligence"]
-            if "defence" in item.effects:
-                self.defense -= item.effects["defense"]
+    # def give(self, other_player, item):
+    #     self.bag.remove(item)
+    #     if item.type != "potion":
+    #         if "hp" in item.effects:
+    #             self.hp -= item.effects["hp"]
+    #         if "strength" in item.effects:
+    #             self.strength -= item.effects["strength"]
+    #         if "speed" in item.effects:
+    #             self.speed -= item.effects["speed"]
+    #         if "mana" in item.effects:
+    #             self.mana -= item.effects["mana"]
+    #         if "intelligence" in item.effects:
+    #             self.intelligence -= item.effects["intelligence"]
+    #         if "defence" in item.effects:
+    #             self.defense -= item.effects["defense"]
         
     def drink(self, item):
         if item.type == "potion":
-            self.bag.remove(item)
+            del self.bag[item.name]
         else:
             #if you were dumb enough to drink a sword/shield you deserve it
+            print("The gods of DnD look on with disdain \
+                  as you attempt to consume what should not be consumed. \
+                      You lose both the item and 50 HP.")
+            del self.bag[item.name]
             self.hp -= 50
+    
     def roll_dice(self, dice_num):
         vibes = DnDRoller.roll(self.dice)
     
