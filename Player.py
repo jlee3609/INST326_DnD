@@ -6,11 +6,11 @@ from dice import DnDRoller
 
 #a problem for later
 class_stats = {
-    "Mage": [5,5,5,5,5,5],
-    "Healer": [5,5,5,5,5,5],
-    "Tank": [5,5,5,5,5,5],
-    "Assassin": [5,5,5,5,5,5],
-    "Berserker": [5,5,5,5,5,5]
+    "Mage": [100,5,5,5,5,5],
+    "Healer": [100,5,5,5,5,5],
+    "Tank": [100,5,5,5,5,5],
+    "Assassin": [100,5,5,5,5,5],
+    "Berserker": [100,5,5,5,5,5]
 }
 class Player:
     '''A player

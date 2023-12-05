@@ -93,14 +93,19 @@ class GameState:
         for item in shoplist:
             print(item)
             item.stats()
+            print(f"This item costs {item.cost} gold.")
         answer = input("Would you like to purchase an item? (y/n)")
         if answer == "y":
             purchase = int(input("Please input the index of the item you desire: (1,2,3)"))-1
             victim = input("Please input the name of who is purchasing the item:")
             if victim not in self.party:
                 victim = input("Please input a valid name:")
-            confirmation = input(f"{victim} will lose {shoplist[purchase].cost} and gain a(n) \
-                {shoplist[purchase].name}. Confirm purchase? (y/n)")
+            if self.party[victim].money < shoplist[purchase].cost:
+                print(f"You do not have enough money for this purchase. You have {self.party[victim].money} gold.")
+                print("The merchant looks at you with disgust. Those who cannot do basic math cannot purchase items.")
+                return None
+            confirmation = input(f"{victim} will lose {shoplist[purchase].cost} and gain a(n) "
+                f"{shoplist[purchase].name}. Confirm purchase? (y/n)")
             if confirmation == "y":
                 #add item to player bag, subtract money, remove item from shop
                 self.party[victim].buy(shoplist[purchase])
@@ -113,8 +118,8 @@ class GameState:
                     else:
                         self.items[item.name] = item
             else:
-                print("Purchase cancelled. The merchant side-eyes you and \
-                    reshuffles her wares. You sense she won't sell you anything more.")
+                print("Purchase cancelled. The merchant side-eyes you and "
+                    "reshuffles her wares. You sense she won't sell you anything more.")
                 for item in shoplist:
                     if item in self.items:
                         self.items[item.name].quantity +=1
@@ -139,8 +144,9 @@ class GameState:
 
             if action == "run":
             # do a speed check
-                speed_check = self.dice(20)
-                if speed_check > 10:
+                max_speed = max([self.party[p].speed for p in self.party])
+                speed_check = self.dice(20+max_speed)
+                if speed_check > npc.speed:
                     print("You successfully escape!")
                 else:
                     print("Yikes. Too slow! Getting ambushed.")
@@ -150,22 +156,25 @@ class GameState:
 
         elif attitude < 14:
             print(f"You rolled mid. {npc.name} is suspicious but ambivalent to your party.")
-            print(f"{npc.name} deliberates for a minute, and ultimately gives you a clue about the final location. It starts with 'end_location[0]'")
+            print(f"{npc.name} deliberates for a minute, and ultimately gives you a clue about the final location. It starts with {self.end_location[0]}")
         else:
             print(f"You rolled high. {npc.name} is not at all suspicious, and is like an old friend.")
             if npc.character_class == "Healer":
                 print(f"{npc.name} is a healer! They restore your party's HP fully!")
                 self.hp = self.initial_hp
+                return None
             # give money
-            money = npc.bag
-            self.bag += money
+            money = npc.bag/len(self.party)
+            for player in self.party:
+                player.bag += money
+            print(f"{npc.name} gives everyone {money} gold!")
             # recieve item
             if npc.bag: #if there are items
-                give_item = random.choice(npc.bag)
-                print(f"{npc.name} gives you a {give_item}!")
-            
-            self.bag.append(give_item)
-            npc.bag.remove(give_item)  # removes the given item from NPC's bag
+                give_item = random.choice(list(npc.bag))
+                recepient = input(f"{npc.name} gives you a {npc.bag[give_item]}! "
+                                  "Please indicate who will recieve the item:")
+            self.party[recepient].bag.append(npc.bag[give_item])
+            npc.bag.pop(give_item)  # removes the given item from NPC's bag
     
     def battle(self, status, boss=False):
         """
