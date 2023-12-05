@@ -54,11 +54,23 @@ class Player:
                
                Posessions:
                Money - {self.money}
-               Items - {self.view_bag}
+               Items - {self.view_bag()}
                """)
     
     def view_bag(self, category="all"):
-        pass
+        bag = []
+        if category != "all":
+            bag_items = [self.bag[i] for i in self.bag if self.bag[i].type == category]
+            for item in bag_items:
+                print(item)
+                print(item.effects)
+                bag.append(str(item)+"\n"+str(item.effects))
+        else:
+            for item in self.bag:
+                print(item)
+                print(item.effects)
+                bag.append(str(item)+"\n"+item.effects)
+        return bag
     
     #?????
     def attack(self, enemy):
@@ -89,20 +101,20 @@ class Player:
         self.armor = True
         print(f"You bolster your defenses! You add {total_armor} to your defense until the next turn.")
     
-    def item_effects(self, item, action):
-        if item.type != "potion":
-                if "hp" in item.effects:
-                    self.hp += item.effects["hp"]
-                if "strength" in item.effects:
-                    self.strength += item.effects["strength"]
-                if "speed" in item.effects:
-                    self.speed += item.effects["speed"]
-                if "mana" in item.effects:
-                    self.mana += item.effects["mana"]
-                if "intelligence" in item.effects:
-                    self.intelligence += item.effects["intelligence"]
-                if "defence" in item.effects:
-                    self.defense += item.effects["defense"]
+    # def item_effects(self, item, action):
+    #     if item.type != "potion":
+    #             if "hp" in item.effects:
+    #                 self.hp += item.effects["hp"]
+    #             if "strength" in item.effects:
+    #                 self.strength += item.effects["strength"]
+    #             if "speed" in item.effects:
+    #                 self.speed += item.effects["speed"]
+    #             if "mana" in item.effects:
+    #                 self.mana += item.effects["mana"]
+    #             if "intelligence" in item.effects:
+    #                 self.intelligence += item.effects["intelligence"]
+    #             if "defence" in item.effects:
+    #                 self.defense += item.effects["defense"]
     
     def buy(self, item):
         if len(self.bag) > 10:
@@ -124,6 +136,7 @@ class Player:
                     self.intelligence += item.effects["intelligence"]
                 if "defence" in item.effects:
                     self.defense += item.effects["defense"]
+    
     # def give(self, other_player, item):
     #     self.bag.remove(item)
     #     if item.type != "potion":
@@ -143,6 +156,18 @@ class Player:
     def drink(self, item):
         if item.type == "potion":
             del self.bag[item.name]
+            if "hp" in item.effects:
+                    self.hp += item.effects["hp"]
+            if "strength" in item.effects:
+                self.strength += item.effects["strength"]
+            if "speed" in item.effects:
+                self.speed += item.effects["speed"]
+            if "mana" in item.effects:
+                self.mana += item.effects["mana"]
+            if "intelligence" in item.effects:
+                self.intelligence += item.effects["intelligence"]
+            if "defence" in item.effects:
+                self.defense += item.effects["defense"]
         else:
             #if you were dumb enough to drink a sword/shield you deserve it
             print("The gods of DnD look on with disdain \

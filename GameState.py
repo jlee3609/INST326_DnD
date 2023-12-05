@@ -12,7 +12,7 @@ def generate_npc(gamestate, boss=False):
     classes = ["Mage", "Healer", "Tank", "Assassin", "Berserker"]
     if boss == False:
         npc = Player.Player(random.choice(names), random.choice(classes), "NPC", 20)
-        npc.buy(random.choice(item for item in gamestate.items if item.cost <=100))
+        npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=100])])
     else:
         boss_names = ["Nicole", "Ariel", "Jenny", "Aric"]
         npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]), "NPC", 20)
@@ -44,7 +44,7 @@ class GameState:
         self.locations = location_data.copy()
         self.travel_options = []
         self.curr_location = "Village Square"
-        self.action_options = ["shop", "encounter"]
+        self.action_options = ["shop", "encounter", "drink", "travel"]
         self.party = party
         for place in self.locations["children"][self.curr_location]:
             self.travel_options.append(place)     
@@ -57,7 +57,7 @@ class GameState:
         # prob needs to be command line arg but like \(i.i)/???
         self.action_options+["drink","travel"]
         action = input(f"What would you like to do? Your options are: "
-                       f"{self.action_options}\n:")
+                       f"{self.action_options}:\n")
         #add option to drink potion, give item, etc
         
         if action == "travel":
@@ -83,7 +83,6 @@ class GameState:
             #if you'll still have items left, leave it in the dict for now
             #otherwise, pop it for now, but if it isn't bought we'll put it back.
             item =random.choice(list(self.items))
-            print(item)
             if self.items[item].quantity-1 != 0:
                 self.items[item].quantity -= 1
                 shoplist.append(self.items[item])
@@ -150,9 +149,9 @@ class GameState:
                     print("You successfully escape!")
                 else:
                     print("Yikes. Too slow! Getting ambushed.")
-                    self.battle()
+                    self.battle("ambush")
             elif action == "battle":
-                self.battle()
+                self.battle("neutral")
 
         elif attitude < 14:
             print(f"You rolled mid. {npc.name} is suspicious but ambivalent to your party.")
@@ -247,17 +246,29 @@ class GameState:
         if action == "shop":
             self.shop()
         elif action == "battle":
-            self.battle()
+            self.battle("surprise")
         elif action == "encounter":
             self.encounter()
         else:
             drinker = input("You have chosen to drink a potion. Who will be drinking? ")
-            potion_name = input(f"{drinker} will be drinking the potion! \
-                Please indicate which potion you wish to consume: {self.party[drinker].view_bag(category='potion')}")
+            x = self.party[drinker].view_bag(category='potion')
+            print("Listed are the potions in your bag.")
+            if x == []:
+                print("You have no potions to drink.")
+                return None
+            potion_name = input(f"{drinker} will be drinking the potion! "
+                f"Please indicate which potion you wish to consume: ")
             drinker = self.party[drinker]
             drinker.drink(drinker.bag[potion_name])
+            print(f"Successfully drank {potion_name}")
+            self.list_party(drinker.name)
     
-    def list_party():
-        pass
-          
+    def list_party(self, name=None):
+        if name != None:
+            player = self.party[name]
+            print(player)
+        else:
+            for p in self.party:
+                player = self.party[p]
+                print(player)
     
