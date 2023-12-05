@@ -43,7 +43,7 @@ class Item:
     def __str__(self):
         """
         """
-        return f"This is a {self.name}: {self.description} Its effects are: {self.effects}"
+        return f"This is a {self.name}: {self.description}"
         
     def stats(self):
         """

@@ -35,7 +35,7 @@ class Player:
         self.dice = dice
         self.hp, self.strength, self.speed, self.mana, \
             self.intelligence, self.defense = class_stats[pclass]
-        self.bag = []
+        self.bag = {}
         self.money = 100
         self.armor = False
     

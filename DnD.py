@@ -34,7 +34,10 @@ def main(item_path, location_path, num_players):
         for weapon in weapon_names:
             weapons.append(Item(items, "weapon", weapon)) 
         
-        items = potions+armors+weapons 
+        list_items = potions+armors+weapons
+        items = {}
+        for item in list_items:
+            items[item.name] = item
     
     #make game
     #load locations and set final location
@@ -74,5 +77,4 @@ def parse_args(arglist):
 
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
-    print(args)
     main(args.item_path, args.location_path, args.num_players)

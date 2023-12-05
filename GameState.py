@@ -28,10 +28,7 @@ class GameState:
     """
     
     Attributes:
-        items (list of dicts of str:(dict of str:vals): All the items in the game.
-            Each key is the item type; each value is a dict containing the 
-            description, cost, effects (another dict of str:int), and quantity 
-            of each item.
+        items (dict of Items, keys are names and values are the Item): all the items in the game
         locations ():
         travel_options ():
         location_data ():
@@ -81,48 +78,48 @@ class GameState:
         
         """
         shoplist = []
-        print("A merchant beckons you from a nearby alley. \
-            She opens a dark box, revealing the treasures within.")
+        print("A merchant beckons you from a nearby alley. She opens a dark box, revealing the treasures within.")
         for _ in range(3):
             #if you'll still have items left, leave it in the dict for now
             #otherwise, pop it for now, but if it isn't bought we'll put it back.
-            item =random.choice(self.items)
-            if self.items[item]-1 != 0:
-                self.items[item] -= 1
-                shoplist.append(item)
+            item =random.choice(list(self.items))
+            print(item)
+            if self.items[item].quantity-1 != 0:
+                self.items[item].quantity -= 1
+                shoplist.append(self.items[item])
             else:
-                shoplist.append(item)
-                self.items.pop[item]
+                shoplist.append(self.items[item])
+                self.items.pop(item)
         for item in shoplist:
             print(item)
             item.stats()
         answer = input("Would you like to purchase an item? (y/n)")
         if answer == "y":
-            purchase = input("Please input the index of the item you desire: (1,2,3)")
+            purchase = int(input("Please input the index of the item you desire: (1,2,3)"))-1
             victim = input("Please input the name of who is purchasing the item:")
             if victim not in self.party:
                 victim = input("Please input a valid name:")
-            confirmation = input(f"{victim} will lose {item.cost} and gain a(n) \
-                {item.name}. Confirm purchase? (y/n)")
+            confirmation = input(f"{victim} will lose {shoplist[purchase].cost} and gain a(n) \
+                {shoplist[purchase].name}. Confirm purchase? (y/n)")
             if confirmation == "y":
                 #add item to player bag, subtract money, remove item from shop
-                self.party[victim].buy(item)
-                shoplist.remove(item)
+                self.party[victim].buy(shoplist[purchase])
+                shoplist.pop(purchase)
                 print("Thank you for your purchase.")
                 #put unsold items back
                 for item in shoplist:
-                    if item in self.items:
-                        self.items[item] +=1
+                    if item.name in self.items:
+                        self.items[item.name].quantity +=1
                     else:
-                        self.items[item] = 1
+                        self.items[item.name] = item
             else:
                 print("Purchase cancelled. The merchant side-eyes you and \
                     reshuffles her wares. You sense she won't sell you anything more.")
                 for item in shoplist:
                     if item in self.items:
-                        self.items[item] +=1
+                        self.items[item.name].quantity +=1
                     else:
-                        self.items[item] = 1
+                        self.items[item.name] = 1
         else:
             print("The merchant side-eyes you and reshuffles her wares. \
                 She leaves as quietly as she came.")
@@ -246,7 +243,7 @@ class GameState:
             self.encounter()
         else:
             drinker = input("You have chosen to drink a potion. Who will be drinking? ")
-            potion_name = input(f"{drinker} will be drinking the potion!
+            potion_name = input(f"{drinker} will be drinking the potion! \
                 Please indicate which potion you wish to consume: {self.party[drinker].view_bag(category='potion')}")
             drinker = self.party[drinker]
             drinker.drink(drinker.bag[potion_name])
