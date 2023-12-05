@@ -1,10 +1,23 @@
 import random
 
 class DnDRoller:
+    """A dice roll simulation to determine outcomes, weapon damage, etc.
+
+    Attributes:
+    - dice (int): the type of die to roll (default is None) but can be 4, 6, 8, 10, 12, or 20.
+    """
     def __init__(self, dice=None):
+        """Initializes DnDRoller object.
+        """
         self.dice = dice
 
     def roll_d20(self, advantage=False, disadvantage=False):
+        """Simulates rolling a 20-sided die (d20).
+        
+        Side Effects:
+            If advantage is True, the roll is determined by the maximum of two rolls.
+            If disadvantage is True, the roll is determined by the minimum of two rolls.
+        """
         roll_result = random.randint(1, 20)
 
         if advantage and disadvantage:
@@ -18,11 +31,21 @@ class DnDRoller:
 
     # dice sets 4, 6, 8, 10, and 12
     def roll_sets(self, num_sides):
+        """Simulates rolling a die with a specified number of sides.
+
+        Side Effects:
+            Raises a ValueError if the number of sides is less than 4
+        """
         if num_sides < 4:
             raise ValueError("Number of sides on the die must be at least 4.")
         return random.randint(1, num_sides)
 
     def roll_with_set(self, num_sides):
+        """Simulates rolling a die with a specified number of sides using roll_sets.
+
+        Side Effects:
+            Calls the roll_sets method to perform the die roll.
+        """
         return self.roll_sets(num_sides)
 
 if __name__ == "__main__":
