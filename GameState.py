@@ -124,7 +124,7 @@ class GameState:
             print("The merchant side-eyes you and reshuffles her wares. \
                 She leaves as quietly as she came.")
                 
-    def encounter(self):
+    def encounter(self, initial_hp= 100):
         """An encounter with a randomly generated npc
         """
         npc = generate_npc(self)
@@ -134,22 +134,39 @@ class GameState:
         attitude = npc.roll_dice(20)
         print(f"{npc.name} rolling for initial impression... you rolled a {attitude}!")
         if attitude in range(7):
-            print(f"You rolled low, {npc.name} is suspicious and hostile to your party.")
-            #hostile lollll
-            #can choose to run or battle
-            #if they choose to run, do a speed check
-            #if they're too slow then they're losers and get ambushed
-            #call the battle function
-            pass
+            print(f"You rolled low. {npc.name} is suspicious and hostile to your party.")
+            action = input("Do you want to run or engage in battle? (run/battle): ")
+
+            if action == "run":
+            # do a speed check
+                speed_check = self.dice(20)
+                if speed_check > 10:
+                    print("You successfully escape!")
+                else:
+                    print("Yikes. Too slow! Getting ambushed.")
+                    self.battle()
+            elif action == "battle":
+                self.battle()
+
         elif attitude < 14:
-            print(f"You rolled mid, {npc.name} is suspicious but ambivalent to your party.")
-            #ambivalent, give hint about final location
-            pass
+            print(f"You rolled mid. {npc.name} is suspicious but ambivalent to your party.")
+            print(f"{npc.name} deliberates for a minute, and ultimately gives you a clue about the final location. It starts with 'end_location[0]'")
         else:
-            print(f"You rolled high, {npc.name} is friendly and welcoming to your party.")
-            #generous
-            #give money, give item, restore hp if class is healer
-            pass
+            print(f"You rolled high. {npc.name} is not at all suspicious, and is like an old friend.")
+            if npc.character_class == "Healer":
+                print(f"{npc.name} is a healer! They restore your party's HP fully!")
+                self.hp = self.initial_hp
+            # give money
+            money = npc.bag
+            self.bag += money
+            # recieve item
+            if npc.bag: #if there are items
+                give_item = random.choice(npc.bag)
+                print(f"{npc.name} gives you a {give_item}!")
+            
+            self.bag.append(give_item)
+            npc.bag.remove(give_item)  # removes the given item from NPC's bag
+    
     def battle(self, status, boss=False):
         """
         """
