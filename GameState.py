@@ -13,9 +13,7 @@ def generate_npc(gamestate, boss=False):
     classes = ["Mage", "Healer", "Tank", "Assassin", "Berserker"]
     if boss == False:
         npc = Player.Player(random.choice(names), random.choice(classes), "NPC")
-        print("b4 buy")
         npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=100])])
-        print("after")
     else:
         boss_names = ["Nicole", "Ariel", "Jenny", "Aric"]
         npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]), "NPC")
@@ -155,7 +153,7 @@ class GameState:
         print(f"You encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.")
         
         #npc rolls for attitude/reaction
-        attitude = npc.roll_dice(20)
+        attitude = 5#npc.roll_dice(20)
         print(f"{npc.name} rolling for initial impression... you rolled a {attitude}!")
         if attitude in range(7):
             print(f"You rolled low. {npc.name} is suspicious and hostile to your party.")
@@ -246,7 +244,10 @@ class GameState:
     def battle_start(self, queue, npc):
         turn = 0
         self.list_party()
+        print("before npc")
         self.list_party(npc=npc)
+        print("after npc")
+        #debug
         while npc.hp != 0 and len(self.party) > 0:
             p = queue[turn % len(queue)]
             turn+=1
@@ -296,6 +297,7 @@ class GameState:
         else:
             drinker = input("You have chosen to drink a potion. Who will be drinking? ")
             x = self.party[drinker].view_bag(category='potion')
+            print(x)
             print("Listed are the potions in your bag.")
             if x == []:
                 print("You have no potions to drink.")

@@ -58,18 +58,15 @@ class Player:
                """)
     
     def view_bag(self, category="all"):
+        #print("start bag")
         bag = []
         if category != "all":
             bag_items = [self.bag[i] for i in self.bag if self.bag[i].type == category]
             for item in bag_items:
-                print(item)
-                print(item.effects)
-                bag.append(str(item)+"\n"+str(item.effects))
+                bag.append(str(item)+" "+str(item.effects))
         else:
             bag_items = [self.bag[i] for i in self.bag]
             for item in bag_items:
-                print(item)
-                print(item.effects)
                 bag.append(str(item)+" "+str(item.effects))
         return bag
     
@@ -118,7 +115,7 @@ class Player:
     
     def buy(self, item):
         if len(self.bag) == 5:
-            self.view_bag()
+            print(self.view_bag())
             discard = input("Your bag can only carry so much. Drink or use an "
                             "item to continue purchase.")
             self.bag.pop(discard)
@@ -207,9 +204,9 @@ class Player:
         elif turn == "Drink":
             drinker = input("You have chosen to drink a potion.")
             x = self.view_bag(category='potion')
-            print("Listed are the potions in your bag.")
+            
             if x != []:
-                x = self.view_bag(category='potion')
+                print(x)
                 print("Listed are the potions in your bag.")
                 potion_name = input("Please indicate which potion you wish to consume or input cancel: ")
                 if potion_name != "cancel":
@@ -234,11 +231,11 @@ class Player:
         if len(weapons)>1:
             print("You can only carry one weapon at a time. "
                     "Please choose a weapon to discard!")
-            self.view_bag("weapon")
+            print(self.view_bag("weapon"))
             discard = input("Weapon name: ")
             self.bag.pop(discard)
         if len(self.bag) > 5:
-            self.view_bag()
+            print(self.view_bag())
             discard = input("Your bag can only carry so much. "
                   "Drink or discard an item to continue: ")
             self.bag.pop(discard)
