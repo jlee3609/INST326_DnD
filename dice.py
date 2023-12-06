@@ -49,20 +49,26 @@ class DnDRoller:
         """
         return self.roll_sets(num_sides)
 
-    def roll_weapon(self, dice, advantage=False):
-        """Simulates rolling the dice associated with a weapon in json file.
+    def roll_weapon(self, dice):
+        def roll_weapon(self, weapon_dice, advantage=False):
+        """Simulates rolling the specified die associated with a weapon.
 
         Args:
-            dice (list): The input list representing possible dice sets. It should contain at least one integer.
-            advantage (boolean): A flag to indicate whether advantage is applied. Defaults to False.
-        """
-        if advantage:
-            num_sides = max(dice[1], dice[0])  #the second, the higher die
-        else:
-            num_sides = min(dice[0], dice[1])  #the first element, the lower die
+            weapon_dice (dict): A dictionary representing the weapon's attributes, including 'damage_attr'.
 
-        result = self.roll_sets(num_sides)
-        return result
+        Side Effects:
+            Prints the result of the simulated weapon roll.
+
+        Raises:
+            ValueError: If 'damage_attr' is not present in the weapon_dice.
+        """
+        print("Rolling weapon...")
+        if "damage_attr" in weapon_dice:
+            num_sides = weapon_dice["damage_attr"]
+            result = self.roll_with_set(num_sides)
+            print(f"You rolled a d{num_sides} for damage and got: {result}")
+        else:
+            raise ValueError("Pick a real weapon, why don'tcha?")
 
 if __name__ == "__main__":
     roller = DnDRoller()
@@ -81,10 +87,17 @@ if __name__ == "__main__":
             disadvantage = input("Do you have disadvantage? (y/n): ").lower() == 'y'
             result = roller.roll_d20(advantage=advantage, disadvantage=disadvantage)
             print(f"You rolled a d20 and got: {result}")
-        elif choice == '2':
-            num_sides = int(input("Enter the number of sides for the lower die: "))
-            result = roller.roll_with_set(num_sides)
-            print(f"You rolled a d{num_sides} and got: {result}")
+          elif choice == '2':
+                 weapon_choice = input("Enter the name of the weapon: ").strip()
+                 
+                 weapon_data = items_json['weapon'].get(weapon_choice)
+                 
+                 if weapon_data and 'damage_attr' in weapon_data:
+                    num_sides = weapon_data['damage_attr']
+                    result = roller.roll_with_set(num_sides)
+                    print(f"You rolled the d{num_sides} for damage and got: {result}. Add this to existing damage.")
+                 else:
+                     print("Invalid weapon choice.")
         elif choice == '3':
             num_sides = int(input("Enter the number of sides for the higher die: "))
             result = roller.roll_with_set(num_sides)
