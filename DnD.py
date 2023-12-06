@@ -58,6 +58,7 @@ def main(item_path, location_path, num_players):
     if game.curr_location == end_location:
         print(f"Your party has reached {end_location}! Please prepare to meet the final boss.")
         game.new_turn()
+        x=input("\nNow entering Boss Battle! Prepare yourselves.\n")
         game.battle("neutral", boss=True)
     
     if len(game.party) == 0:
