@@ -11,7 +11,7 @@ def generate_npc(gamestate, boss=False):
             "Isabeau", "Eldon", "Lyria", "Caden", "Rowena", "Thaddeus", "Anara",
             "Finnian", "Livia", "Dorian", "Tamsin", "Galadriel", "Merek"]
     classes = ["Mage", "Healer", "Tank", "Assassin", "Berserker"]
-    if True: #boss == False:
+    if boss == False:
         npc = Player.Player(random.choice(names), random.choice(classes), "NPC")
         print("b4 buy")
         npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=100])])
@@ -301,11 +301,12 @@ class GameState:
                 print("You have no potions to drink.")
                 return None
             potion_name = input(f"{drinker} will be drinking the potion! "
-                f"Please indicate which potion you wish to consume: ")
-            drinker = self.party[drinker]
-            drinker.drink(drinker.bag[potion_name])
-            print(f"Successfully drank {potion_name}")
-            self.list_party(drinker.name)
+                f"Please indicate which potion you wish to consume or input cancel: ")
+            if potion_name != "cancel":
+                drinker = self.party[drinker]
+                drinker.drink(drinker.bag[potion_name])
+                print(f"Successfully drank {potion_name}")
+                self.list_party(drinker.name)
     
     def list_party(self, name="all", npc=None):
         if name != "all" and npc == None:

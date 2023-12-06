@@ -211,10 +211,11 @@ class Player:
             if x != []:
                 x = self.view_bag(category='potion')
                 print("Listed are the potions in your bag.")
-                potion_name = input("Please indicate which potion you wish to consume: ")
-                self.drink(self.bag[potion_name])
-                print(f"Successfully drank {potion_name}")
-                gamestate.list_party(self.name)
+                potion_name = input("Please indicate which potion you wish to consume or input cancel: ")
+                if potion_name != "cancel":
+                    self.drink(self.bag[potion_name])
+                    print(f"Successfully drank {potion_name}")
+                    gamestate.list_party(self.name)
             else:
                 print("You have no potions to drink.")
             
