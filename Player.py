@@ -244,7 +244,7 @@ class Player:
         weapons = [self.bag[w] for w in self.bag if self.bag[w].type == "weapon"]
         if len(weapons)>1:
             print("You can only carry one weapon at a time. "
-                            "Please choose a weapon to discard!")
+                    "Please choose a weapon to discard!")
             self.view_bag("weapons")
             discard = input("Weapon name: ")
             self.bag.pop[discard]

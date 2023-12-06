@@ -207,14 +207,20 @@ class GameState:
         if status == "ambush":
             for player in self.party:
                 self.party[player].speed -=debuff
-            everyone = [self.party[p] for p in self.party].append(npc)
+            if len(self.party) > 1:
+                everyone = [self.party[p] for p in self.party].append(npc)
+            else:
+                everyone = [self.party.get(list(self.party)[0]),npc]
             queue = sorted(everyone, key= lambda s: s.speed)
             self.battle_start(queue, npc)
         
         elif status == "surprise":
             for player in self.party:
                 self.party[player].speed +=debuff
-            everyone = [self.party[p] for p in self.party] #.append(npc)
+            if len(self.party) > 1:
+                everyone = [self.party[p] for p in self.party].append(npc)
+            else:
+                everyone = [self.party.get(list(self.party)[0]),npc]
             queue = sorted(everyone, key= lambda s: s.speed)
             self.battle_start(queue, npc)
         
