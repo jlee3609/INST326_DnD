@@ -87,7 +87,7 @@ class Player:
                 if enemy.defense<(attack+weapon.damage) else 0
         else:
             if not npc:
-                print(f"You attempt to hit {enemy.name} with your bare fists."
+                print(f"You attempt to hit {enemy.name} with your bare fists. "
                   "Unfortunately, you can only deal 5 bonus HP dmg.")
             net_dmg = enemy.defense-5-attack if enemy.defense<(5+attack) \
             else 0
@@ -108,7 +108,7 @@ class Player:
             
     def defend(self):
         armor = [self.bag[w] for w in self.bag if self.bag[w].type == "armor"]
-        total_armor = 0
+        total_armor = 5
         for a in armor:
             total_armor-=a.damage
         self.defense += total_armor
@@ -216,14 +216,34 @@ class Player:
             else:
                 self.hp-=5
                 print(f"You fail to escape battle and lose 5 HP as you are dragged back.")
+        elif turn == "Drink":
+            drinker = input("You have chosen to drink a potion.")
+            x = self.view_bag(category='potion')
+            print("Listed are the potions in your bag.")
+            if x != []:
+                x = self.view_bag(category='potion')
+                print("Listed are the potions in your bag.")
+                potion_name = input("Please indicate which potion you wish to consume: ")
+                self.drink(self.bag[potion_name])
+                print(f"Successfully drank {potion_name}")
+                gamestate.list_party(self)
+            else:
+                print("You have no potions to drink.")
+            
         else:
             print("Please input a valid action.")
-            self.battle_turn(npc)
+            self.battle_turn_p(gamestate, npc)
         pass
     def battle_turn_n(self, gamestate, party):
         print(f"It's {self.name}'s turn.")
         hp_sort = sorted(party, key= lambda p: p.hp)
         self.attack(hp_sort[0], npc=True)
         pass
+    
+    def bag_check(self):
+        weapons = [self.bag[w] for w in self.bag if self.bag[w].type == "weapon"]
+        if len(weapons)>1:
+            print("You can only carry one weapon at a time. Please choose a weapon to discard!")
+            
 # nicole = Player("nicole", "Healer")
 # print(nicole.intelligence)
