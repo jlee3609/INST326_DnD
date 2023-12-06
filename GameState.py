@@ -55,7 +55,7 @@ class GameState:
     def new_turn(self):
         """
         """
-        print(f"\nYou are currently in {self.curr_location}")
+        print(f"\nYou are currently in {self.curr_location}.")
         
         # prob needs to be command line arg but like \(i.i)/???
         if "drink" not in self.action_options:
@@ -301,10 +301,11 @@ class GameState:
             self.battle("surprise")
         elif action == "encounter":
             self.encounter()
-        else:
+        elif action == "drink":
             drinker = input("You have chosen to drink a potion. Who will be drinking? ")
             if drinker not in self.party:
                 drinker = input("Please select someone in the party: ")
+                # breaks if you don't select someone in party again or say `no`
             x = self.party[drinker].view_bag()
             print(x)
             print("Listed are the items in your bag.")
@@ -328,6 +329,10 @@ class GameState:
                 else:
                     self.list_party(drinker.name)
                     self.party.pop(drinker.name)
+        else:
+            print("You have angered the gods. Choose from your available options. \n")
+            self.new_turn()
+            
             
     
     def list_party(self, name="all", npc=None):
