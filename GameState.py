@@ -62,6 +62,8 @@ class GameState:
             self.action_options.append("drink")
         if "travel" not in self.action_options:
             self.action_options.append("travel")
+        if "view stats" not in self.action_options:
+            self.action_options.append("view stats")
         action = input(f"What would you like to do? Your options are: "
                        f"{self.action_options}:\n")
         #add option to drink potion, give item, etc
@@ -70,6 +72,10 @@ class GameState:
             destination = input(f"Where would you like to go?:"
                                 f"{self.travel_options}\n")
             self.travel(destination)
+        if action == "view stats":
+            p = input("Please indicate which party member you wish to view, or input 'all' "
+                      f"{[p for p in self.party]}: \n")
+            self.list_party(name=p)
         else:
             self.scenario(action)
         
@@ -88,7 +94,7 @@ class GameState:
         for _ in range(3):
             #if you'll still have items left, leave it in the dict for now
             #otherwise, pop it for now, but if it isn't bought we'll put it back.
-            item =random.choice(list(self.items))
+            item = random.choice(list(self.items))
             if self.items[item].quantity-1 != 0:
                 self.items[item].quantity -= 1
                 shoplist.append(self.items[item])
@@ -98,7 +104,7 @@ class GameState:
         for item in shoplist:
             print(item)
             item.stats()
-            print(f"This item costs {item.cost} gold.")
+            print(f"This item costs {item.cost} gold.\n")
         answer = input("Would you like to purchase an item? (y/n)")
         if answer == "y":
             purchase = int(input("Please input the index of the item you desire: (1,2,3): "))-1
@@ -110,10 +116,10 @@ class GameState:
                 print("The merchant looks at you with disgust. Those who cannot do basic math cannot purchase items.")
                 return None
             weapons = [self.party[victim].bag[w] for w in self.party[victim].bag if self.party[victim].bag[w].type == "weapon"]
-            if (len(weapons) == 1) & shoplist[purchase].type == "weapon":
+            if (len(weapons) == 1) & (shoplist[purchase].type == "weapon"):
                 print("Reminder that you already have one weapon.\n"
                       "If you purchase another, you will be forced to drop one without recovering any gold.")
-            confirmation = input(f"{victim} will lose {shoplist[purchase].cost} and gain a(n) "
+            confirmation = input(f"{victim} will lose {shoplist[purchase].cost} gold and gain a(n) "
                 f"{shoplist[purchase].name}. Confirm purchase? (y/n): ")
             if confirmation == "y":
                 #add item to player bag, subtract money, remove item from shop
@@ -133,7 +139,7 @@ class GameState:
                     if item in self.items:
                         self.items[item.name].quantity +=1
                     else:
-                        self.items[item.name] = 1
+                        self.items[item.name] = item
             self.party[victim].bag_check()
         else:
             print("The merchant side-eyes you and reshuffles her wares. "
@@ -147,7 +153,7 @@ class GameState:
         print(f"You encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.")
         
         #npc rolls for attitude/reaction
-        attitude = npc.roll_dice(20)
+        attitude = 5#npc.roll_dice(20)
         print(f"{npc.name} rolling for initial impression... you rolled a {attitude}!")
         if attitude in range(7):
             print(f"You rolled low. {npc.name} is suspicious and hostile to your party.")
@@ -163,7 +169,7 @@ class GameState:
                     print("Yikes. Too slow! Getting ambushed.")
                     self.battle("ambush")
             elif action == "battle":
-                self.battle("neutral")
+                self.battle("neutral", encounter_npc=npc)
 
         elif attitude < 14:
             print(f"You rolled mid. {npc.name} is suspicious but ambivalent to your party.")
@@ -182,7 +188,7 @@ class GameState:
             # recieve item
             give_item = random.choice(list(npc.bag))
             recepient = input(f"{npc.name} gives you a {npc.bag[give_item].name}! "
-                                  "Please indicate who will recieve the item:")
+                                  "Please indicate who will recieve the item: ")
             if recepient not in self.party:
                 recepient = input("Please input a valid name: ")
             self.party[recepient].bag[npc.bag[give_item].name] = npc.bag[give_item]
@@ -190,7 +196,7 @@ class GameState:
             self.party[recepient].bag_check()
             #npc.bag.pop(give_item)  # removes the given item from NPC's bag
     
-    def battle(self, status, boss=False):
+    def battle(self, status, boss=False, encounter_npc=None):
         """
         """
         #1 ENEMY ONLY IM ANNOYED
@@ -202,25 +208,34 @@ class GameState:
         #boss battles always start neutral
         #status can be ambush (bad for player), surprise (good for player), or neutral
         debuff = 3
-        npc = generate_npc(self, boss)
+        if encounter_npc == None:
+            npc = generate_npc(self, boss)
+        else:
+            npc = encounter_npc
         
         if status == "ambush":
             for player in self.party:
                 self.party[player].speed -=debuff
-            everyone = [self.party[p] for p in self.party].append(npc)
+            if len(self.party) > 1:
+                everyone = [self.party[p] for p in self.party]+[npc]
+            else:
+                everyone = [self.party.get(list(self.party)[0]),npc]
             queue = sorted(everyone, key= lambda s: s.speed)
             self.battle_start(queue, npc)
         
         elif status == "surprise":
             for player in self.party:
                 self.party[player].speed +=debuff
-            everyone = [self.party[p] for p in self.party] #.append(npc)
+            if len(self.party) > 1:
+                everyone = [self.party[p] for p in self.party]+[npc]
+            else:
+                everyone = [self.party.get(list(self.party)[0]),npc]
             queue = sorted(everyone, key= lambda s: s.speed)
             self.battle_start(queue, npc)
         
         else:
             if len(self.party) > 1:
-                everyone = [self.party[p] for p in self.party].append(npc)
+                everyone = [self.party[p] for p in self.party]+[npc]
             else:
                 everyone = [self.party.get(list(self.party)[0]),npc]
             queue = sorted(everyone, key= lambda s: s.speed)
@@ -228,6 +243,10 @@ class GameState:
             
     def battle_start(self, queue, npc):
         turn = 0
+        self.list_party()
+        self.list_party(npc=npc)
+
+        #debug
         while npc.hp != 0 and len(self.party) > 0:
             p = queue[turn % len(queue)]
             turn+=1
@@ -277,21 +296,25 @@ class GameState:
         else:
             drinker = input("You have chosen to drink a potion. Who will be drinking? ")
             x = self.party[drinker].view_bag(category='potion')
+            print(x)
             print("Listed are the potions in your bag.")
             if x == []:
                 print("You have no potions to drink.")
                 return None
             potion_name = input(f"{drinker} will be drinking the potion! "
-                f"Please indicate which potion you wish to consume: ")
-            drinker = self.party[drinker]
-            drinker.drink(drinker.bag[potion_name])
-            print(f"Successfully drank {potion_name}")
-            self.list_party(drinker.name)
+                f"Please indicate which potion you wish to consume or input cancel: ")
+            if potion_name != "cancel":
+                drinker = self.party[drinker]
+                drinker.drink(drinker.bag[potion_name])
+                print(f"Successfully drank {potion_name}")
+                self.list_party(drinker.name)
     
-    def list_party(self, name=None):
-        if name != None:
+    def list_party(self, name="all", npc=None):
+        if name != "all" and npc == None:
             player = self.party[name]
             print(player)
+        elif npc != None:
+            print(npc)
         else:
             for p in self.party:
                 player = self.party[p]
