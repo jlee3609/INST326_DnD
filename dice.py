@@ -10,6 +10,22 @@ class DnDRoller:
         """Initializes DnDRoller object.
         """
         self.dice = dice
+    
+    def decide_advantage(self):
+        """Decides if player is advantaged or disadvantaged (for option 1 below)
+        
+        Side Effects:
+            Prints messages indicating if player is advantaged or not along with
+            the number that decided their fate.
+        Returns:
+            int: result of d20 roll.
+        """
+        decision = self.roll_d20()
+        if decision > 10:
+            print("You're advantaged! Congratulations.")
+        else:
+            print("Better luck next time.")
+        print(f"{decision} determined your fate.")
 
     def roll_d20(self, advantage=False, disadvantage=False):
         """Simulates rolling a 20-sided die (d20).
@@ -17,8 +33,11 @@ class DnDRoller:
         Side Effects:
             If advantage is True, the roll is determined by the maximum of two rolls.
             If disadvantage is True, the roll is determined by the minimum of two rolls.
+        Returns:
+            result (int): result of d20 roll, depending on advantage (max) or not (min)
         """
         roll_result = random.randint(1, 20)
+        result = roll_result
 
         if advantage and disadvantage:
             raise ValueError("Can't have both. Try again!")
@@ -38,14 +57,14 @@ class DnDRoller:
             raise ValueError("Number of sides on the die must be at least 4.")
         return random.randint(1, num_sides)
     
-    def roll_with_set(self, num_sides):
+    def roll_with_set(self, num_sides): #to be used in weapon dice
         """Simulates rolling a die with a specified number of sides using roll_sets.
         Side Effects:
             Calls the roll_sets method to perform the die roll.
         """
         return self.roll_sets(num_sides)
     
-    def roll_weapon(self, weapon_dice):
+    def roll_weapon(self, weapon_dice): 
         """Simulates rolling the specified die associated with a weapon.
         Args:
             dice (list): The input list representing possible dice sets. It should contain at least one integer.
@@ -65,7 +84,9 @@ class DnDRoller:
             
 if __name__ == "__main__":
     roller = DnDRoller()
-
+    
+    roller.decide_advantage()
+    
     while True:
         print("Choose an option:")
         print("1. Roll a d20.")
@@ -80,7 +101,7 @@ if __name__ == "__main__":
             items_json = json.load(file)
 
         if choice == '1':
-            advantage = input("Do you have advantage? (y/n): ").lower() == 'y'
+            advantage = input("Do you have advantage? Be honest! (y/n): ").lower() == 'y'
             if advantage == True:
                 result = roller.roll_d20(advantage=advantage)
                 print(f"You rolled a d20 and got: {result}")
