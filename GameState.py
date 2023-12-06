@@ -317,9 +317,13 @@ class GameState:
                                 "or input 'cancel': ")
             if (potion_name != "cancel") & (potion_name in self.party[drinker].bag):
                 drinker = self.party[drinker]
-                drinker.drink(drinker.bag[potion_name])
-                print(f"Successfully drank {potion_name}")
-                self.list_party(drinker.name)
+                death = drinker.drink(drinker.bag[potion_name])
+                if death != False:
+                    print(f"Successfully drank {potion_name}")
+                    self.list_party(drinker.name)
+                else:
+                    self.list_party(drinker.name)
+                    self.party.pop(drinker.name)
             elif potion_name != "cancel":
                 potion_name = input("Please input a valid potion: ")
                 drinker = self.party[drinker]
