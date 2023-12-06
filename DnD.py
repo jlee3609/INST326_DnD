@@ -58,6 +58,8 @@ def main(item_path, location_path, num_players):
     print(f"Your party has reached {end_location}! Please prepare to meet the final boss.")
     game.new_turn()
     game.battle("neutral", boss=True)
+    
+    print("Congratulations on completing the Adventures of INST326!")
 
 def parse_args(arglist):
     """ Parse command-line arguments.

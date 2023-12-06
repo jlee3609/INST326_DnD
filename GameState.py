@@ -18,9 +18,9 @@ def generate_npc(gamestate, boss=False):
         boss_names = ["Nicole", "Ariel", "Jenny", "Aric"]
         npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]), "NPC")
         npc.money +=500
-        npc.buy(random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200]))
-        npc.buy(random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200]))
-        npc.buy(random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200]))
+        npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200])])
+        npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200])])
+        npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200])])
         for i in (npc.hp, npc.defense, npc.speed, npc.intelligence, npc.mana, npc.strength):
             i+=20
     return npc
