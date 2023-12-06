@@ -226,7 +226,7 @@ class Player:
                 potion_name = input("Please indicate which potion you wish to consume: ")
                 self.drink(self.bag[potion_name])
                 print(f"Successfully drank {potion_name}")
-                gamestate.list_party(self)
+                gamestate.list_party(self.name)
             else:
                 print("You have no potions to drink.")
             
@@ -245,7 +245,7 @@ class Player:
         if len(weapons)>1:
             print("You can only carry one weapon at a time. "
                     "Please choose a weapon to discard!")
-            self.view_bag("weapons")
+            self.view_bag("weapon")
             discard = input("Weapon name: ")
             self.bag.pop[discard]
             
