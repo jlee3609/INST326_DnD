@@ -242,7 +242,7 @@ class GameState:
         """
         self.curr_location = destination
         self.parent_location = self.locations["parent"][self.curr_location]
-        if self.locations["children"][self.curr_location]:
+        if self.curr_location in self.locations["children"]:
             self.travel_options = []
             for locale in self.locations["children"][self.curr_location]:
                 self.travel_options.append(locale)
