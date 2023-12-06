@@ -100,6 +100,7 @@ if __name__ == "__main__":
             result = roller.roll_with_set(num_sides)
             print(f"You rolled a d{num_sides} and got: {result}")
         elif choice == '4':
+            print("Farewell...")
             break
         else:
             print("Choose from the above choices. No funny business.")
