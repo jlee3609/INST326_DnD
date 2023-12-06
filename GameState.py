@@ -314,7 +314,7 @@ class GameState:
                 print("You have no items to drink.")
                 return None
             print(f"{drinker} will be drinking the potion! ")
-            potion_name = input("Please indicate which potion you wish to consume"
+            potion_name = input("Please indicate which potion you wish to consume "
                                 "or input 'cancel': ")
             if (potion_name != "cancel") & (potion_name in self.party[drinker].bag):
                 drinker = self.party[drinker]

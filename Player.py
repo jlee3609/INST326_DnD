@@ -216,7 +216,7 @@ class Player:
                 ally = input(f"Please indicate who you want to heal: {[p for p in gamestate.party]}")
             self.heal(gamestate.party[ally])
         elif turn == "Defend":
-            #defends extra if they have armor, otherwise only defends 1 extra from base stats
+            #defends extra if they have armor, otherwise only defends 5 extra from base stats
             self.defend()
 
         elif turn == "Run":
