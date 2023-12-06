@@ -55,7 +55,7 @@ class GameState:
     def new_turn(self):
         """
         """
-        print(f"You are currently in {self.curr_location}")
+        print(f"\nYou are currently in {self.curr_location}")
         
         # prob needs to be command line arg but like \(i.i)/???
         if "drink" not in self.action_options:
