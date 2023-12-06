@@ -11,9 +11,11 @@ def generate_npc(gamestate, boss=False):
             "Isabeau", "Eldon", "Lyria", "Caden", "Rowena", "Thaddeus", "Anara",
             "Finnian", "Livia", "Dorian", "Tamsin", "Galadriel", "Merek"]
     classes = ["Mage", "Healer", "Tank", "Assassin", "Berserker"]
-    if boss == False:
+    if True: #boss == False:
         npc = Player.Player(random.choice(names), random.choice(classes), "NPC")
+        print("b4 buy")
         npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=100])])
+        print("after")
     else:
         boss_names = ["Nicole", "Ariel", "Jenny", "Aric"]
         npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]), "NPC")
@@ -73,8 +75,8 @@ class GameState:
                                 f"{self.travel_options}\n")
             self.travel(destination)
         if action == "view stats":
-            p = input("Please indicate which party member you wish to view, or input 'all': "
-                      f"{self.party.keys}")
+            p = input("Please indicate which party member you wish to view, or input 'all' "
+                      f"{[p for p in self.party]}: \n")
             self.list_party(name=p)
         else:
             self.scenario(action)
@@ -169,7 +171,7 @@ class GameState:
                     print("Yikes. Too slow! Getting ambushed.")
                     self.battle("ambush")
             elif action == "battle":
-                self.battle("neutral")
+                self.battle("neutral", encounter_npc=npc)
 
         elif attitude < 14:
             print(f"You rolled mid. {npc.name} is suspicious but ambivalent to your party.")
@@ -196,7 +198,7 @@ class GameState:
             self.party[recepient].bag_check()
             #npc.bag.pop(give_item)  # removes the given item from NPC's bag
     
-    def battle(self, status, boss=False):
+    def battle(self, status, boss=False, encounter_npc=None):
         """
         """
         #1 ENEMY ONLY IM ANNOYED
@@ -208,7 +210,10 @@ class GameState:
         #boss battles always start neutral
         #status can be ambush (bad for player), surprise (good for player), or neutral
         debuff = 3
-        npc = generate_npc(self, boss)
+        if encounter_npc == None:
+            npc = generate_npc(self, boss)
+        else:
+            npc = encounter_npc
         
         if status == "ambush":
             for player in self.party:
