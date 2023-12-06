@@ -47,7 +47,7 @@ class GameState:
         self.locations = location_data.copy()
         self.travel_options = []
         self.curr_location = "Village Square"
-        self.action_options = ["shop", "encounter", "drink", "travel"]
+        self.action_options = ["shop", "encounter"]
         self.party = party
         for place in self.locations["children"][self.curr_location]:
             self.travel_options.append(place)     
