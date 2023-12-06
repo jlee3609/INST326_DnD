@@ -86,13 +86,13 @@ class Player:
             net_dmg = enemy.defense-weapon.damage-attack \
                 if enemy.defense<(attack+weapon.damage) else 0
         else:
-            if ~npc:
+            if not npc:
                 print(f"You attempt to hit {enemy.name} with your bare fists."
                   "Unfortunately, you can only deal 5 bonus HP dmg.")
             net_dmg = enemy.defense-5-attack if enemy.defense<(5+attack) \
             else 0
         enemy.hp+=net_dmg
-        print(f"You hit {enemy.name} for {net_dmg} HP! They now have {enemy.hp} HP.")
+        print(f"{self.name} hit {enemy.name} for {net_dmg} HP! They now have {enemy.hp} HP.")
             
 
     def heal(self, ally):
