@@ -18,9 +18,9 @@ def generate_npc(gamestate, boss=False):
         boss_names = ["Nicole", "Ariel", "Jenny", "Aric"]
         npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]), "NPC")
         npc.money +=500
-        npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
-        npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
-        npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
+        npc.buy(random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200]))
+        npc.buy(random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200]))
+        npc.buy(random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200]))
         for i in (npc.hp, npc.defense, npc.speed, npc.intelligence, npc.mana, npc.strength):
             i+=20
     return npc
@@ -154,9 +154,9 @@ class GameState:
         print(f"You encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.")
         
         #npc rolls for attitude/reaction
-        attitude = 5#npc.roll_dice(20)
+        attitude = npc.roll_dice(20)
         print(f"{npc.name} rolling for initial impression... you rolled a {attitude}!")
-        if attitude in range(7):
+        if attitude in range(10):
             print(f"You rolled low. {npc.name} is suspicious and hostile to your party.")
             action = input("Do you want to run or engage in battle? (run/battle): ")
 
@@ -193,9 +193,10 @@ class GameState:
             if recepient not in self.party:
                 recepient = input("Please input a valid name: ")
             self.party[recepient].bag[npc.bag[give_item].name] = npc.bag[give_item]
-            npc.give(self.party[recepient], npc.bag[give_item])
+            self.party[recepient].gift(npc.bag[give_item])
+            npc.discard(npc.bag[give_item])
             self.party[recepient].bag_check()
-            #npc.bag.pop(give_item)  # removes the given item from NPC's bag
+            
     
     def battle(self, status, boss=False, encounter_npc=None):
         """
@@ -248,18 +249,24 @@ class GameState:
         self.list_party(npc=npc)
 
         #debug
-        while npc.hp > 0 and len(self.party) > 0:
+        while npc.hp > 0 and len(self.party) > 0 and len(queue) >1:
             p = queue[turn % len(queue)]
             turn+=1
             if p.type=="Player":
-                if p.battle_turn_p(self, npc) == False:
-                    queue.remove(p)
+                if p.hp > 0:
+                    if p.battle_turn_p(self, npc) == False:
+                        queue.remove(p)
+                else:
+                    if p in queue:
+                        queue.remove(p)
+                    self.party.pop(p.name)
+                    print(f"{p.name} has died.")
             else:
-                p.battle_turn_n(self, [p for p in queue if p.type!="NPC"])
-            if p.hp <= 0:
-                queue.remove(p)
-                self.party.pop(p.name)
-                print(f"{p.name} has died.")
+                if len(queue) == 1:
+                    pass
+                else:
+                    p.battle_turn_n(self, [p for p in queue if p.type!="NPC"])
+            
         print(f"The battle has ended. {npc.name if npc.hp <= 0 else 'Your party'} has lost.")
         if npc.hp <= 0:
             print("You reap the spoils of the battle! Gain 50 gold per person.")

@@ -53,7 +53,6 @@ def main(item_path, location_path, num_players):
     while game.curr_location != end_location:
         game.new_turn()
 
-    print("loop break")
     #end the game somehow?
     #print that its the endgame locaiton, make a boss npc, and do battle
     print(f"Your party has reached {end_location}! Please prepare to meet the final boss.")

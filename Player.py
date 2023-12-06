@@ -6,11 +6,11 @@ from dice import DnDRoller
 
 #a problem for later
 class_stats = {
-    "Mage": [100,5,5,5,5,5],
-    "Healer": [100,5,5,5,5,5],
-    "Tank": [100,5,5,5,5,5],
-    "Assassin": [100,5,5,5,5,5],
-    "Berserker": [100,5,5,5,5,5]
+    "Mage": [100,5,10,20,5,5],
+    "Healer": [100,10,5,20,5,5],
+    "Tank": [100,5,5,5,5,10],
+    "Assassin": [100,5,20,5,5,5],
+    "Berserker": [100,20,5,5,0,10]
 }
 class Player:
     '''A player
@@ -95,7 +95,7 @@ class Player:
     def heal(self, ally):
         if self.pclass == "Healer":
             print("As you are a healer, you heal based on mana level. ")
-            heal = round(0.5*self.mana)
+            heal = round(1.5*self.mana)
             ally.hp+=heal
             print(f"{ally.name} healed {heal} HP! They now have {ally.hp} HP.")
         else:
@@ -136,7 +136,21 @@ class Player:
                 if "defence" in item.effects:
                     self.defense += item.effects["defense"]
     
-    
+    def gift(self, item):
+        if item.type != "potion":
+            if "hp" in item.effects:
+                self.hp += item.effects["hp"]
+            if "strength" in item.effects:
+                self.strength += item.effects["strength"]
+            if "speed" in item.effects:
+                self.speed += item.effects["speed"]
+            if "mana" in item.effects:
+                self.mana += item.effects["mana"]
+            if "intelligence" in item.effects:
+                self.intelligence += item.effects["intelligence"]
+            if "defence" in item.effects:
+                self.defense += item.effects["defense"]
+                
     def discard(self, item):
         if item.type != "potion":
             if "hp" in item.effects:
@@ -191,6 +205,9 @@ class Player:
             self.defense-=self.armor
             self.armor = 0
             ally = input(f"Please indicate who you want to heal: {[p for p in gamestate.party]}")
+            while ally not in gamestate.party:
+                print("Please input a valid player.")
+                ally = input(f"Please indicate who you want to heal: {[p for p in gamestate.party]}")
             self.heal(gamestate.party[ally])
         elif turn == "Defend":
             #defends extra if they have armor, otherwise only defends 1 extra from base stats
@@ -214,6 +231,8 @@ class Player:
                 print("Listed are the items in your bag.")
                 potion_name = input("Please indicate which item you wish to consume or input cancel: ")
                 if potion_name != "cancel":
+                    while potion_name not in self.bag:
+                        potion_name = input("Please indicate an item in your bag: ")
                     self.drink(self.bag[potion_name])
                     print(f"Successfully drank {potion_name}")
                     gamestate.list_party(self.name)
