@@ -87,17 +87,17 @@ class Player:
                 if enemy.defense<(attack+weapon.damage) else 0
         else:
             if ~npc:
-                print(f"You attempt to hit {enemy.name} with your bare fists."
+                print(f"{self.name} attempts to hit {enemy.name} with your bare fists. "
                   "Unfortunately, you can only deal 5 bonus HP dmg.")
             net_dmg = enemy.defense-5-attack if enemy.defense<(5+attack) \
             else 0
         enemy.hp+=net_dmg
-        print(f"You hit {enemy.name} for {net_dmg} HP! They now have {enemy.hp} HP.")
+        print(f"{self.name} hits {enemy.name} for {net_dmg} HP! They now have {enemy.hp} HP.")
             
 
     def heal(self, ally):
         if self.pclass == "Healer":
-            print("As you are a healer, you heal based on mana level.")
+            print("As you are a healer, you heal based on mana level. ")
             heal = round(0.5*self.mana)
             ally.hp+=heal
             print(f"{ally.name} healed {heal} HP! They now have {ally.hp} HP.")
