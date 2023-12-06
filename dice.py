@@ -37,6 +37,7 @@ class DnDRoller:
         if num_sides < 4:
             raise ValueError("Number of sides on the die must be at least 4.")
         return random.randint(1, num_sides)
+    
     def roll_with_set(self, num_sides):
         """Simulates rolling a die with a specified number of sides using roll_sets.
         Side Effects:
@@ -79,7 +80,6 @@ if __name__ == "__main__":
             items_json = json.load(file)
 
         if choice == '1':
-            if choice == '1':
             advantage = input("Do you have advantage? (y/n): ").lower() == 'y'
             if advantage == True:
                 result = roller.roll_d20(advantage=advantage)
