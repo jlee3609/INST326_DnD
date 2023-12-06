@@ -62,13 +62,15 @@ class GameState:
         action_opt_str = ""
         for action in self.action_options:
             action_opt_str += action
+            action_opt_str += " "
         action = input(f"What would you like to do? Your options are: "
-                       f"{action_opt_str}:\n")
+                       f"{action_opt_str}: \n")
         #add option to drink potion, give item, etc
         
         travel_opt_str = ""
         for locale in self.travel_options:
             travel_opt_str += locale
+            travel_opt_str += " "
         if action == "travel":
             destination = input(f"Where would you like to go?:"
                                 f"{travel_opt_str}\n")
