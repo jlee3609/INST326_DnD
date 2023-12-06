@@ -335,7 +335,7 @@ class GameState:
                     self.list_party(drinker.name)
                     self.party.pop(drinker.name)
         else:
-            print("You have angered the gods. Choose from your available options. \n")
+            print("\nYou have angered the gods. Choose from your available options. ")
             self.new_turn()
             
             
