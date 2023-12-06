@@ -58,7 +58,7 @@ class GameState:
         print(f"You are currently in {self.curr_location}")
         
         # prob needs to be command line arg but like \(i.i)/???
-        self.action_options+["drink","travel"]
+        self.action_options = self.action_options+["drink","travel"]
         action = input(f"What would you like to do? Your options are: "
                        f"{self.action_options}:\n")
         #add option to drink potion, give item, etc
