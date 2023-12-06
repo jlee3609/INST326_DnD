@@ -126,7 +126,7 @@ class GameState:
                 #add item to player bag, subtract money, remove item from shop
                 self.party[victim].buy(shoplist[purchase])
                 shoplist.pop(purchase)
-                print("Thank you for your purchase.")
+                print("Thank you for your purchase.\n")
                 #put unsold items back
                 for item in shoplist:
                     if item.name in self.items:
@@ -135,7 +135,7 @@ class GameState:
                         self.items[item.name] = item
             else:
                 print("Purchase cancelled. The merchant side-eyes you and "
-                    "reshuffles her wares. You sense she won't sell you anything more.")
+                    "reshuffles her wares. You sense she won't sell you anything more.\n")
                 for item in shoplist:
                     if item in self.items:
                         self.items[item.name].quantity +=1
@@ -144,7 +144,7 @@ class GameState:
             self.party[victim].bag_check()
         else:
             print("The merchant side-eyes you and reshuffles her wares. "
-                "She leaves as quietly as she came.")
+                "She leaves as quietly as she came.\n")
         
         
     def encounter(self, initial_hp= 100):
