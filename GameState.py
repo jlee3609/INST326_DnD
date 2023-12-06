@@ -91,7 +91,7 @@ class GameState:
         
         """
         shoplist = []
-        print("A merchant beckons you from a nearby alley. She opens a dark box, revealing the treasures within.")
+        print("\nA merchant beckons you from a nearby alley. She opens a dark box, revealing the treasures within.\n")
         for _ in range(3):
             #if you'll still have items left, leave it in the dict for now
             #otherwise, pop it for now, but if it isn't bought we'll put it back.
@@ -113,8 +113,8 @@ class GameState:
             if victim not in self.party:
                 victim = input("Please input a valid name: ")
             if self.party[victim].money < shoplist[purchase].cost:
-                print(f"You do not have enough money for this purchase. You have {self.party[victim].money} gold.")
-                print("The merchant looks at you with disgust. Those who cannot do basic math cannot purchase items.")
+                print(f"\nYou do not have enough money for this purchase. You have {self.party[victim].money} gold.")
+                print("The merchant looks at you with disgust. Those who cannot do basic math cannot purchase items.\n")
                 return None
             weapons = [self.party[victim].bag[w] for w in self.party[victim].bag if self.party[victim].bag[w].type == "weapon"]
             if (len(weapons) == 1) & (shoplist[purchase].type == "weapon"):
@@ -151,7 +151,7 @@ class GameState:
         """An encounter with a randomly generated npc
         """
         npc = generate_npc(self)
-        print(f"You encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.")
+        print(f"\nYou encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.\n")
         
         #npc rolls for attitude/reaction
         attitude = npc.roll_dice(20)
