@@ -101,7 +101,7 @@ class Player:
         else:
             print("As you are not a healer, you may heal a paltry 1 HP.")
             ally.hp+=1
-            print(f"{ally.name} healed {heal} HP! They now have {ally.hp} HP.")
+            print(f"{ally.name} healed 1 HP! They now have {ally.hp} HP.")
             
     def defend(self):
         armor = [self.bag[w] for w in self.bag if self.bag[w].type == "armor"]

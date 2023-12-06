@@ -94,7 +94,7 @@ class GameState:
         for _ in range(3):
             #if you'll still have items left, leave it in the dict for now
             #otherwise, pop it for now, but if it isn't bought we'll put it back.
-            item =random.choice(list(self.items))
+            item = random.choice(list(self.items))
             if self.items[item].quantity-1 != 0:
                 self.items[item].quantity -= 1
                 shoplist.append(self.items[item])
@@ -104,7 +104,7 @@ class GameState:
         for item in shoplist:
             print(item)
             item.stats()
-            print(f"This item costs {item.cost} gold.")
+            print(f"This item costs {item.cost} gold.\n")
         answer = input("Would you like to purchase an item? (y/n)")
         if answer == "y":
             purchase = int(input("Please input the index of the item you desire: (1,2,3): "))-1
@@ -116,10 +116,10 @@ class GameState:
                 print("The merchant looks at you with disgust. Those who cannot do basic math cannot purchase items.")
                 return None
             weapons = [self.party[victim].bag[w] for w in self.party[victim].bag if self.party[victim].bag[w].type == "weapon"]
-            if (len(weapons) == 1) & shoplist[purchase].type == "weapon":
+            if (len(weapons) == 1) & (shoplist[purchase].type == "weapon"):
                 print("Reminder that you already have one weapon.\n"
                       "If you purchase another, you will be forced to drop one without recovering any gold.")
-            confirmation = input(f"{victim} will lose {shoplist[purchase].cost} and gain a(n) "
+            confirmation = input(f"{victim} will lose {shoplist[purchase].cost} gold and gain a(n) "
                 f"{shoplist[purchase].name}. Confirm purchase? (y/n): ")
             if confirmation == "y":
                 #add item to player bag, subtract money, remove item from shop
@@ -139,7 +139,7 @@ class GameState:
                     if item in self.items:
                         self.items[item.name].quantity +=1
                     else:
-                        self.items[item.name] = 1
+                        self.items[item.name] = item
             self.party[victim].bag_check()
         else:
             print("The merchant side-eyes you and reshuffles her wares. "
@@ -217,7 +217,7 @@ class GameState:
             for player in self.party:
                 self.party[player].speed -=debuff
             if len(self.party) > 1:
-                everyone = [self.party[p] for p in self.party].append(npc)
+                everyone = [self.party[p] for p in self.party]+[npc]
             else:
                 everyone = [self.party.get(list(self.party)[0]),npc]
             queue = sorted(everyone, key= lambda s: s.speed)
@@ -227,7 +227,7 @@ class GameState:
             for player in self.party:
                 self.party[player].speed +=debuff
             if len(self.party) > 1:
-                everyone = [self.party[p] for p in self.party].append(npc)
+                everyone = [self.party[p] for p in self.party]+[npc]
             else:
                 everyone = [self.party.get(list(self.party)[0]),npc]
             queue = sorted(everyone, key= lambda s: s.speed)
@@ -235,7 +235,7 @@ class GameState:
         
         else:
             if len(self.party) > 1:
-                everyone = [self.party[p] for p in self.party].append(npc)
+                everyone = [self.party[p] for p in self.party]+[npc]
             else:
                 everyone = [self.party.get(list(self.party)[0]),npc]
             queue = sorted(everyone, key= lambda s: s.speed)
@@ -244,9 +244,8 @@ class GameState:
     def battle_start(self, queue, npc):
         turn = 0
         self.list_party()
-        print("before npc")
         self.list_party(npc=npc)
-        print("after npc")
+
         #debug
         while npc.hp != 0 and len(self.party) > 0:
             p = queue[turn % len(queue)]
