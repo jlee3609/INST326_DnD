@@ -210,7 +210,7 @@ class Player:
 
         elif turn == "Run":
             self.armor = False
-            if self.speed >= npc.speed:
+            if self.dice.roll_sets(20+self.speed) >= self.dice.roll_sets(20+npc.speed):
                 print(f"You outspeed {npc.name} and escape!")
                 return False
             else:
@@ -247,7 +247,7 @@ class Player:
                     "Please choose a weapon to discard!")
             self.view_bag("weapon")
             discard = input("Weapon name: ")
-            self.bag.pop[discard]
+            self.bag.pop(discard)
             
             
 # nicole = Player("nicole", "Healer")

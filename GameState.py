@@ -62,6 +62,8 @@ class GameState:
             self.action_options.append("drink")
         if "travel" not in self.action_options:
             self.action_options.append("travel")
+        if "view stats" not in self.action_options:
+            self.action_options.append("view stats")
         action = input(f"What would you like to do? Your options are: "
                        f"{self.action_options}:\n")
         #add option to drink potion, give item, etc
@@ -70,6 +72,10 @@ class GameState:
             destination = input(f"Where would you like to go?:"
                                 f"{self.travel_options}\n")
             self.travel(destination)
+        if action == "view stats":
+            p = input("Please indicate which party member you wish to view, or input 'all': "
+                      f"{self.party.keys}")
+            self.list_party(name=p)
         else:
             self.scenario(action)
         
@@ -182,7 +188,7 @@ class GameState:
             # recieve item
             give_item = random.choice(list(npc.bag))
             recepient = input(f"{npc.name} gives you a {npc.bag[give_item].name}! "
-                                  "Please indicate who will recieve the item:")
+                                  "Please indicate who will recieve the item: ")
             if recepient not in self.party:
                 recepient = input("Please input a valid name: ")
             self.party[recepient].bag[npc.bag[give_item].name] = npc.bag[give_item]
@@ -234,6 +240,8 @@ class GameState:
             
     def battle_start(self, queue, npc):
         turn = 0
+        self.list_party()
+        self.list_party(npc=npc)
         while npc.hp != 0 and len(self.party) > 0:
             p = queue[turn % len(queue)]
             turn+=1
@@ -294,10 +302,12 @@ class GameState:
             print(f"Successfully drank {potion_name}")
             self.list_party(drinker.name)
     
-    def list_party(self, name=None):
-        if name != None:
+    def list_party(self, name="all", npc=None):
+        if name != "all" and npc == None:
             player = self.party[name]
             print(player)
+        elif npc != None:
+            print(npc)
         else:
             for p in self.party:
                 player = self.party[p]
