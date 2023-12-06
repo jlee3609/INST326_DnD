@@ -11,7 +11,8 @@
                 "intelligence": 5,
                 "defense": 1
             },
-            "quantity": 1
+            "quantity": 1,
+            "damage": 0
         },
         "Flameheart Brew": {
             "description": "Hearty potion to increase one's offense at a cost.",
@@ -24,7 +25,8 @@
                 "intelligence": -2,
                 "defense": 5
             },
-            "quantity": 5
+            "quantity": 5,
+            "damage": 0
         },
         "Galewind Draught": {
             "description": "Grants one speed from the Wind Lords.",
@@ -37,7 +39,8 @@
                 "intelligence": 1,
                 "defense": -3
             },
-            "quantity": 7
+            "quantity": 7,
+            "damage": 0
         },
         "Aquatic Aegis Tonic": {
             "description": "Creates a protective, yet bulky, water shield.",
@@ -50,7 +53,8 @@
                 "intelligence": 0,
                 "defense": 10
             },
-            "quantity": 15
+            "quantity": 15,
+            "damage": 0
         }
     },
     "armor": {

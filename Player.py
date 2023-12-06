@@ -82,6 +82,7 @@ class Player:
             weapon = weapons[0]
             net_dmg = enemy.defense-weapon.damage-attack \
                 if enemy.defense<(attack+weapon.damage) else 0
+            print(f"{self.name} uses their {weapon.name} to attack {enemy.name}!")
         else:
             if not npc:
                 print(f"You attempt to hit {enemy.name} with your bare fists."
@@ -105,9 +106,12 @@ class Player:
             
     def defend(self):
         armor = [self.bag[w] for w in self.bag if self.bag[w].type == "armor"]
+        print(armor)
         total_armor = 5
         for a in armor:
+            print(a)
             total_armor-=a.damage
+            print(total_armor)
         self.defense += total_armor
         self.armor = total_armor
         print(f"You bolster your defenses! You add {total_armor} to your defense until the next turn.")
@@ -189,6 +193,8 @@ class Player:
                       "You lose both the item and 50 HP.")
             self.discard(item)
             self.hp -= 50
+        if self.hp <= 0:
+            return False
     
     def roll_dice(self, dice_num):
         roll = self.dice.roll_sets(dice_num)
@@ -233,9 +239,15 @@ class Player:
                 if potion_name != "cancel":
                     while potion_name not in self.bag:
                         potion_name = input("Please indicate an item in your bag: ")
-                    self.drink(self.bag[potion_name])
-                    print(f"Successfully drank {potion_name}")
-                    gamestate.list_party(self.name)
+                    death = self.drink(self.bag[potion_name])
+                    if death:
+                        print(f"Successfully drank {potion_name}")
+                        gamestate.list_party(self.name)
+                    else:
+                        print(f"You died from drinking {potion_name}.")
+                        gamestate.list_party(self.name)
+                        gamestate.party.pop(self.name)
+                    
             else:
                 print("You have no items to drink.")
             

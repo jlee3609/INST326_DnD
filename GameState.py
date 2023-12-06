@@ -106,7 +106,7 @@ class GameState:
             print(item)
             item.stats()
             print(f"This item costs {item.cost} gold.\n")
-        answer = input("Would you like to purchase an item? (y/n)")
+        answer = input("Would you like to purchase an item? (y/n): ")
         if answer == "y":
             purchase = int(input("Please input the index of the item you desire: (1,2,3): "))-1
             victim = input("Please input the name of who is purchasing the item: ")
@@ -321,9 +321,13 @@ class GameState:
             elif potion_name != "cancel":
                 potion_name = input("Please input a valid potion: ")
                 drinker = self.party[drinker]
-                drinker.drink(drinker.bag[potion_name])
-                print(f"Successfully drank {potion_name}")
-                self.list_party(drinker.name)
+                death = drinker.drink(drinker.bag[potion_name])
+                if death:
+                    print(f"Successfully drank {potion_name}")
+                    self.list_party(drinker.name)
+                else:
+                    self.list_party(drinker.name)
+                    self.party.pop(drinker.name)
             
     
     def list_party(self, name="all", npc=None):
