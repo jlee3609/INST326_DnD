@@ -106,5 +106,33 @@
         "Milton Market": "Saffron Square",
         "Neon Nexus": "Pirate's Port",
         "Etherial Archipelago": "Pirate's Port"
+    },
+    "art": {
+        "Village Square": "",
+        "Wailing Woods": "",
+        "Mystic Meadows": "",
+        "Skyward Stronghold": "",
+        "Lost Labyrinth": "",
+        "The Everglades": "",
+        "Celestial Citadel": "",
+        "Desert Dunes": "",
+        "Cursed Catacombs": "",
+        "Saffron Square": ["s"],
+        "Pirate's Port": ["e"],
+        "Sunken Sanctuary": ["e"],
+        "Dungeon of Doom": ["b", "s", "e"],
+        "Ice Caverns": ["e"],
+        "The Lost Temple":["e"],
+        "Sunken City":["s"],
+        "Glowing Gardens": ["e"],
+        "Mad Menagerie": ["e"],
+        "Volcanic Forge": ["s", "e"],
+        "The Cliffs": ["e"],
+        "The Ravine": ["e"],
+        "Phantom Fields": ["e", "b"],
+        "Forest Road": ["e"],
+        "Milton Market": ["s", "e"],
+        "Neon Nexus": ["e"],
+        "Etherial Archipelago": ["e"]
     }
 }
