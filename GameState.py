@@ -65,7 +65,7 @@ class GameState:
         
         if action == "travel":
             destination = input(f"Where would you like to go?:"
-                                f"{self.travel_options}")
+                                f"{self.travel_options}\n")
             self.travel(destination)
         else:
             self.scenario(action)

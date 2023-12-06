@@ -109,7 +109,7 @@ class Player:
         armor = [self.bag[w] for w in self.bag if self.bag[w].type == "armor"]
         total_armor = 0
         for a in armor:
-            total_armor+=a.damage
+            total_armor-=a.damage
         self.defense += total_armor
         self.armor = True
         print(f"You bolster your defenses! You add {total_armor} to your defense until the next turn.")
