@@ -66,9 +66,12 @@ class GameState:
                        f"{action_opt_str}:\n")
         #add option to drink potion, give item, etc
         
+        travel_opt_str = ""
+        for locale in self.travel_options:
+            travel_opt_str += locale
         if action == "travel":
             destination = input(f"Where would you like to go?:"
-                                f"{self.travel_options}\n")
+                                f"{travel_opt_str}\n")
             self.travel(destination)
         else:
             self.scenario(action)
@@ -242,7 +245,8 @@ class GameState:
         """
         self.curr_location = destination
         self.parent_location = self.locations["parent"][self.curr_location]
-        self.travel_options = self.locations["children"][self.curr_location]
+        for locale in self.locations["children"][self.curr_location]:
+            self.travel_options.append(locale)
         self.travel_options.append(self.parent_location)
         self.action_options = self.locations["locations"][self.curr_location]
         for i in range(len(self.action_options)):
