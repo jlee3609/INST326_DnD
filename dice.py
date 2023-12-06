@@ -21,7 +21,7 @@ class DnDRoller:
         roll_result = random.randint(1, 20)
 
         if advantage and disadvantage:
-            raise ValueError("Cannot have both advantage and disadvantage.")
+            raise ValueError("Can't have both. Try again!")
         elif advantage:
             result = max(roll_result, random.randint(1, 20))
         elif disadvantage:
@@ -79,10 +79,15 @@ if __name__ == "__main__":
             items_json = json.load(file)
 
         if choice == '1':
+            if choice == '1':
             advantage = input("Do you have advantage? (y/n): ").lower() == 'y'
-            disadvantage = input("Do you have disadvantage? (y/n): ").lower() == 'y'
-            result = roller.roll_d20(advantage=advantage, disadvantage=disadvantage)
-            print(f"You rolled a d20 and got: {result}")
+            if advantage == True:
+                result = roller.roll_d20(advantage=advantage)
+                print(f"You rolled a d20 and got: {result}")
+            elif advantage == False:
+                disadvantage = input("Do you have disadvantage? (y/n): ").lower() == 'y'
+                result = roller.roll_d20(disadvantage=disadvantage)
+                print(f"You rolled a d20 and got: {result}")
         elif choice == '2':
             weapon_choice = input("Enter the name of the weapon: ").strip()
             
