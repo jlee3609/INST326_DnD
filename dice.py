@@ -49,8 +49,7 @@ class DnDRoller:
         """
         return self.roll_sets(num_sides)
 
-    def roll_weapon(self, dice):
-        def roll_weapon(self, weapon_dice, advantage=False):
+    def roll_weapon(self, weapon_dice, advantage=False):
         """Simulates rolling the specified die associated with a weapon.
 
         Args:
@@ -87,7 +86,7 @@ if __name__ == "__main__":
             disadvantage = input("Do you have disadvantage? (y/n): ").lower() == 'y'
             result = roller.roll_d20(advantage=advantage, disadvantage=disadvantage)
             print(f"You rolled a d20 and got: {result}")
-          elif choice == '2':
+        elif choice == '2':
                  weapon_choice = input("Enter the name of the weapon: ").strip()
                  
                  weapon_data = items_json['weapon'].get(weapon_choice)
