@@ -55,7 +55,7 @@ class GameState:
     def new_turn(self):
         """
         """
-        print(f"You are currently in {self.curr_location}")
+        print(f"\nYou are currently in {self.curr_location}.")
         
         # prob needs to be command line arg but like \(i.i)/???
         if "drink" not in self.action_options:
@@ -91,7 +91,7 @@ class GameState:
         
         """
         shoplist = []
-        print("A merchant beckons you from a nearby alley. She opens a dark box, revealing the treasures within.")
+        print("\nA merchant beckons you from a nearby alley. She opens a dark box, revealing the treasures within.\n")
         for _ in range(3):
             #if you'll still have items left, leave it in the dict for now
             #otherwise, pop it for now, but if it isn't bought we'll put it back.
@@ -113,8 +113,8 @@ class GameState:
             if victim not in self.party:
                 victim = input("Please input a valid name: ")
             if self.party[victim].money < shoplist[purchase].cost:
-                print(f"You do not have enough money for this purchase. You have {self.party[victim].money} gold.")
-                print("The merchant looks at you with disgust. Those who cannot do basic math cannot purchase items.")
+                print(f"\nYou do not have enough money for this purchase. You have {self.party[victim].money} gold.")
+                print("The merchant looks at you with disgust. Those who cannot do basic math cannot purchase items.\n")
                 return None
             weapons = [self.party[victim].bag[w] for w in self.party[victim].bag if self.party[victim].bag[w].type == "weapon"]
             if (len(weapons) == 1) & (shoplist[purchase].type == "weapon"):
@@ -126,7 +126,7 @@ class GameState:
                 #add item to player bag, subtract money, remove item from shop
                 self.party[victim].buy(shoplist[purchase])
                 shoplist.pop(purchase)
-                print("Thank you for your purchase.")
+                print("Thank you for your purchase.\n")
                 #put unsold items back
                 for item in shoplist:
                     if item.name in self.items:
@@ -135,7 +135,7 @@ class GameState:
                         self.items[item.name] = item
             else:
                 print("Purchase cancelled. The merchant side-eyes you and "
-                    "reshuffles her wares. You sense she won't sell you anything more.")
+                    "reshuffles her wares. You sense she won't sell you anything more.\n")
                 for item in shoplist:
                     if item in self.items:
                         self.items[item.name].quantity +=1
@@ -144,14 +144,14 @@ class GameState:
             self.party[victim].bag_check()
         else:
             print("The merchant side-eyes you and reshuffles her wares. "
-                "She leaves as quietly as she came.")
+                "She leaves as quietly as she came.\n")
         
         
     def encounter(self, initial_hp= 100):
         """An encounter with a randomly generated npc
         """
         npc = generate_npc(self)
-        print(f"You encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.")
+        print(f"\nYou encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.\n")
         
         #npc rolls for attitude/reaction
         attitude = npc.roll_dice(20)
@@ -301,18 +301,20 @@ class GameState:
             self.battle("surprise")
         elif action == "encounter":
             self.encounter()
-        else:
+        elif action == "drink":
             drinker = input("You have chosen to drink a potion. Who will be drinking? ")
             if drinker not in self.party:
                 drinker = input("Please select someone in the party: ")
+                # breaks if you don't select someone in party again or say `no`
             x = self.party[drinker].view_bag()
             print(x)
             print("Listed are the items in your bag.")
             if x == []:
                 print("You have no items to drink.")
                 return None
-            potion_name = input(f"{drinker} will be drinking the potion! "
-                f"Please indicate which potion you wish to consume or input cancel: ")
+            print(f"{drinker} will be drinking the potion! ")
+            potion_name = input("Please indicate which potion you wish to consume"
+                                "or input 'cancel': ")
             if (potion_name != "cancel") & (potion_name in self.party[drinker].bag):
                 drinker = self.party[drinker]
                 drinker.drink(drinker.bag[potion_name])
@@ -328,6 +330,10 @@ class GameState:
                 else:
                     self.list_party(drinker.name)
                     self.party.pop(drinker.name)
+        else:
+            print("You have angered the gods. Choose from your available options. \n")
+            self.new_turn()
+            
             
     
     def list_party(self, name="all", npc=None):
