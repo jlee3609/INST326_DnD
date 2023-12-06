@@ -72,8 +72,6 @@ class Player:
                 bag.append(str(item)+"\n"+item.effects)
         return bag
     
-    def view_party(self):
-        pass
     
     #?????
     def attack(self, enemy, npc = False):
