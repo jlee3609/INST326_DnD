@@ -101,16 +101,20 @@ class GameState:
             print(f"This item costs {item.cost} gold.")
         answer = input("Would you like to purchase an item? (y/n)")
         if answer == "y":
-            purchase = int(input("Please input the index of the item you desire: (1,2,3)"))-1
-            victim = input("Please input the name of who is purchasing the item:")
+            purchase = int(input("Please input the index of the item you desire: (1,2,3): "))-1
+            victim = input("Please input the name of who is purchasing the item: ")
             if victim not in self.party:
-                victim = input("Please input a valid name:")
+                victim = input("Please input a valid name: ")
             if self.party[victim].money < shoplist[purchase].cost:
                 print(f"You do not have enough money for this purchase. You have {self.party[victim].money} gold.")
                 print("The merchant looks at you with disgust. Those who cannot do basic math cannot purchase items.")
                 return None
+            weapons = [self.party[victim].bag[w] for w in self.party[victim].bag if self.party[victim].bag[w].type == "weapon"]
+            if (len(weapons) == 1) & shoplist[purchase].type == "weapon":
+                print("Reminder that you already have one weapon.\n"
+                      "If you purchase another, you will be forced to drop one without recovering any gold.")
             confirmation = input(f"{victim} will lose {shoplist[purchase].cost} and gain a(n) "
-                f"{shoplist[purchase].name}. Confirm purchase? (y/n)")
+                f"{shoplist[purchase].name}. Confirm purchase? (y/n): ")
             if confirmation == "y":
                 #add item to player bag, subtract money, remove item from shop
                 self.party[victim].buy(shoplist[purchase])
@@ -130,10 +134,12 @@ class GameState:
                         self.items[item.name].quantity +=1
                     else:
                         self.items[item.name] = 1
+            self.party[victim].bag_check()
         else:
-            print("The merchant side-eyes you and reshuffles her wares. \
-                She leaves as quietly as she came.")
-                
+            print("The merchant side-eyes you and reshuffles her wares. "
+                "She leaves as quietly as she came.")
+        
+        
     def encounter(self, initial_hp= 100):
         """An encounter with a randomly generated npc
         """
@@ -177,8 +183,11 @@ class GameState:
             give_item = random.choice(list(npc.bag))
             recepient = input(f"{npc.name} gives you a {npc.bag[give_item].name}! "
                                   "Please indicate who will recieve the item:")
+            if recepient not in self.party:
+                recepient = input("Please input a valid name: ")
             self.party[recepient].bag[npc.bag[give_item].name] = npc.bag[give_item]
             npc.give(self.party[recepient], npc.bag[give_item])
+            self.party[recepient].bag_check()
             #npc.bag.pop(give_item)  # removes the given item from NPC's bag
     
     def battle(self, status, boss=False):
