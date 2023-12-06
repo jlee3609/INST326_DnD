@@ -18,11 +18,27 @@ def generate_npc(gamestate, boss=False):
         boss_names = ["Nicole", "Ariel", "Jenny", "Aric"]
         npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]), "NPC")
         npc.money +=500
-        npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200])])
-        npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200])])
-        npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200])])
-        for i in (npc.hp, npc.defense, npc.speed, npc.intelligence, npc.mana, npc.strength):
-            i+=20
+        item1 = gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200])]
+        item2 = gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200])]
+        item3 = gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=200])]
+        npc.buy(item1)
+        if item1.type == "potion":
+            npc.drink(item1)
+        npc.buy(item2)
+        if item2.type == "potion":
+            npc.drink(item2)
+        npc.buy(item3)
+        if item3.type == "potion":
+            npc.drink(item3)
+        npc.hp+=20
+        npc.defense+=20
+        npc.speed+=20
+        npc.intelligence+=20
+        npc.mana+=20
+        npc.strength+=20
+    # for item in npc.bag:
+    #     if npc.bag[item].type == "potion":
+    #         npc.drink(npc.bag[item])
     return npc
 
 class GameState:
@@ -60,7 +76,7 @@ class GameState:
         # prob needs to be command line arg but like \(i.i)/???
         if "drink" not in self.action_options:
             self.action_options.append("drink")
-        if "travel" not in self.action_options:
+        if ("travel" not in self.action_options) and (self.curr_location != self.end_location):
             self.action_options.append("travel")
         if "view stats" not in self.action_options:
             self.action_options.append("view stats")
