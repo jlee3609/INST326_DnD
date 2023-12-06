@@ -322,7 +322,7 @@ class GameState:
                 potion_name = input("Please input a valid potion: ")
                 drinker = self.party[drinker]
                 death = drinker.drink(drinker.bag[potion_name])
-                if death:
+                if death != False:
                     print(f"Successfully drank {potion_name}")
                     self.list_party(drinker.name)
                 else:

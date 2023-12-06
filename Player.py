@@ -240,7 +240,7 @@ class Player:
                     while potion_name not in self.bag:
                         potion_name = input("Please indicate an item in your bag: ")
                     death = self.drink(self.bag[potion_name])
-                    if death:
+                    if death!=False:
                         print(f"Successfully drank {potion_name}")
                         gamestate.list_party(self.name)
                     else:
