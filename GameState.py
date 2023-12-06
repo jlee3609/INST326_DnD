@@ -277,7 +277,6 @@ class GameState:
         """
         """
         self.curr_location = destination
-        self.parent_location = ""
         if self.curr_location in self.locations["parent"][self.curr_location]:
             self.parent_location = self.locations["parent"][self.curr_location]
         self.travel_options = []
