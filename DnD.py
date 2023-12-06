@@ -50,16 +50,20 @@ def main(item_path, location_path, num_players):
         
     game = GameState(items, locations, party, end_location)
     #game turns
-    while game.curr_location != end_location:
+    while (game.curr_location != end_location) and len(game.party)!=0:
         game.new_turn()
 
     #end the game somehow?
     #print that its the endgame locaiton, make a boss npc, and do battle
-    print(f"Your party has reached {end_location}! Please prepare to meet the final boss.")
-    game.new_turn()
-    game.battle("neutral", boss=True)
+    if game.curr_location == end_location:
+        print(f"Your party has reached {end_location}! Please prepare to meet the final boss.")
+        game.new_turn()
+        game.battle("neutral", boss=True)
     
-    print("Congratulations on completing the Adventures of INST326!")
+    if len(game.party) == 0:
+        print("Your party has lost, please play again soon!")
+    else:
+        print("Congratulations on beating the Adventures of INST326!")
 
 def parse_args(arglist):
     """ Parse command-line arguments.
