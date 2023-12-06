@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 import Player
 import json
 import random
+from dice import DnDRoller
 
 def generate_npc(gamestate, boss=False):
     """
@@ -11,11 +12,11 @@ def generate_npc(gamestate, boss=False):
             "Finnian", "Livia", "Dorian", "Tamsin", "Galadriel", "Merek"]
     classes = ["Mage", "Healer", "Tank", "Assassin", "Berserker"]
     if boss == False:
-        npc = Player.Player(random.choice(names), random.choice(classes), "NPC", 20)
+        npc = Player.Player(random.choice(names), random.choice(classes), "NPC")
         npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=100])])
     else:
         boss_names = ["Nicole", "Ariel", "Jenny", "Aric"]
-        npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]), "NPC", 20)
+        npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]), "NPC")
         npc.money +=500
         npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
         npc.buy(random.choice(item for item in gamestate.items if item.cost <=200))
@@ -35,11 +36,13 @@ class GameState:
         party (dict of Players, player name is key): all Players in a party.
         curr_location ():
         parent_location ():
+        dice ():
     """
     def __init__(self, items, location_data, party, end_location):
         """
         """
         self.items = items
+        self.dice = DnDRoller()
         self.end_location = end_location
         self.locations = location_data.copy()
         self.travel_options = []
@@ -132,7 +135,7 @@ class GameState:
         """An encounter with a randomly generated npc
         """
         npc = generate_npc(self)
-        print("You encounter {npc.name}! They are a {npc.class} in possession of a {bag[0]}.")
+        print(f"You encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.")
         
         #npc rolls for attitude/reaction
         attitude = npc.roll_dice(20)
@@ -144,7 +147,7 @@ class GameState:
             if action == "run":
             # do a speed check
                 max_speed = max([self.party[p].speed for p in self.party])
-                speed_check = self.dice(20+max_speed)
+                speed_check = self.dice.roll_sets(20+max_speed)
                 if speed_check > npc.speed:
                     print("You successfully escape!")
                 else:
@@ -158,22 +161,22 @@ class GameState:
             print(f"{npc.name} deliberates for a minute, and ultimately gives you a clue about the final location. It starts with {self.end_location[0]}")
         else:
             print(f"You rolled high. {npc.name} is not at all suspicious, and is like an old friend.")
-            if npc.character_class == "Healer":
+            if npc.pclass == "Healer":
                 print(f"{npc.name} is a healer! They restore your party's HP fully!")
-                self.hp = self.initial_hp
+                self.hp = initial_hp
                 return None
             # give money
-            money = npc.bag/len(self.party)
+            money = round(npc.money/len(self.party))
             for player in self.party:
-                player.bag += money
+                self.party[player].money += money
             print(f"{npc.name} gives everyone {money} gold!")
             # recieve item
-            if npc.bag: #if there are items
-                give_item = random.choice(list(npc.bag))
-                recepient = input(f"{npc.name} gives you a {npc.bag[give_item]}! "
+            give_item = random.choice(list(npc.bag))
+            recepient = input(f"{npc.name} gives you a {npc.bag[give_item].name}! "
                                   "Please indicate who will recieve the item:")
-            self.party[recepient].bag.append(npc.bag[give_item])
-            npc.bag.pop(give_item)  # removes the given item from NPC's bag
+            self.party[recepient].bag[npc.bag[give_item].name] = npc.bag[give_item]
+            npc.give(self.party[recepient], npc.bag[give_item])
+            #npc.bag.pop(give_item)  # removes the given item from NPC's bag
     
     def battle(self, status, boss=False):
         """
@@ -192,19 +195,22 @@ class GameState:
         if status == "ambush":
             for player in self.party:
                 self.party[player].speed -=debuff
-            everyone = [self.party[p] for p in self.party]+npc
+            everyone = [self.party[p] for p in self.party].append(npc)
             queue = sorted(everyone, key= lambda s: s.speed)
             self.battle_start(queue, npc)
         
         elif status == "surprise":
             for player in self.party:
                 self.party[player].speed +=debuff
-            everyone = [self.party[p] for p in self.party]+npc
+            everyone = [self.party[p] for p in self.party] #.append(npc)
             queue = sorted(everyone, key= lambda s: s.speed)
             self.battle_start(queue, npc)
         
         else:
-            everyone = [self.party[p] for p in self.party]+npc
+            if len(self.party) > 1:
+                everyone = [self.party[p] for p in self.party].append(npc)
+            else:
+                everyone = [self.party.get(list(self.party)[0]),npc]
             queue = sorted(everyone, key= lambda s: s.speed)
             self.battle_start(queue, npc)
             
@@ -223,6 +229,10 @@ class GameState:
                 self.party.remove(p)
                 print(f"{p.name} has died.")
         print(f"The battle has ended. {npc.name if npc.hp == 0 else 'Your party'} has lost.")
+        if npc.hp == 0:
+            print("You reap the spoils of the battle! Gain 50 gold per person.")
+            for p in self.party:
+                self.party[p].money+=50
     
     def travel(self, destination):
         """
