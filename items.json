@@ -100,7 +100,7 @@
     "weapon": {
         "Spectral Slicer": {
             "description": "Enchanted dagger that can cut through magic.",
-            "dice": [8, 12],
+            "damage_attr": 12,
             "cost": 90,
             "effects": {
                 "hp": 0,
@@ -115,7 +115,7 @@
         },
         "Quasar Quiver": {
             "description": "Bow and arrow imbued with the power of stars.",
-            "dice": [2, 4],
+            "damage_attr": 8,
             "cost": 70,
             "effects": {
                 "hp": 0,
@@ -130,7 +130,7 @@
         },
         "Echo Hammer": {
             "description": "Massive hammer with resonating core.",
-            "dice": [4, 6],
+            "damage_attr": 6,
             "cost": 70,
             "effects": {
                 "hp": 0,
@@ -145,7 +145,7 @@
         },
         "Simple Dagger": {
             "description": "A simple dagger forged by the blacksmith.",
-            "dice": [6, 8],
+            "damage_attr": 4,
             "cost": 20,
             "effects": {
                 "hp": 0,
