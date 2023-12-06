@@ -37,7 +37,7 @@ class Player:
             self.intelligence, self.defense = class_stats[pclass]
         self.bag = {}
         self.money = 100
-        self.armor = False
+        self.armor = 0
     
     def __str__(self):
         #list out player attributes
@@ -109,7 +109,7 @@ class Player:
         for a in armor:
             total_armor-=a.damage
         self.defense += total_armor
-        self.armor = True
+        self.armor = total_armor
         print(f"You bolster your defenses! You add {total_armor} to your defense until the next turn.")
     
     
@@ -118,7 +118,7 @@ class Player:
             print(self.view_bag())
             discard = input("Your bag can only carry so much. Drink or use an "
                             "item to continue purchase.")
-            self.bag.pop(discard)
+            self.discard(item)
         else:
             self.bag[item.name] = item
             self.money -= item.cost
@@ -136,7 +136,8 @@ class Player:
                 if "defence" in item.effects:
                     self.defense += item.effects["defense"]
     
-    def give(self, other_player, item):
+    
+    def discard(self, item):
         if item.type != "potion":
             if "hp" in item.effects:
                 self.hp -= item.effects["hp"]
@@ -172,7 +173,7 @@ class Player:
             print("The gods of DnD look on with disdain "
                   "as you attempt to consume what should not be consumed. "
                       "You lose both the item and 50 HP.")
-            del self.bag[item.name]
+            self.discard(item)
             self.hp -= 50
     
     def roll_dice(self, dice_num):
@@ -183,10 +184,12 @@ class Player:
         print(f"It's {self.name}'s turn.")
         turn = input("Please choose an action: Attack, Heal, Defend, Run, Drink:\n")
         if turn == "Attack":
-            self.armor=False
+            self.defense-=self.armor
+            self.armor = 0
             self.attack(npc)
         elif turn == "Heal":
-            self.armor=False
+            self.defense-=self.armor
+            self.armor = 0
             ally = input(f"Please indicate who you want to heal: {[p for p in gamestate.party]}")
             self.heal(gamestate.party[ally])
         elif turn == "Defend":
@@ -194,7 +197,8 @@ class Player:
             self.defend()
 
         elif turn == "Run":
-            self.armor = False
+            self.defense-=self.armor
+            self.armor = 0
             if self.dice.roll_sets(20+self.speed) >= self.dice.roll_sets(20+npc.speed):
                 print(f"You outspeed {npc.name} and escape!")
                 return False
@@ -203,18 +207,18 @@ class Player:
                 print(f"You fail to escape battle and lose 5 HP as you are dragged back.")
         elif turn == "Drink":
             drinker = input("You have chosen to drink a potion.")
-            x = self.view_bag(category='potion')
+            x = self.view_bag()
             
             if x != []:
                 print(x)
-                print("Listed are the potions in your bag.")
-                potion_name = input("Please indicate which potion you wish to consume or input cancel: ")
+                print("Listed are the items in your bag.")
+                potion_name = input("Please indicate which item you wish to consume or input cancel: ")
                 if potion_name != "cancel":
                     self.drink(self.bag[potion_name])
                     print(f"Successfully drank {potion_name}")
                     gamestate.list_party(self.name)
             else:
-                print("You have no potions to drink.")
+                print("You have no items to drink.")
             
         else:
             print("Please input a valid action.")

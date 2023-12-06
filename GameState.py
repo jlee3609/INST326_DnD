@@ -72,10 +72,11 @@ class GameState:
             destination = input(f"Where would you like to go?:"
                                 f"{self.travel_options}\n")
             self.travel(destination)
-        if action == "view stats":
+        elif action == "view stats":
             p = input("Please indicate which party member you wish to view, or input 'all' "
                       f"{[p for p in self.party]}: \n")
             self.list_party(name=p)
+        
         else:
             self.scenario(action)
         
@@ -247,20 +248,20 @@ class GameState:
         self.list_party(npc=npc)
 
         #debug
-        while npc.hp != 0 and len(self.party) > 0:
+        while npc.hp > 0 and len(self.party) > 0:
             p = queue[turn % len(queue)]
             turn+=1
             if p.type=="Player":
                 if p.battle_turn_p(self, npc) == False:
                     queue.remove(p)
             else:
-                p.battle_turn_n(self, [self.party[p] for p in self.party])
-            if p.hp == 0:
+                p.battle_turn_n(self, [p for p in queue if p.type!="NPC"])
+            if p.hp <= 0:
                 queue.remove(p)
-                self.party.remove(p)
+                self.party.pop(p.name)
                 print(f"{p.name} has died.")
-        print(f"The battle has ended. {npc.name if npc.hp == 0 else 'Your party'} has lost.")
-        if npc.hp == 0:
+        print(f"The battle has ended. {npc.name if npc.hp <= 0 else 'Your party'} has lost.")
+        if npc.hp <= 0:
             print("You reap the spoils of the battle! Gain 50 gold per person.")
             for p in self.party:
                 self.party[p].money+=50
@@ -295,19 +296,28 @@ class GameState:
             self.encounter()
         else:
             drinker = input("You have chosen to drink a potion. Who will be drinking? ")
-            x = self.party[drinker].view_bag(category='potion')
+            if drinker not in self.party:
+                drinker = input("Please select someone in the party: ")
+            x = self.party[drinker].view_bag()
             print(x)
-            print("Listed are the potions in your bag.")
+            print("Listed are the items in your bag.")
             if x == []:
-                print("You have no potions to drink.")
+                print("You have no items to drink.")
                 return None
             potion_name = input(f"{drinker} will be drinking the potion! "
                 f"Please indicate which potion you wish to consume or input cancel: ")
-            if potion_name != "cancel":
+            if (potion_name != "cancel") & (potion_name in self.party[drinker].bag):
                 drinker = self.party[drinker]
                 drinker.drink(drinker.bag[potion_name])
                 print(f"Successfully drank {potion_name}")
                 self.list_party(drinker.name)
+            elif potion_name != "cancel":
+                potion_name = input("Please input a valid potion: ")
+                drinker = self.party[drinker]
+                drinker.drink(drinker.bag[potion_name])
+                print(f"Successfully drank {potion_name}")
+                self.list_party(drinker.name)
+            
     
     def list_party(self, name="all", npc=None):
         if name != "all" and npc == None:
