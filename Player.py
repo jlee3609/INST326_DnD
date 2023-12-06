@@ -88,7 +88,7 @@ class Player:
         else:
             if not npc:
                 print(f"You attempt to hit {enemy.name} with your bare fists."
-                  "Unfortunately, you can only deal 5 bonus HP dmg.")
+                  " Unfortunately, you can only deal 5 bonus HP dmg.")
             net_dmg = enemy.defense-5-attack if enemy.defense<(5+attack) \
             else 0
         enemy.hp+=net_dmg
