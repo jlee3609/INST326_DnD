@@ -50,8 +50,9 @@ class DnDRoller:
 
     def roll_sets(self, num_sides):
         """Simulates rolling a die with a specified number of sides.
-            Raises:
-                a ValueError if the number of sides is less than 4
+        Raises:
+            a ValueError if the number of sides is less than 4
+        Returns:
         """
         if num_sides < 4:
             raise ValueError("Number of sides on the die must be at least 4.")

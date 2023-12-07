@@ -5,7 +5,14 @@ import random
 from dice import DnDRoller
 
 def generate_npc(gamestate, boss=False):
-    """
+    """Generates an NPC or 'non-playable character' for humans to encounter and 
+    battle. Gives name, class, items, and stats.
+    Args:
+        gamestate(GameState object): current state of the game that gets altered
+        like items.
+        boss(bool): optional and defaults to False
+    Returns:
+        npc: the computer-generated player.
     """
     names = ["Aeliana", "Thoren", "Elowen", "Kael", "Seraphim", "Lirael", "Garrick", 
             "Isabeau", "Eldon", "Lyria", "Caden", "Rowena", "Thaddeus", "Anara",
@@ -42,8 +49,9 @@ def generate_npc(gamestate, boss=False):
     return npc
 
 class GameState:
-    """
-    
+    """State of the game. Holds the shop, new turns, encounter, battle, and the 
+    randomly generated scenario that players must go through and make decisions 
+    for. 
     Attributes:
         items (dict of Items, keys are names and values are the Item): all the items in the game
         locations ():
@@ -55,7 +63,15 @@ class GameState:
         dice ():
     """
     def __init__(self, items, location_data, party, end_location):
-        """
+        """Initializes instance of GameState.
+        Args:
+            items (dict): A dictionary containing information about available 
+            items to shop for.
+            location_data (dict): A dictionary representing the locations and 
+            their connections (see map).
+            party (list): A list containing Player instances representing the party.
+            end_location (str): name of the final destination where the boss resides.
+
         """
         self.items = items
         self.dice = DnDRoller()
@@ -69,7 +85,10 @@ class GameState:
             self.travel_options.append(place)     
             
     def new_turn(self):
-        """
+        """Initiates a new turn in the game. After one player makes a decision
+        (drink, travel, etc.), either the next person in the party gets a turn
+        single-player goes again. Prints the current location and available 
+        action options.
         """
         print(f"\nYou are currently in {self.curr_location}.")
         
@@ -164,7 +183,9 @@ class GameState:
         
         
     def encounter(self, initial_hp= 100):
-        """An encounter with a randomly generated npc
+        """An encounter with a randomly generated npc.
+        Args:
+            initial_hp (int, optional): initial HP value. Defaults to 100.
         """
         npc = generate_npc(self)
         print(f"\nYou encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.\n")
@@ -290,7 +311,11 @@ class GameState:
                 self.party[p].money+=50
     
     def travel(self, destination):
-        """
+        """Changes the location of the player to the specified destination
+        backwards or forwards. Then updates current location, travel options,
+        and the actions available.
+        Args:
+            destination (str): The name of the destination location.
         """
         self.curr_location = destination
         if self.curr_location in self.locations["parent"]:
@@ -310,7 +335,9 @@ class GameState:
                 self.action_options[i] = "encounter"
         
     def scenario(self, action):
-        """Generate a scenario based on what the player selects
+        """Generate a scenario based on what the player selects.
+        Args:
+            action (str): The player's selected action.
         """
         if action == "shop":
             self.shop()
@@ -358,6 +385,11 @@ class GameState:
             
     
     def list_party(self, name="all", npc=None):
+        """Lists stats for party.
+        Args:
+            name (str): The name of the party member. Defaults to "all".
+            npc (Player): An optional NPC instance. Defaults to None.
+        """
         if name != "all" and npc == None:
             player = self.party[name]
             print(player)
