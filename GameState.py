@@ -71,7 +71,6 @@ class GameState:
             their connections (see map).
             party (list): A list containing Player instances representing the party.
             end_location (str): name of the final destination where the boss resides.
-
         """
         self.items = items
         self.dice = DnDRoller()
@@ -122,7 +121,6 @@ class GameState:
             Potentially adds 1 item to 1 player's bag
             Potentially removes gold from 1 player's money
             Prints to terminal
-        
         """
         shoplist = []
         print("\nA merchant beckons you from a nearby alley. She opens a dark box, revealing the treasures within.\n")
@@ -235,7 +233,16 @@ class GameState:
             
     
     def battle(self, status, boss=False, encounter_npc=None):
-        """
+        """Starts a battle sequence if player chooses or gets ambushed.
+        Args:
+            status (str): status of the battle, which can be "ambush," "surprise,"
+            or "neutral."
+            boss (bool): Indicates if the encounter is a boss battle. 
+            Defaults to False.
+            encounter_npc(obj): NPC instance for the encounter. Defaults to None, but
+            will be generated.
+        Side effects:
+            Modifies the speed attribute of players in the party based on the battle status.
         """
         #1 ENEMY ONLY IM ANNOYED
         #create a queue based on speed
@@ -280,6 +287,14 @@ class GameState:
             self.battle_start(queue, npc)
             
     def battle_start(self, queue, npc):
+        """Initiates the turn-based battle sequence between the player(s) and NPC.
+        Args:
+            queue (list): Representing the turn order of battle. Based on speed stat.
+            npc (obj): NPC acting opponent.
+        Side effects:
+            Modifies the state of the game based on the outcomes of each turn.
+            Prints battle, like HP losses, moves, etc.
+        """
         turn = 0
         self.list_party()
         self.list_party(npc=npc)
