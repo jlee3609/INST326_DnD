@@ -117,7 +117,6 @@ class GameState:
         
     def shop(self):
         """Opens up a shop that one item can be purchased from
-        
         Side effects:
             Potentially removes 1 item from items dictionary
             Potentially adds 1 item to 1 player's bag
@@ -185,7 +184,7 @@ class GameState:
     def encounter(self, initial_hp= 100):
         """An encounter with a randomly generated npc.
         Args:
-            initial_hp (int, optional): initial HP value. Defaults to 100.
+            initial_hp (int): initial HP value. Defaults to 100.
         """
         npc = generate_npc(self)
         print(f"\nYou encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.\n")
