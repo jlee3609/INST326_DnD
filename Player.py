@@ -29,6 +29,20 @@ class Player:
         armor (bool): whether a player is defending
     '''
     def __init__(self, name, pclass, type):
+        """Initializes player's character instance.
+        Attributes:
+            name (str): player name
+            pclass (str): player class (mage, tank, etc)
+            hp (int): player's hp from pclass
+            strength (int): player's strength from pclass
+            speed (int): player's speed from pclass
+            mana (int): player's mana from pclass
+            intelligence (int): player's intelligence from pclass
+            defense (int): player's defense from pclass
+            money (int): player's money, starts at 100
+            bag (dict): player's inventory
+            armor (bool): existing defenses/armors, defaults at 0
+        """
         self.name=name
         self.type=type
         self.pclass=pclass
@@ -40,6 +54,9 @@ class Player:
         self.armor = 0
     
     def __str__(self):
+        """F-string representing the character's attributes and possessions
+        informally.
+    """
         #list out player attributes
         return(f"""
                {self.name}:
@@ -58,6 +75,12 @@ class Player:
                """)
     
     def view_bag(self, category="all"):
+        """View the items in the character's bag, optionally filtered by category.
+        Args:
+            category (str): category of items like potions. Default is "all".
+        Returns:
+            bag(list): Writes out player's items and item descriptions.
+    """
         #print("start bag")
         bag = []
         if category != "all":
@@ -72,6 +95,12 @@ class Player:
     
     
     def attack(self, enemy, npc = False):
+        """Perform an attack on an enemy with weapons from bag. If no weapons,
+        will hit with bare fists.
+        Args:
+            enemy(obj): enemy character to attack.
+            npc (bool): If NPC is an enemy. Default is False.
+        """
         if self.pclass == "Mage":
             attack = self.mana
         else:
@@ -94,6 +123,11 @@ class Player:
             
 
     def heal(self, ally):
+        """Healing or restoring HP.If class is healer, player can heal self or 
+        others based on mana level. If not, heals only 1 hp.
+        Args:
+            ally(obj): Party member that can be healed.
+        """
         if self.pclass == "Healer":
             print("As you are a healer, you heal based on mana level. ")
             heal = round(1.5*self.mana)
@@ -105,6 +139,9 @@ class Player:
             print(f"{ally.name} healed 1 HP! They now have {ally.hp} HP.")
             
     def defend(self):
+        """Defend self with armor from bag. If hit, will lose less HP than if 
+        they had no armor.
+        """
         armor = [self.bag[w] for w in self.bag if self.bag[w].type == "armor"]
         print(armor)
         total_armor = 5
@@ -118,6 +155,10 @@ class Player:
     
     
     def buy(self, item):
+        """From shop, the ability to buy items. Limit of the bag is 5.
+        Args:
+            item(obj): item being purchased like a potion that can alter stats.
+        """
         if len(self.bag) == 5:
             print(self.view_bag())
             discard = input("Your bag can only carry so much. Drink or use an "
@@ -141,6 +182,10 @@ class Player:
                     self.defense += item.effects["defense"]
     
     def gift(self, item):
+        """Gift an item to alter stats.
+        Args:
+            item(obj): item being gifted.
+        """
         if item.type != "potion":
             if "hp" in item.effects:
                 self.hp += item.effects["hp"]
@@ -156,6 +201,10 @@ class Player:
                 self.defense += item.effects["defense"]
                 
     def discard(self, item):
+        """Discards item from bag, losing its effects as well.
+        Args:
+            item(obj): item to be discarded.
+        """
         if item.type != "potion":
             if "hp" in item.effects:
                 self.hp -= item.effects["hp"]
@@ -172,6 +221,10 @@ class Player:
         self.bag.pop(item.name)
 
     def drink(self, item):
+        """Ability to drink anything. Potions, weapons, whatever.
+        Args:
+            item(obj): item to be drinking
+        """
         if item.type == "potion":
             del self.bag[item.name]
             if "hp" in item.effects:
@@ -197,10 +250,22 @@ class Player:
             return False
     
     def roll_dice(self, dice_num):
+        """Calls the roll_sets method from dice.py class DnDRoller to roll dice
+        Args:
+            dice_num(int): number of sides (4, 6, 8, 10, 12, 20).
+        Returns:
+            the result of the roll.
+        """
         roll = self.dice.roll_sets(dice_num)
         return roll
     
     def battle_turn_p(self, gamestate, npc):
+        """Performs battle sequence. Each player in party gets a turn to do an
+        action like attack, heal, etc. Then offers a consequence, and it's next turn.
+        Args:
+            gamestate(obj): state of the game
+            npc(obj): npc character, usually enemy
+        """
         print(f"It's {self.name}'s turn.")
         turn = input("Please choose an action: Attack, Heal, Defend, Run, Drink:\n")
         if turn == "Attack":
@@ -255,13 +320,24 @@ class Player:
             print("Please input a valid action.")
             self.battle_turn_p(gamestate, npc)
         pass
+    
     def battle_turn_n(self, gamestate, party):
+        """Perform a battle turn.
+        Args:
+            gamestate(obj: current state of the game.
+            party(list): characters in player's party.
+        Side effects:
+            Prints messages to terminal
+            Sorts party list based on HP, attacks character with lowest HP.
+        """
         print(f"It's {self.name}'s turn.")
         hp_sort = sorted(party, key= lambda p: p.hp)
         self.attack(hp_sort[0], npc=True)
         pass
     
     def bag_check(self):
+        """Checks the bag of the player. Only 5 items, only one item allowed.
+        """
         weapons = [self.bag[w] for w in self.bag if self.bag[w].type == "weapon"]
         if len(weapons)>1:
             print("You can only carry one weapon at a time. "

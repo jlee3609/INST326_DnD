@@ -58,9 +58,9 @@ class GameState:
         travel_options ():
         location_data ():
         party (dict of Players, player name is key): all Players in a party.
-        curr_location ():
-        parent_location ():
-        dice ():
+        curr_location(str): Current location of player
+        parent_location(str): Where player began
+        dice(int): Can roll high or low for checks on speed, attitude, etc.
     """
     def __init__(self, items, location_data, party, end_location):
         """Initializes instance of GameState.
@@ -180,7 +180,9 @@ class GameState:
         
         
     def encounter(self, initial_hp= 100):
-        """An encounter with a randomly generated npc.
+        """An encounter with a randomly generated npc. It rolls an attitude
+        check using DnDRoller, and actions spring from there to run, attack,
+        recieve healing, etc.
         Args:
             initial_hp (int): initial HP value. Defaults to 100.
         """
