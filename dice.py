@@ -22,9 +22,9 @@ class DnDRoller:
         """
         decision = self.roll_d20()
         if decision > 10:
-            print("You're advantaged! Congratulations.")
+            print("You're advantaged! Congratulations. The DnD gods grumble and grants you advantaged rolls.")
         else:
-            print("Better luck next time.")
+            print("Better luck next time. The DnD gods cackle.")
         print(f"{decision} determined your fate.")
 
     def roll_d20(self, advantage=False, disadvantage=False):

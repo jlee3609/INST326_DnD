@@ -78,7 +78,7 @@ class GameState:
         self.locations = location_data.copy()
         self.travel_options = []
         self.curr_location = "Village Square"
-        self.action_options = ["shop", "encounter"]
+        self.action_options = ["shop", "encounter", "roll for favor"]
         self.party = party
         for place in self.locations["children"][self.curr_location]:
             self.travel_options.append(place)     
@@ -102,6 +102,9 @@ class GameState:
                        f"{self.action_options}:\n")
         #add option to drink potion, give item, etc
         
+        if action == 'roll for favor':
+            gods_favor = self.dice.decide_advantage()
+            return gods_favor
         if action == "travel":
             destination = input(f"Where would you like to go?:"
                                 f"{self.travel_options}\n")
