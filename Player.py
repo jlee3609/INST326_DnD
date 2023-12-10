@@ -47,8 +47,9 @@ class Player:
         self.type=type
         self.pclass=pclass
         self.dice = DnDRoller()
+        stats = class_stats.get(pclass, (0, 0, 0, 0, 0, 0))
         self.hp, self.strength, self.speed, self.mana, \
-            self.intelligence, self.defense = class_stats[pclass]
+            self.intelligence, self.defense = stats
         self.bag = {}
         self.money = 100
         self.armor = 0

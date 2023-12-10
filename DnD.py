@@ -4,6 +4,7 @@ from GameState import GameState
 from argparse import ArgumentParser
 import sys
 import json
+import re
 
 
 def main(item_path, location_path, num_players):
@@ -23,8 +24,9 @@ def main(item_path, location_path, num_players):
         name = input("Please input player name: ")
         print("The possible classes are: Mage, Healer, Tank, Assassin, Berserker")
         pclass = input("Please choose a class: ")
-        if pclass not in classes:
-            pclass = input("Please choose a valid class: ")
+        while not re.match(r'^[Mm]age|[Hh]ealer|[Tt]ank|[Aa]ssassin|[Bb]erserker$', pclass):
+            if pclass not in classes:
+                pclass = input("Please choose a valid class: ")
         character = Player(name, pclass, "Player")
         party[name] = character
         
