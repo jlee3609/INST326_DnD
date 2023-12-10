@@ -3,6 +3,8 @@ import Player
 import json
 import random
 from dice import DnDRoller
+import pandas as pd
+import matplotlib as plt
 
 def generate_npc(gamestate, boss=False):
     """Generates an NPC or 'non-playable character' for humans to encounter and 
@@ -303,11 +305,17 @@ class GameState:
         turn = 0
         self.list_party()
         self.list_party(npc=npc)
+        hp_track = {'Turn': [], 'Player_HP': [], 'NPC_HP': []}
 
         #debug
         while npc.hp > 0 and len(self.party) > 0 and len(queue) >1:
             p = queue[turn % len(queue)]
             turn+=1
+            
+            hp_track['Turn'].append(turn)
+            hp_track['Player_HP'].append(self.party['Player'].hp if 'Player' in self.party else 0)
+            hp_track['NPC_HP'].append(npc.hp)
+            
             if p.type=="Player":
                 if p.hp > 0:
                     if p.battle_turn_p(self, npc) == False:
@@ -328,7 +336,22 @@ class GameState:
             print("You reap the spoils of the battle! Gain 50 gold per person.")
             for p in self.party:
                 self.party[p].money+=50
+                
+        self.mathematician(hp_track)
     
+    def mathematician(self, hp_track):
+        """Track and plot the HP changes."""
+        print("A lone figure stands in the distance, robes flowing even though there is no wind. Approach them.")
+        hp_df = pd.DataFrame(hp_track)
+            
+        plt.plot(hp_df['Turn'], hp_df['Player_HP'], label='Player HP')
+        plt.plot(hp_df['Turn'], hp_df['NPC_HP'], label='NPC HP')
+        plt.xlabel('Turn')
+        plt.ylabel('HP')
+        plt.legend()
+        plt.title('HP as Battle Progresses')
+        plt.show()
+
     def travel(self, destination):
         """Changes the location of the player to the specified destination
         backwards or forwards. Then updates current location, travel options,
