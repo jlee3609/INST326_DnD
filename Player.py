@@ -178,7 +178,7 @@ class Player:
         Side effects:
             Print to terminal
             Add item to self.bag
-            Potentially discard one item from self.bag
+            calls discard(): Potentially discard one item from self.bag
             If item is not potion, adds to stat attributes based on item stats
         """
         if len(self.bag) == 5:
@@ -263,7 +263,7 @@ class Player:
             item (Item): item to be drank
         
         Side effects:
-            Removes item from bag
+            calls discard(): Removes item from bag
             Prints to terminal
             Changes player stats based on potion stats
         
@@ -314,11 +314,11 @@ class Player:
         Side effects:
             Prints to terminal
             Potentially:
-                Changes armor and defense stats
-                Adds to HP stat (ally or self)
-                Removes HP from npc
+                calls defend(): Changes armor and defense stats
+                calls heal(): Adds to HP stat (ally or self)
+                calls attack(): Removes HP from npc
                 Escapes from battle (remove player from queue)
-                Consumes item (drink item) and removes item from bag
+                calls drink(): Consumes item (drink item) and removes item from bag
         Returns:
             False if player succeeds speed check and escapes from battle
                 
@@ -385,10 +385,6 @@ class Player:
         Args:
             party (dict of Players): self.party from the current gamestate, 
                                     all the players currently in battle
-            
-        Side effects:
-            Prints to terminal
-            Removes hp from lowest hp party member
         
         Side effects:
             Prints to terminal
@@ -404,7 +400,7 @@ class Player:
         
         Side effects:
             Prints to terminal
-            Potentially removes item from bag
+            calls discard(): Potentially removes item from bag
         """
         weapons = [self.bag[w] for w in self.bag if self.bag[w].type == "weapon"]
         if len(weapons)>1:

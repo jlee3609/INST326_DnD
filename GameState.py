@@ -60,18 +60,19 @@ class GameState:
     """State of the game. Holds the shop, new turns, encounter, battle, and the 
     randomly generated scenario that players must go through and make decisions 
     for. 
+    
     Attributes:
         items (dict of names:Items): all the items in the game
         locations (dict): A dictionary representing the locations and 
             their connections (see map).
-        end_location ():
+        end_location (str): the location of the final dungeon and boss battle
         travel_options (list): list of all possible travel locations based on 
             player's current location.
         action_options (list): list of all possible action options
-        party (dict of player_name:Players): all Players in a party.
-        curr_location(str): Current location of player
-        parent_location(str): Where player began
-        dice(int): Can roll high or low for checks on speed, attitude, etc.
+        party (dict of player.name:Players): all Players in a party.
+        curr_location (str): Current location of party
+        parent_location (str): Where party began
+        dice (DnDRoller): Dice object for game to roll for random stat checks
     """
     def __init__(self, items, location_data, party, end_location):
         """Initializes instance of GameState.
@@ -99,9 +100,7 @@ class GameState:
             self.travel_options.append(place)     
             
     def new_turn(self):
-        """Initiates a new turn in the game. After one player makes a decision
-        (drink, travel, etc.), either the next person in the party gets a turn
-        single-player goes again. Prints the current location and available 
+        """Initiates a new turn in the game. Prints the current location and available 
         action options.
         
         Side effects:
