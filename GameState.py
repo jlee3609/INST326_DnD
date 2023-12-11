@@ -447,6 +447,12 @@ class GameState:
         
         Args:
             action (str): The player's selected action.
+            
+        Side effects:
+            Prints to terminal
+            
+        Returns:
+            
         """
         if action == "shop":
             self.shop()
