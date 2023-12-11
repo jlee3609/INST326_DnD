@@ -11,9 +11,19 @@ def main(item_path, location_path, num_players):
     """Sets up a round of Dungeons and Dragons. Initializes players, pass those
     players into the GameState as a party. Loads items, loads locations, and sets
     up for when players reach the final location.
+    
     Args:
-        location_path():
-        num_players(int): number of players to be added to party
+        item_path (str): path to the items json
+        location_path (str): path to the locations json
+        num_players (int): number of players
+    
+    Side effects:
+        Prints to terminal
+        Creates GameState object
+        Creates Player objects from input
+        Creates Item objects from json
+        Opens and reads items.json and locations.json
+        
     """
     #set up a round of DnD
     #initialize a bunch of players
