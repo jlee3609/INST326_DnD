@@ -43,6 +43,9 @@ class Item:
         
     def __str__(self):
         """ Informal string representation of an item: Includes name and description
+        
+        Returns:
+            f-string: formal string representation of an item.
         """
         return f"This is a {self.name}: {self.description}"
         
