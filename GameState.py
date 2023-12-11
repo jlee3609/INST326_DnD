@@ -4,7 +4,7 @@ import json
 import random
 from dice import DnDRoller
 import pandas as pd
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 def generate_npc(gamestate, boss=False):
     """Generates an NPC or 'non-playable character' for humans to encounter and 
@@ -12,7 +12,8 @@ def generate_npc(gamestate, boss=False):
     Args:
         gamestate(GameState object): current state of the game that gets altered
         like items.
-        boss(bool): optional and defaults to False
+        boss(bool): optional
+            default: False
     Returns:
         npc: the computer-generated player.
     """
@@ -305,17 +306,24 @@ class GameState:
             Prints battle, like HP losses, moves, etc.
         """
         turn = 0
+        self.mathematician_save = self.party.copy()
         self.list_party()
         self.list_party(npc=npc)
-        hp_track = {'Turn': [], 'Player_HP': [], 'NPC_HP': []}
-
+        hp_track = {'Turn': [], 'NPC_HP': []}
+        for player in self.party:
+            hp_track[f"{player}_HP"] = []
         #debug
         while npc.hp > 0 and len(self.party) > 0 and len(queue) >1:
             p = queue[turn % len(queue)]
             turn+=1
             
             hp_track['Turn'].append(turn)
-            hp_track['Player_HP'].append(self.party['Player'].hp if 'Player' in self.party else 0)
+            for player in self.party:
+                if self.party[player].hp >= 0:
+                    hp_track[f"{player}_HP"].append(self.party[player].hp)
+                else:
+                    hp_track[f"{player}_HP"].append(0)
+                #hp_track['Player_HP'].append(self.party['Player'].hp if 'Player' in self.party else 0)
             hp_track['NPC_HP'].append(npc.hp)
             
             if p.type=="Player":
@@ -344,9 +352,15 @@ class GameState:
     def mathematician(self, hp_track):
         """Track and plot the HP changes."""
         print("A lone figure stands in the distance, robes flowing even though there is no wind. Approach them.")
+        print("Close plot to continue")
+        for x in hp_track:
+            if len(hp_track[x]) < len(hp_track['Turn']):
+                hp_track[x]+=[0]*(len(hp_track['Turn'])-len(hp_track[x]))
+            
         hp_df = pd.DataFrame(hp_track)
             
-        plt.plot(hp_df['Turn'], hp_df['Player_HP'], label='Player HP')
+        for player in self.mathematician_save:
+            plt.plot(hp_df['Turn'], hp_df[f"{player}_HP"], label=f"{player} HP")
         plt.plot(hp_df['Turn'], hp_df['NPC_HP'], label='NPC HP')
         plt.xlabel('Turn')
         plt.ylabel('HP')
