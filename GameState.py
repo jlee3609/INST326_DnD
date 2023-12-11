@@ -452,14 +452,21 @@ class GameState:
         
         Args:
             action (str): The player's selected action.
-        
+            
         Side effects:
-            Potentially:
-                calls shop()
-                calls battle()
-                calls encounter()
-                calls drink()
             Prints to terminal
+            Potentially:
+                updates `party` attribute if a member tries to drink a 
+                    non-potion Item.
+                calls shop() method
+                calls battle() method
+                calls encounter() method
+                calls list_party() method
+            Calls new_turn() method
+            
+        Returns:
+            Potentially returns None
+
         """
         if action == "shop":
             self.shop()
