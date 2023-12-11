@@ -67,6 +67,7 @@ class GameState:
         curr_location(str): Current location of player
         parent_location(str): Where player began
         dice(int): Can roll high or low for checks on speed, attitude, etc.
+        mathematician_save ():
     """
     def __init__(self, items, location_data, party, end_location):
         """Initializes instance of GameState.
