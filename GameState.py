@@ -9,11 +9,13 @@ import matplotlib.pyplot as plt
 def generate_npc(gamestate, boss=False):
     """Generates an NPC or 'non-playable character' for humans to encounter and 
     battle. Gives name, class, items, and stats.
+    
     Args:
         gamestate(GameState object): current state of the game that gets altered
         like items.
         boss(bool): optional boolean that notes if an NPC is boss-level
             default: False
+    
     Returns:
         npc: the computer-generated player.
     """
@@ -55,6 +57,7 @@ class GameState:
     """State of the game. Holds the shop, new turns, encounter, battle, and the 
     randomly generated scenario that players must go through and make decisions 
     for. 
+    
     Attributes:
         items (dict of names:Items): all the items in the game
         locations (dict): A dictionary representing the locations and 
@@ -67,9 +70,11 @@ class GameState:
         curr_location(str): Current location of player
         parent_location(str): Where player began
         dice(int): Can roll high or low for checks on speed, attitude, etc.
+        mathematician_save ():
     """
     def __init__(self, items, location_data, party, end_location):
         """Initializes instance of GameState.
+        
         Args:
             items (dict): A dictionary containing information about available 
             items to shop for.
@@ -381,8 +386,11 @@ class GameState:
         """Track and plot the HP changes.
         
         Args:
+            hp_track ():
         
         Side effects:
+            Prints to terminal.
+            Plots each player in party's hp changes through the battle.
         """
         print("A lone figure stands in the distance, robes flowing even though there is no wind. Approach them.")
         print("Close plot to continue")
