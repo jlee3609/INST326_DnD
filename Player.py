@@ -74,12 +74,13 @@ class Player:
     
     def view_bag(self, category="all"):
         """View the items in the character's bag, optionally filtered by category.
+        
         Args:
             category (str): category of items like potions. Default is "all".
+            
         Returns:
-            bag(list): Writes out player's items and item descriptions.
-    """
-        #print("start bag")
+            bag (list): Writes out player's items and item descriptions.
+        """
         bag = []
         if category != "all":
             bag_items = [self.bag[i] for i in self.bag if self.bag[i].type == category]
@@ -203,7 +204,7 @@ class Player:
                     self.defense += item.effects["defense"]
     
     def gift(self, item):
-        """Gift an item to alter stats. Given to self.
+        """Be gifted an item to alter stats. Given to self.
         
         Args:
             item (Item): item being give to self
@@ -211,7 +212,9 @@ class Player:
         Side effects:
             Adds item stats to player stats if item is not potion 
             (if potion, must wait to drink)
+            Adds item to bag
         """
+        self.bag[item.name] = item
         if item.type != "potion":
             if "hp" in item.effects:
                 self.hp += item.effects["hp"]
@@ -227,9 +230,16 @@ class Player:
                 self.defense += item.effects["defense"]
                 
     def discard(self, item):
-        """Discards item from bag, losing its effects as well.
+        """Discards item from self.bag, losing its effects as well if it's not a potion.
+        As potions are drinkable, if the item is still in the bag it has not affected player stats.
+        
         Args:
-            item(obj): item to be discarded.
+            item (Item): item to be discarded
+            
+        Side effects:
+            Removes item stats to player stats if item is not potion 
+            (if potion, being in the bag had no effects on player stats)
+            Removes item from bag
         """
         if item.type != "potion":
             if "hp" in item.effects:
@@ -248,8 +258,17 @@ class Player:
 
     def drink(self, item):
         """Ability to drink anything. Potions, weapons, whatever.
+        
         Args:
-            item(obj): item to be drinking
+            item (Item): item to be drank
+        
+        Side effects:
+            Removes item from bag
+            Prints to terminal
+            Changes player stats based on potion stats
+        
+        Returns:
+            False if player dies while drinking potion
         """
         if item.type == "potion":
             del self.bag[item.name]
@@ -278,19 +297,32 @@ class Player:
     def roll_dice(self, dice_num):
         """Calls the roll_sets method from dice.py class DnDRoller to roll dice
         Args:
-            dice_num(int): number of sides (4, 6, 8, 10, 12, 20).
+            dice_num (int): number of sides (4, 6, 8, 10, 12, 20).
         Returns:
-            the result of the roll.
+            the result of the roll (int)
         """
         roll = self.dice.roll_sets(dice_num)
         return roll
     
     def battle_turn_p(self, gamestate, npc):
-        """Performs battle sequence. Each player in party gets a turn to do an
-        action like attack, heal, etc. Then offers a consequence, and it's next turn.
+        """Take a player turn in battle. Choose action like attack, heal, etc. 
+        
         Args:
-            gamestate(obj): state of the game
-            npc(obj): npc character, usually enemy
+            gamestate (GameState): game object containing party, etc
+            npc (Player): npc enemy
+            
+        Side effects:
+            Prints to terminal
+            Potentially:
+                Changes armor and defense stats
+                Adds to HP stat (ally or self)
+                Removes HP from npc
+                Escapes from battle (remove player from queue)
+                Consumes item (drink item) and removes item from bag
+        Returns:
+            False if player succeeds speed check and escapes from battle
+                
+        
         """
         print(f"It's {self.name}'s turn.")
         turn = input("Please choose an action: Attack, Heal, Defend, Run, Drink:\n")
@@ -347,19 +379,25 @@ class Player:
             self.battle_turn_p(gamestate, npc)
         pass
     
-    def battle_turn_n(self, gamestate, party):
-        """Perform a battle turn.
+    def battle_turn_n(self, party):
+        """Take a npc turn in battle. Automatically attacks player with lowest hp. 
+        
         Args:
-            gamestate(obj: current state of the game.
-            party(list): characters in player's party.
+            party (dict of Players): self.party from the current gamestate, 
+                                    all the players currently in battle
+            
         Side effects:
-            Prints messages to terminal
-            Sorts party list based on HP, attacks character with lowest HP.
+            Prints to terminal
+            Removes hp from lowest hp party member
+        
+        Side effects:
+            Prints to terminal
+            Attacks player with lowest HP, player.hp stat drops
         """
         print(f"It's {self.name}'s turn.")
         hp_sort = sorted(party, key= lambda p: p.hp)
         self.attack(hp_sort[0], npc=True)
-        pass
+        
     
     def bag_check(self):
         """Checks the bag of the player. Only 5 items, only one item allowed.
