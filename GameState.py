@@ -233,7 +233,7 @@ class GameState:
                                   "Please indicate who will recieve the item: ")
             if recepient not in self.party:
                 recepient = input("Please input a valid name: ")
-            self.party[recepient].bag[npc.bag[give_item].name] = npc.bag[give_item]
+            #self.party[recepient].bag[npc.bag[give_item].name] = npc.bag[give_item]
             self.party[recepient].gift(npc.bag[give_item])
             npc.discard(npc.bag[give_item])
             self.party[recepient].bag_check()
@@ -353,6 +353,7 @@ class GameState:
         for x in hp_track:
             if len(hp_track[x]) < len(hp_track['Turn']):
                 hp_track[x]+=[0]*(len(hp_track['Turn'])-len(hp_track[x]))
+
             
         hp_df = pd.DataFrame(hp_track)
             

@@ -203,7 +203,7 @@ class Player:
                     self.defense += item.effects["defense"]
     
     def gift(self, item):
-        """Gift an item to alter stats. Given to self.
+        """Be gifted an item to alter stats. Given to self.
         
         Args:
             item (Item): item being give to self
@@ -211,7 +211,9 @@ class Player:
         Side effects:
             Adds item stats to player stats if item is not potion 
             (if potion, must wait to drink)
+            Adds item to bag
         """
+        self.bag[item.name] = item
         if item.type != "potion":
             if "hp" in item.effects:
                 self.hp += item.effects["hp"]
@@ -227,9 +229,16 @@ class Player:
                 self.defense += item.effects["defense"]
                 
     def discard(self, item):
-        """Discards item from bag, losing its effects as well.
+        """Discards item from self.bag, losing its effects as well if it's not a potion.
+        As potions are drinkable, if the item is still in the bag it has not affected player stats.
+        
         Args:
-            item(obj): item to be discarded.
+            item (Item): item to be discarded
+            
+        Side effects:
+            Removes item stats to player stats if item is not potion 
+            (if potion, being in the bag had no effects on player stats)
+            Removes item from bag
         """
         if item.type != "potion":
             if "hp" in item.effects:
@@ -248,6 +257,7 @@ class Player:
 
     def drink(self, item):
         """Ability to drink anything. Potions, weapons, whatever.
+        
         Args:
             item(obj): item to be drinking
         """
