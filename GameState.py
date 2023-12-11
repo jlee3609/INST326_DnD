@@ -12,7 +12,8 @@ def generate_npc(gamestate, boss=False):
     Args:
         gamestate(GameState object): current state of the game that gets altered
         like items.
-        boss(bool): optional and defaults to False
+        boss(bool): optional
+            default: False
     Returns:
         npc: the computer-generated player.
     """
@@ -91,6 +92,8 @@ class GameState:
         single-player goes again. Prints the current location and available 
         action options.
         """
+        if self.curr_location in self.locations["art"]:
+            print(f"{self.locations['art'][self.curr_location]}")
         print(f"\nYou are currently in {self.curr_location}.")
         
         # prob needs to be command line arg but like \(i.i)/???
