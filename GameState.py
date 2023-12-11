@@ -265,13 +265,16 @@ class GameState:
     
     def battle(self, status, boss=False, encounter_npc=None):
         """Starts a battle sequence if player chooses or gets ambushed.
+        
         Args:
             status (str): status of the battle, which can be "ambush," "surprise,"
             or "neutral."
             boss (bool): Indicates if the encounter is a boss battle. 
-            Defaults to False.
-            encounter_npc(obj): NPC instance for the encounter. Defaults to None, but
-            will be generated.
+                Default: False.
+            encounter_npc(obj): NPC instance for the encounter. 
+                Default: None 
+                    - will be generated using generate_npc() method
+            
         Side effects:
             Modifies the speed attribute of players in the party based on the battle status.
         """
