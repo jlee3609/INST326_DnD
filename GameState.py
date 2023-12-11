@@ -56,11 +56,12 @@ class GameState:
     randomly generated scenario that players must go through and make decisions 
     for. 
     Attributes:
-        items (dict of Items, keys are names and values are the Item): all the items in the game
-        locations ():
-        travel_options ():
-        location_data ():
-        party (dict of Players, player name is key): all Players in a party.
+        items (dict of names:Items): all the items in the game
+        locations (dict): A dictionary representing the locations and 
+            their connections (see map).
+        travel_options (list): list of all possible travel locations based on 
+            player's current location.
+        party (dict of player_name:Players): all Players in a party.
         curr_location(str): Current location of player
         parent_location(str): Where player began
         dice(int): Can roll high or low for checks on speed, attitude, etc.
@@ -74,6 +75,8 @@ class GameState:
             their connections (see map).
             party (list): A list containing Player instances representing the party.
             end_location (str): name of the final destination where the boss resides.
+        
+        Side effects:
         """
         self.items = items
         self.dice = DnDRoller()
