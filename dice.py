@@ -3,6 +3,8 @@ import json
 
 class DnDRoller:
     """A dice roll simulation to determine outcomes, weapon damage, etc.
+    Primary author: Jenny Lee
+    
     Attributes:
     - dice (int): the type of die to roll (default is None) but can be 4, 6, 8, 10, 12, or 20.
     """

@@ -282,9 +282,11 @@ class GameState:
             encounter_npc(obj): NPC instance for the encounter. 
                 Default: None 
                     - will be generated using generate_npc() method
+                Otherwise, if battle was triggered through encounter, will use same npc
             
         Side effects:
             Modifies the speed attribute of players in the party based on the battle status.
+            calls battle_start() using the speed sorted queue of players and npc
         """
         #1 ENEMY ONLY IM ANNOYED
         #create a queue based on speed
@@ -337,9 +339,12 @@ class GameState:
             
         Side effects:
             Modifies the state of the game based on the outcomes of each turn.
-            Prints battle, like HP losses, moves, etc.
+            Prints battle to terminal, like HP losses, moves, etc.
             Potentially modifies `party` attribute
             Calls the mathematician() method
+            calls battle_turn_p() or battle_turn_n() as it cycles through the queue
+            if a Player dies, removes from party and queue
+            Adds 50 gold to money of all players if players win
         """
         turn = 0
         self.mathematician_save = self.party.copy()
@@ -447,6 +452,14 @@ class GameState:
         
         Args:
             action (str): The player's selected action.
+        
+        Side effects:
+            Potentially:
+                calls shop()
+                calls battle()
+                calls encounter()
+                calls drink()
+            Prints to terminal
         """
         if action == "shop":
             self.shop()

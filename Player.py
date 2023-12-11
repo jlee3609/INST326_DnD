@@ -14,6 +14,8 @@ class_stats = {
 }
 class Player:
     '''A player
+    Primary author: 
+    
     
     Attributes:
             name (str): player name
