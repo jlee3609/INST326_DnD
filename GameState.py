@@ -67,7 +67,8 @@ class GameState:
         curr_location(str): Current location of player
         parent_location(str): Where player began
         dice(int): Can roll high or low for checks on speed, attitude, etc.
-        mathematician_save ():
+        mathematician_save (copy of party before battle): a save file of the party before 
+        members enter battle in case one dies, for making the HP graph at the end
     """
     def __init__(self, items, location_data, party, end_location):
         """Initializes instance of GameState.
@@ -140,9 +141,11 @@ class GameState:
         
         Side effects:
             Potentially removes 1 item from items dictionary
-            Potentially adds 1 item to 1 player's bag
-            Potentially removes gold from 1 player's money
+            calls Player.buy(): Potentially adds 1 item to 1 player's bag, 
+                                removes gold from 1 player's money
             Prints to terminal
+            calls Player.bag_check(): checks if the player has more than 5 items 
+            or more than 1 weapon
         """
         shoplist = []
         print("\nA merchant beckons you from a nearby alley. She opens a dark box, revealing the treasures within.\n")
@@ -212,7 +215,12 @@ class GameState:
                 
         Side effects:
             Prints to terminal
-            Potential calls battle() method depending on player's speed and action
+            Potentially:
+                calls battle() method depending on player's speed and action
+                calls gift() and discard(): adds item to player bag, 
+                remove from npc bag
+                calls bag_check(): checks if getting the item puts the player at 
+                5+ items or 1+ items
             
         """
         npc = generate_npc(self)
@@ -381,7 +389,7 @@ class GameState:
         """Track and plot the HP changes.
         
         Args:
-            hp_track ():
+            hp_track (dict of str:list of ints): dict of each player's hp throughout the battle
         
         Side effects:
             Prints to terminal.
