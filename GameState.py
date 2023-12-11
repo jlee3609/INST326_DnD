@@ -91,6 +91,8 @@ class GameState:
         single-player goes again. Prints the current location and available 
         action options.
         """
+        if self.curr_location in self.locations["art"]:
+            print(f"{self.locations['art'][self.curr_location]}")
         print(f"\nYou are currently in {self.curr_location}.")
         
         # prob needs to be command line arg but like \(i.i)/???
