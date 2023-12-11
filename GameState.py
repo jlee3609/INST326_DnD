@@ -9,15 +9,13 @@ import matplotlib.pyplot as plt
 def generate_npc(gamestate, boss=False):
     """Generates an NPC or 'non-playable character' for humans to encounter and 
     battle. Gives name, class, items, and stats.
-    
     Args:
-        gamestate(GameState object): current state of the game that gets altered
+        gamestate (GameState): current state of the game that gets altered
         like items.
-        boss(bool): optional boolean that notes if an NPC is boss-level
+        boss (bool): optional boolean that notes if an NPC is boss-level
             default: False
-    
     Returns:
-        npc: the computer-generated player.
+        npc: the computer-generated Player object
     """
     names = ["Aeliana", "Thoren", "Elowen", "Kael", "Seraphim", "Lirael", "Garrick", 
             "Isabeau", "Eldon", "Lyria", "Caden", "Rowena", "Thaddeus", "Anara",
@@ -27,6 +25,7 @@ def generate_npc(gamestate, boss=False):
         npc = Player.Player(random.choice(names), random.choice(classes), "NPC")
         npc.buy(gamestate.items[random.choice([item for item in gamestate.items if gamestate.items[item].cost <=100])])
     else:
+        #boss gets 3 items and enhanced stats
         boss_names = ["Nicole", "Ariel", "Jenny", "Aric"]
         npc = Player.Player(random.choice(boss_names), random.choice(["Mage","Tank", "Berserker"]), "NPC")
         npc.money +=500
@@ -48,9 +47,6 @@ def generate_npc(gamestate, boss=False):
         npc.intelligence+=20
         npc.mana+=20
         npc.strength+=20
-    # for item in npc.bag:
-    #     if npc.bag[item].type == "potion":
-    #         npc.drink(npc.bag[item])
     return npc
 
 class GameState:
