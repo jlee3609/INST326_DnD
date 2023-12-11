@@ -100,7 +100,7 @@ class GameState:
         action options.
         
         Side effects:
-            prints strings to the console
+            prints to terminal
             updates `action_options`
             calls decide_advantage(), travel(), list_party(), or scenario() 
                 method depending on player actions
@@ -137,6 +137,7 @@ class GameState:
         
     def shop(self):
         """Opens up a shop that one item can be purchased from
+        
         Side effects:
             Potentially removes 1 item from items dictionary
             Potentially adds 1 item to 1 player's bag
@@ -204,8 +205,15 @@ class GameState:
         """An encounter with a randomly generated npc. It rolls an attitude
         check using DnDRoller, and actions spring from there to run, attack,
         recieve healing, etc.
+        
         Args:
-            initial_hp (int): initial HP value. Defaults to 100.
+            initial_hp (int): initial HP value. 
+                Default: 100.
+                
+        Side effects:
+            Prints to terminal
+            Potential calls battle() method depending on player's speed and action
+            
         """
         npc = generate_npc(self)
         print(f"\nYou encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.\n")
