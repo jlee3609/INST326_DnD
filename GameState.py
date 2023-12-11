@@ -59,8 +59,10 @@ class GameState:
         items (dict of names:Items): all the items in the game
         locations (dict): A dictionary representing the locations and 
             their connections (see map).
+        end_location ():
         travel_options (list): list of all possible travel locations based on 
             player's current location.
+        action_options (list): list of all possible action options
         party (dict of player_name:Players): all Players in a party.
         curr_location(str): Current location of player
         parent_location(str): Where player began
@@ -77,6 +79,8 @@ class GameState:
             end_location (str): name of the final destination where the boss resides.
         
         Side effects:
+            sets `items`, `dice`, `end_location`, `locations`, `travel_options`,
+                `curr_location`, `action_options`, `party` attributes
         """
         self.items = items
         self.dice = DnDRoller()
@@ -94,6 +98,12 @@ class GameState:
         (drink, travel, etc.), either the next person in the party gets a turn
         single-player goes again. Prints the current location and available 
         action options.
+        
+        Side effects:
+            prints strings to the console
+            updates `action_options`
+            calls decide_advantage(), travel(), list_party(), or scenario() 
+                method depending on player actions
         """
         if self.curr_location in self.locations["art"]:
             print(f"{self.locations['art'][self.curr_location]}")
