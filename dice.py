@@ -8,6 +8,13 @@ class DnDRoller:
     """
     def __init__(self, dice=None):
         """Initializes DnDRoller object.
+        
+        Args:
+            dice ():
+                Default: None
+        
+        Side effects:
+            Sets `dice` attribute.
         """
         self.dice = dice
     
@@ -17,6 +24,7 @@ class DnDRoller:
         Side effects:
             Prints messages indicating if player is advantaged or not along with
             the number that decided their fate.
+        
         Returns:
             int: result of d20 roll.
         """
@@ -30,11 +38,21 @@ class DnDRoller:
     def roll_d20(self, advantage=False, disadvantage=False):
         """Simulates rolling a 20-sided die (d20).
         
+        Args:
+            advantage ():
+                Default: False
+            disadvantage ():
+                Default: False
+        
         Side effects:
             If advantage is True, the roll is determined by the maximum of two rolls.
             If disadvantage is True, the roll is determined by the minimum of two rolls.
+        
         Returns:
             result (int): result of d20 roll, depending on advantage (max) or not (min)
+        
+        Raises:
+            ValueError: if player has both an advantage and disadvantage
         """
         roll_result = random.randint(1, 20)
         result = roll_result
@@ -50,9 +68,15 @@ class DnDRoller:
 
     def roll_sets(self, num_sides):
         """Simulates rolling a die with a specified number of sides.
+        
+        Args: 
+            num_sides ():
+        
         Raises:
             a ValueError if the number of sides is less than 4
+        
         Returns:
+            int: 
         """
         if num_sides < 4:
             raise ValueError("Number of sides on the die must be at least 4.")
@@ -60,18 +84,26 @@ class DnDRoller:
     
     def roll_with_set(self, num_sides): #to be used in weapon dice
         """Simulates rolling a die with a specified number of sides using roll_sets.
-        Side effects:
-            Calls the roll_sets method to perform the die roll.
+        
+        Args:
+            num_sides ():
+        
+        Returns:
+            roll_sets(num_sides): Calls the roll_sets method to perform the die roll.
+
         """
         return self.roll_sets(num_sides)
     
     def roll_weapon(self, weapon_dice): 
         """Simulates rolling the specified die associated with a weapon.
+        
         Args:
-            dice (list): The input list representing possible dice sets. It should contain at least one integer.
-            weapon_dice (dict): A dictionary representing the weapon's attributes, including 'damage_attr'.
+            weapon_dice (dict): A dictionary representing the weapon's 
+                attributes, including 'damage_attr'.
+        
         Side effects:
             Prints the result of the simulated weapon roll.
+        
         Raises:
             ValueError: If 'damage_attr' is not present in the weapon_dice.
         """
