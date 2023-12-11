@@ -400,7 +400,11 @@ class Player:
         
     
     def bag_check(self):
-        """Checks the bag of the player. Only 5 items, only one item allowed.
+        """Checks the bag of the player. Only 5 items, only one weapon allowed.
+        
+        Side effects:
+            Prints to terminal
+            Potentially removes item from bag
         """
         weapons = [self.bag[w] for w in self.bag if self.bag[w].type == "weapon"]
         if len(weapons)>1:
@@ -414,7 +418,3 @@ class Player:
             discard = input("Your bag can only carry so much. "
                   "Drink or discard an item to continue: ")
             self.bag.pop(discard)
-            
-            
-# nicole = Player("nicole", "Healer")
-# print(nicole.intelligence)
