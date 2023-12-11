@@ -12,7 +12,7 @@ def generate_npc(gamestate, boss=False):
     Args:
         gamestate(GameState object): current state of the game that gets altered
         like items.
-        boss(bool): optional
+        boss(bool): optional boolean that notes if an NPC is boss-level
             default: False
     Returns:
         npc: the computer-generated player.
@@ -56,11 +56,14 @@ class GameState:
     randomly generated scenario that players must go through and make decisions 
     for. 
     Attributes:
-        items (dict of Items, keys are names and values are the Item): all the items in the game
-        locations ():
-        travel_options ():
-        location_data ():
-        party (dict of Players, player name is key): all Players in a party.
+        items (dict of names:Items): all the items in the game
+        locations (dict): A dictionary representing the locations and 
+            their connections (see map).
+        end_location ():
+        travel_options (list): list of all possible travel locations based on 
+            player's current location.
+        action_options (list): list of all possible action options
+        party (dict of player_name:Players): all Players in a party.
         curr_location(str): Current location of player
         parent_location(str): Where player began
         dice(int): Can roll high or low for checks on speed, attitude, etc.
@@ -74,6 +77,10 @@ class GameState:
             their connections (see map).
             party (list): A list containing Player instances representing the party.
             end_location (str): name of the final destination where the boss resides.
+        
+        Side effects:
+            sets `items`, `dice`, `end_location`, `locations`, `travel_options`,
+                `curr_location`, `action_options`, `party` attributes
         """
         self.items = items
         self.dice = DnDRoller()
@@ -91,6 +98,12 @@ class GameState:
         (drink, travel, etc.), either the next person in the party gets a turn
         single-player goes again. Prints the current location and available 
         action options.
+        
+        Side effects:
+            prints to terminal
+            updates `action_options`
+            calls decide_advantage(), travel(), list_party(), or scenario() 
+                method depending on player actions
         """
         if self.curr_location in self.locations["art"]:
             print(f"{self.locations['art'][self.curr_location]}")
@@ -124,6 +137,7 @@ class GameState:
         
     def shop(self):
         """Opens up a shop that one item can be purchased from
+        
         Side effects:
             Potentially removes 1 item from items dictionary
             Potentially adds 1 item to 1 player's bag
@@ -191,8 +205,15 @@ class GameState:
         """An encounter with a randomly generated npc. It rolls an attitude
         check using DnDRoller, and actions spring from there to run, attack,
         recieve healing, etc.
+        
         Args:
-            initial_hp (int): initial HP value. Defaults to 100.
+            initial_hp (int): initial HP value. 
+                Default: 100.
+                
+        Side effects:
+            Prints to terminal
+            Potential calls battle() method depending on player's speed and action
+            
         """
         npc = generate_npc(self)
         print(f"\nYou encounter {npc.name}! They are a {npc.pclass} in possession of a {list(npc.bag)[0]}.\n")
