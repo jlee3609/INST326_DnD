@@ -10,6 +10,8 @@ class DnDRoller:
     """
     def __init__(self, dice=None):
         """Initializes DnDRoller object.
+        Author: Jenny Lee
+        Technique: Optional parameters and/or keyword arguments
         
         Args:
             dice ():
@@ -22,6 +24,7 @@ class DnDRoller:
     
     def decide_advantage(self):
         """Decides if player is advantaged or disadvantaged (for option 1 below)
+        Author: Jenny Lee
         
         Side effects:
             Prints messages indicating if player is advantaged or not along with
@@ -39,6 +42,7 @@ class DnDRoller:
 
     def roll_d20(self, advantage=False, disadvantage=False):
         """Simulates rolling a 20-sided die (d20).
+        Author: Jenny Lee
         
         Args:
             advantage ():
@@ -70,6 +74,7 @@ class DnDRoller:
 
     def roll_sets(self, num_sides):
         """Simulates rolling a die with a specified number of sides.
+        Author: Jenny Lee
         
         Args: 
             num_sides ():
@@ -86,6 +91,7 @@ class DnDRoller:
     
     def roll_with_set(self, num_sides): #to be used in weapon dice
         """Simulates rolling a die with a specified number of sides using roll_sets.
+        Author: Jenny Lee
         
         Args:
             num_sides ():
@@ -98,6 +104,7 @@ class DnDRoller:
     
     def roll_weapon(self, weapon_dice): 
         """Simulates rolling the specified die associated with a weapon.
+        Author: Jenny Lee
         
         Args:
             weapon_dice (dict): A dictionary representing the weapon's 

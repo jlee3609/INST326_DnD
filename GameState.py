@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 def generate_npc(gamestate, boss=False):
     """Generates an NPC or 'non-playable character' for humans to encounter and 
     battle. Gives name, class, items, and stats.
+    Author: Nicole Tran
+    Technique: Conditional Expressions
     
     Args:
         gamestate (GameState): current state of the game that gets altered
@@ -55,6 +57,9 @@ class GameState:
     """State of the game. Holds the shop, new turns, encounter, battle, and the 
     randomly generated scenario that players must go through and make decisions 
     for. 
+    Author: Nicole Tran, Ariel Hong
+    Technique: Composition of two custom classes (2)
+    
     Attributes:
         items (dict of names:Items): all the items in the game
         locations (dict): A dictionary representing the locations and 
@@ -72,6 +77,7 @@ class GameState:
     """
     def __init__(self, items, location_data, party, end_location):
         """Initializes instance of GameState.
+        Author: Nicole Tran
         
         Args:
             items (dict): A dictionary containing information about available 
@@ -99,6 +105,8 @@ class GameState:
     def new_turn(self):
         """Initiates a new turn in the game. Prints the current location and available 
         action options.
+        Author: All
+        Technique: F-strings containing expressions
         
         Side effects:
             prints to terminal
@@ -138,6 +146,7 @@ class GameState:
         
     def shop(self):
         """Opens up a shop that one item can be purchased from
+        Author: Nicole Tran
         
         Side effects:
             Potentially removes 1 item from items dictionary
@@ -208,6 +217,7 @@ class GameState:
         """An encounter with a randomly generated npc. It rolls an attitude
         check using DnDRoller, and actions spring from there to run, attack,
         recieve healing, etc.
+        Author: Nicole Tran, Jenny Lee
         
         Args:
             initial_hp (int): initial HP value. 
@@ -273,6 +283,8 @@ class GameState:
     
     def battle(self, status, boss=False, encounter_npc=None):
         """Starts a battle sequence if player chooses or gets ambushed.
+        Author: Nicole Tran
+        Technique: Use of a key function (lambda)
         
         Args:
             status (str): status of the battle, which can be "ambush," "surprise,"
@@ -332,6 +344,7 @@ class GameState:
             
     def battle_start(self, queue, npc):
         """Initiates the turn-based battle sequence between the player(s) and NPC.
+        Author: Nicole Tran
         
         Args:
             queue (list): Representing the turn order of battle. Based on speed stat.
@@ -392,6 +405,8 @@ class GameState:
     
     def mathematician(self, hp_track):
         """Track and plot the HP changes.
+        Author: Jenny Lee
+        Technique: Visualizing data with pyplot or seaborn
         
         Args:
             hp_track (dict of str:list of ints): dict of each player's hp throughout the battle
@@ -422,6 +437,7 @@ class GameState:
         """Changes the location of the player to the specified destination
         backwards or forwards. Then updates current location, travel options,
         and the actions available.
+        Author: Ariel Hong
         
         Args:
             destination (str): The name of the destination location.
@@ -449,6 +465,7 @@ class GameState:
         
     def scenario(self, action):
         """Generate a scenario based on what the player selects.
+        Author: Nicole Tran
         
         Args:
             action (str): The player's selected action.
@@ -515,6 +532,7 @@ class GameState:
     
     def list_party(self, name="all", npc=None):
         """Lists stats for party.
+        Author: Nicole Tran
         
         Args:
             name (str): The name of the party member. 

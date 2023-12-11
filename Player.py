@@ -14,7 +14,8 @@ class_stats = {
 }
 class Player:
     '''A player
-    Primary author: 
+    Primary author: All
+    Technique: Composition of two custom classes (1)
     
     
     Attributes:
@@ -34,6 +35,8 @@ class Player:
     '''
     def __init__(self, name, pclass, type):
         """Initializes player's character instance.
+        Author: Nicole Tran
+        Technique: Sequence Unpacking
         
         Args:
             name (str): player name
@@ -57,6 +60,7 @@ class Player:
     
     def __str__(self):
         """F-string representing the character's attributes and possessions informally.
+        Author: Nicole Tran
         
         Returns:
             f-string: informal string of all a player's attributes
@@ -80,6 +84,7 @@ class Player:
     
     def view_bag(self, category="all"):
         """View the items in the character's bag, optionally filtered by category.
+        Author: Nicole Tran
         
         Args:
             category (str): category of items like potions. Default is "all".
@@ -102,6 +107,7 @@ class Player:
     def attack(self, enemy, npc = False):
         """Perform an attack on an enemy with weapons from bag. If no weapons,
         will hit with bare fists.
+        Author: Nicole Tran, Ariel Hong
         
         Args:
             enemy (Player): enemy player to attack.
@@ -136,6 +142,7 @@ class Player:
     def heal(self, ally):
         """Healing or restoring HP. If class is healer, player can heal self or 
         others based on mana level. If not, heals only 1 hp.
+        Author: Nicole Tran
         
         Args:
             ally (Player): Party member that can be healed.
@@ -157,6 +164,7 @@ class Player:
     def defend(self):
         """Defend self with armor from bag. For one turn, if hit, will lose less HP than if 
         they had no armor.
+        Author: Nicole Tran
         
         Side effects:
             Prints to terminal
@@ -179,6 +187,7 @@ class Player:
     def buy(self, item):
         """From shop, the ability to buy items. Bag size is 5, 
         buying more will prompt user to discard an item. 
+        Author: Nicole Tran
         
         Args:
             item (Item): Item object being purchased by player
@@ -213,6 +222,7 @@ class Player:
     
     def gift(self, item):
         """Be gifted an item to alter stats. Given to self.
+        Author: Nicole Tran
         
         Args:
             item (Item): item being give to self
@@ -240,6 +250,7 @@ class Player:
     def discard(self, item):
         """Discards item from self.bag, losing its effects as well if it's not a potion.
         As potions are drinkable, if the item is still in the bag it has not affected player stats.
+        Author: Nicole Tran
         
         Args:
             item (Item): item to be discarded
@@ -266,6 +277,7 @@ class Player:
 
     def drink(self, item):
         """Ability to drink anything. Potions, weapons, whatever.
+        Author: Nicole Tran
         
         Args:
             item (Item): item to be drank
@@ -304,6 +316,8 @@ class Player:
     
     def roll_dice(self, dice_num):
         """Calls the roll_sets method from dice.py class DnDRoller to roll dice
+        Author: Jenny Lee
+        
         Args:
             dice_num (int): number of sides (4, 6, 8, 10, 12, 20).
         Returns:
@@ -314,6 +328,7 @@ class Player:
     
     def battle_turn_p(self, gamestate, npc):
         """Take a player turn in battle. Choose action like attack, heal, etc. 
+        Author: Nicole Tran
         
         Args:
             gamestate (GameState): game object containing party, etc
@@ -389,6 +404,7 @@ class Player:
     
     def battle_turn_n(self, party):
         """Take a npc turn in battle. Automatically attacks player with lowest hp. 
+        Author: Nicole Tran
         
         Args:
             party (dict of Players): self.party from the current gamestate, 
@@ -405,6 +421,8 @@ class Player:
     
     def bag_check(self):
         """Checks the bag of the player. Only 5 items, only one weapon allowed.
+        Author: Nicole Tran
+        Technique: Comprehensions or Generator Expressions
         
         Side effects:
             Prints to terminal

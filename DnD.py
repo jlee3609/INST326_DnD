@@ -11,6 +11,8 @@ def main(item_path, location_path, num_players):
     """Sets up a round of Dungeons and Dragons. Initializes players, pass those
     players into the GameState as a party. Loads items, loads locations, and sets
     up for when players reach the final location.
+    Author: Nicole Tran, Ariel Hong
+    Technique: With statements, regular expressions, use of json.load()
     
     Args:
         item_path (str): path to the items json
@@ -87,6 +89,8 @@ def main(item_path, location_path, num_players):
 
 def parse_args(arglist):
     """ Parse command-line arguments.
+    Author: Nicole Tran
+    Technique: ArgumentParser class from the argparse module
     
     Expect two mandatory arguments:
         - item_path: a path to a file containing the items

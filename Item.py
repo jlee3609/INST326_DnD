@@ -1,6 +1,7 @@
 
 class Item:
     """ Class of an item that a player can buy, own, or use.
+    Author: Ariel Hong
     
     Attributes:
         items (list of dicts of str:(dict of str:vals): All the items in the game.
@@ -18,6 +19,7 @@ class Item:
     """
     def __init__(self, items, type, name):
         """ Initializes instance of an Item.
+        Author: Nicole Tran, Ariel Hong
         
         Args:
             items (list of dicts of str:(dict of str:vals): All the items in the
@@ -43,6 +45,8 @@ class Item:
         
     def __str__(self):
         """ Informal string representation of an item: Includes name and description
+        Author: Nicole Tran
+        Technique: Magic methods other than __init__
         
         Returns:
             f-string: formal string representation of an item.
@@ -51,6 +55,7 @@ class Item:
         
     def stats(self):
         """ More detailed description of an item, lists what effects it has to stats
+        Author: Nicole Tran
         
         Side effects:
             Prints to terminal
