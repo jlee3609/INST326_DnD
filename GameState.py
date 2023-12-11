@@ -8,18 +8,13 @@ import matplotlib.pyplot as plt
 
 def generate_npc(gamestate, boss=False):
     """Generates an NPC or 'non-playable character' for humans to encounter and 
-    battle. Gives name, class, items, and stats. Names thoughtfully sourced from ChatGPT
-    because as much as I can program I have no creativity.
+    battle. Gives name, class, items, and stats.
+    
     Args:
         gamestate (GameState): current state of the game that gets altered
         like items.
         boss (bool): optional boolean that notes if an NPC is boss-level
             default: False
-    
-    Side effects:
-        Creates new npc Player object
-        Buys 1-3 items for npc Player object
-        Adds items to Player bag and drinks potions if in bag
     
     Returns:
         npc: the computer-generated Player object
@@ -60,7 +55,6 @@ class GameState:
     """State of the game. Holds the shop, new turns, encounter, battle, and the 
     randomly generated scenario that players must go through and make decisions 
     for. 
-    
     Attributes:
         items (dict of names:Items): all the items in the game
         locations (dict): A dictionary representing the locations and 
@@ -69,13 +63,14 @@ class GameState:
         travel_options (list): list of all possible travel locations based on 
             player's current location.
         action_options (list): list of all possible action options
-        party (dict of player.name:Players): all Players in a party.
-        curr_location (str): Current location of party
-        parent_location (str): Where party began
-        dice (DnDRoller): Dice object for game to roll for random stat checks
+        party (dict of player_name:Players): all Players in a party.
+        curr_location(str): Current location of player
+        parent_location(str): Where player began
+        dice(int): Can roll high or low for checks on speed, attitude, etc.
     """
     def __init__(self, items, location_data, party, end_location):
         """Initializes instance of GameState.
+        
         Args:
             items (dict): A dictionary containing information about available 
             items to shop for.
@@ -385,8 +380,11 @@ class GameState:
         """Track and plot the HP changes.
         
         Args:
+            hp_track ():
         
         Side effects:
+            Prints to terminal.
+            Plots each player in party's hp changes through the battle.
         """
         print("A lone figure stands in the distance, robes flowing even though there is no wind. Approach them.")
         print("Close plot to continue")
