@@ -450,9 +450,18 @@ class GameState:
             
         Side effects:
             Prints to terminal
+            Potentially:
+                updates `party` attribute if a member tries to drink a 
+                    non-potion Item.
+                calls shop() method
+                calls battle() method
+                calls encounter() method
+                calls list_party() method
+            Calls new_turn() method
             
         Returns:
-            
+            Potentially returns None
+
         """
         if action == "shop":
             self.shop()
