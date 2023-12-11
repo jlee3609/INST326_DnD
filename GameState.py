@@ -378,7 +378,12 @@ class GameState:
         self.mathematician(hp_track)
     
     def mathematician(self, hp_track):
-        """Track and plot the HP changes."""
+        """Track and plot the HP changes.
+        
+        Args:
+        
+        Side effects:
+        """
         print("A lone figure stands in the distance, robes flowing even though there is no wind. Approach them.")
         print("Close plot to continue")
         for x in hp_track:
@@ -479,9 +484,15 @@ class GameState:
     
     def list_party(self, name="all", npc=None):
         """Lists stats for party.
+        
         Args:
-            name (str): The name of the party member. Defaults to "all".
-            npc (Player): An optional NPC instance. Defaults to None.
+            name (str): The name of the party member. 
+                Default: "all".
+            npc (Player): An optional NPC instance.
+                Default: None.
+                
+        Side effects:
+            Prints to terminal
         """
         if name != "all" and npc == None:
             player = self.party[name]
