@@ -9,11 +9,13 @@ import matplotlib.pyplot as plt
 def generate_npc(gamestate, boss=False):
     """Generates an NPC or 'non-playable character' for humans to encounter and 
     battle. Gives name, class, items, and stats.
+    
     Args:
         gamestate (GameState): current state of the game that gets altered
         like items.
         boss (bool): optional boolean that notes if an NPC is boss-level
             default: False
+    
     Returns:
         npc: the computer-generated Player object
     """
