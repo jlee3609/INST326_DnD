@@ -401,8 +401,13 @@ class GameState:
         """Changes the location of the player to the specified destination
         backwards or forwards. Then updates current location, travel options,
         and the actions available.
+        
         Args:
             destination (str): The name of the destination location.
+            
+        Side effects:
+            Updates `curr_location` and `travel_options` and `action_options` 
+                attributes.
         """
         self.curr_location = destination
         if self.curr_location in self.locations["parent"]:
@@ -423,6 +428,7 @@ class GameState:
         
     def scenario(self, action):
         """Generate a scenario based on what the player selects.
+        
         Args:
             action (str): The player's selected action.
         """
