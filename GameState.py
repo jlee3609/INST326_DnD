@@ -322,12 +322,16 @@ class GameState:
             
     def battle_start(self, queue, npc):
         """Initiates the turn-based battle sequence between the player(s) and NPC.
+        
         Args:
             queue (list): Representing the turn order of battle. Based on speed stat.
             npc (obj): NPC acting opponent.
+            
         Side effects:
             Modifies the state of the game based on the outcomes of each turn.
             Prints battle, like HP losses, moves, etc.
+            Potentially modifies `party` attribute
+            Calls the mathematician() method
         """
         turn = 0
         self.mathematician_save = self.party.copy()
