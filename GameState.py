@@ -12,7 +12,7 @@ def generate_npc(gamestate, boss=False):
     
     Args:
         gamestate (GameState): current state of the game that gets altered
-        like items.
+                               like items.
         boss (bool): optional boolean that notes if an NPC is boss-level
             default: False
     
