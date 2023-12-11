@@ -1,10 +1,10 @@
-'''a player in the game
+'''a player in the game (npc or human)
 '''
 
 # stat order = HP, Strength, Speed, Mana, Intelligence, Defense
 from dice import DnDRoller
 
-#a problem for later
+#default class stats
 class_stats = {
     "Mage": [100,5,10,20,5,5],
     "Healer": [100,10,5,20,5,5],
@@ -16,21 +16,6 @@ class Player:
     '''A player
     
     Attributes:
-        name (str): player name
-        pclass (str): player class (mage, tank, etc)
-        hp (int): player's hp
-        strength (int): player's strength
-        speed (int): player's speed
-        mana (int): player's mana
-        intelligence (int): player's intelligence
-        defense (int): player's defense
-        money (int): player's money
-        bag (dict): player's inventory
-        armor (bool): whether a player is defending
-    '''
-    def __init__(self, name, pclass, type):
-        """Initializes player's character instance.
-        Attributes:
             name (str): player name
             pclass (str): player class (mage, tank, etc)
             hp (int): player's hp from pclass
@@ -42,6 +27,19 @@ class Player:
             money (int): player's money, starts at 100
             bag (dict): player's inventory
             armor (bool): existing defenses/armors, defaults at 0
+            dice (DnDRoller): A dice object belonging to each player
+
+    '''
+    def __init__(self, name, pclass, type):
+        """Initializes player's character instance.
+        
+        Args:
+            name (str): player name
+            pclass (str): player class (mage, healer, tank, assassin, berserker)
+            type (str): whether the player is a player or an npc
+        
+        Side effects:
+            Initializes name, type, pclass, dice, all stats, bag, money, and armor attributes
         """
         self.name=name
         self.type=type
@@ -55,9 +53,8 @@ class Player:
         self.armor = 0
     
     def __str__(self):
-        """F-string representing the character's attributes and possessions
-        informally.
-    """
+        """F-string representing the character's attributes and possessions informally.
+        """
         #list out player attributes
         return(f"""
                {self.name}:
@@ -99,8 +96,12 @@ class Player:
         """Perform an attack on an enemy with weapons from bag. If no weapons,
         will hit with bare fists.
         Args:
-            enemy(obj): enemy character to attack.
-            npc (bool): If NPC is an enemy. Default is False.
+            enemy (Player): enemy player to attack.
+            npc (bool): Whether it's an npc attacking (will not print some strings)
+                        Default is False.
+        Side effects:
+            Prints to terminal
+            Changes enemy hp attribute based on damage done by self.
         """
         if self.pclass == "Mage":
             attack = self.mana
@@ -124,10 +125,15 @@ class Player:
             
 
     def heal(self, ally):
-        """Healing or restoring HP.If class is healer, player can heal self or 
+        """Healing or restoring HP. If class is healer, player can heal self or 
         others based on mana level. If not, heals only 1 hp.
+        
         Args:
-            ally(obj): Party member that can be healed.
+            ally (Player): Party member that can be healed.
+            
+        Side effects:
+            Prints to terminal
+            Adds to ally.hp
         """
         if self.pclass == "Healer":
             print("As you are a healer, you heal based on mana level. ")
@@ -140,8 +146,14 @@ class Player:
             print(f"{ally.name} healed 1 HP! They now have {ally.hp} HP.")
             
     def defend(self):
-        """Defend self with armor from bag. If hit, will lose less HP than if 
+        """Defend self with armor from bag. For one turn, if hit, will lose less HP than if 
         they had no armor.
+        
+        Side effects:
+            Prints to terminal
+            Changes armor attribute to total defense from armor from bag, adds armor to
+            self.defense
+        
         """
         armor = [self.bag[w] for w in self.bag if self.bag[w].type == "armor"]
         print(armor)
@@ -156,9 +168,17 @@ class Player:
     
     
     def buy(self, item):
-        """From shop, the ability to buy items. Limit of the bag is 5.
+        """From shop, the ability to buy items. Bag size is 5, 
+        buying more will prompt user to discard an item. 
+        
         Args:
-            item(obj): item being purchased like a potion that can alter stats.
+            item (Item): Item object being purchased by player
+            
+        Side effects:
+            Print to terminal
+            Add item to self.bag
+            Potentially discard one item from self.bag
+            If item is not potion, adds to stat attributes based on item stats
         """
         if len(self.bag) == 5:
             print(self.view_bag())
@@ -183,9 +203,14 @@ class Player:
                     self.defense += item.effects["defense"]
     
     def gift(self, item):
-        """Gift an item to alter stats.
+        """Gift an item to alter stats. Given to self.
+        
         Args:
-            item(obj): item being gifted.
+            item (Item): item being give to self
+            
+        Side effects:
+            Adds item stats to player stats if item is not potion 
+            (if potion, must wait to drink)
         """
         if item.type != "potion":
             if "hp" in item.effects:
