@@ -14,6 +14,7 @@ class Item:
         effects (dict of str:int): the stat changes. Each key is the Player's stats;
             each value is an int of the changes each object makes to the Player's stats
         quantity (int): how many of the item there are in existence.
+        damage (int): the damage an item does when used in the attack method
     """
     def __init__(self, items, type, name):
         """ Initializes instance of an Item.
@@ -27,8 +28,8 @@ class Item:
             name (str): the name of an Item.
             
         Side effects:
-            Sets `items`, `type`, `name`, `description`, `cost`, `effects`, and
-            `quantity` attributes.
+            Sets `items`, `type`, `name`, `description`, `cost`, `effects`, `quantity` and
+            `damage` attributes.
         """
         self.items = items.copy()
         self.type = type
@@ -41,12 +42,15 @@ class Item:
         self.damage = self.items[self.type][self.name]["damage"]
         
     def __str__(self):
-        """
+        """ Informal string representation of an item: Includes name and description
         """
         return f"This is a {self.name}: {self.description}"
         
     def stats(self):
-        """
+        """ More detailed description of an item, lists what effects it has to stats
+        
+        Side effects:
+            Prints to terminal
         """
         for effect in self.effects:
             print(f"Adds {self.effects[effect]} to {effect}")
