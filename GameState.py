@@ -4,7 +4,7 @@ import json
 import random
 from dice import DnDRoller
 import pandas as pd
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 def generate_npc(gamestate, boss=False):
     """Generates an NPC or 'non-playable character' for humans to encounter and 
