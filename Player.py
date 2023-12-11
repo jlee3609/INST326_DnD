@@ -39,7 +39,8 @@ class Player:
             type (str): whether the player is a player or an npc
         
         Side effects:
-            Initializes name, type, pclass, dice, all stats, bag, money, and armor attributes
+            Sets `name`, `type`, `pclass`, `dice`, all `stats`, `bag`, `money`, 
+                and `armor` attributes
         """
         self.name=name
         self.type=type
@@ -54,6 +55,9 @@ class Player:
     
     def __str__(self):
         """F-string representing the character's attributes and possessions informally.
+        
+        Returns:
+            f-string: informal string of all a player's attributes
         """
         #list out player attributes
         return(f"""
@@ -96,10 +100,12 @@ class Player:
     def attack(self, enemy, npc = False):
         """Perform an attack on an enemy with weapons from bag. If no weapons,
         will hit with bare fists.
+        
         Args:
             enemy (Player): enemy player to attack.
             npc (bool): Whether it's an npc attacking (will not print some strings)
-                        Default is False.
+                Default: False.
+        
         Side effects:
             Prints to terminal
             Changes enemy hp attribute based on damage done by self.
