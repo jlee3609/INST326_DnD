@@ -393,7 +393,7 @@ class GameState:
                 if len(queue) == 1:
                     pass
                 else:
-                    p.battle_turn_n(self, [p for p in queue if p.type!="NPC"])
+                    p.battle_turn_n([p for p in queue if p.type!="NPC"])
             
         print(f"The battle has ended. {npc.name if npc.hp <= 0 else 'Your party'} has lost.")
         if npc.hp <= 0:
